@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: '29LT Kaff';
+  src: url('/fonts/29LTKaff-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SST Arabic';
+  src: url('/fonts/SSTArabic-Roman.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary-growth: 162 48% 51%;
+    --primary-trust: 207 84% 24%;
+    --primary-excellence: 219 59% 19%;
+    --primary-secondary: 191 71% 61%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 162 48% 51%;
+    --radius: 0.75rem;
+  }
+
+  html {
+    direction: rtl;
+  }
+  
+  body {
+    @apply bg-gray-50 font-sst text-base antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-kaff text-trust;
+  }
+
+  h1 { @apply text-4xl leading-tight; }
+  h2 { @apply text-3xl leading-tight; }
+  h3 { @apply text-2xl leading-snug; }
+  h4 { @apply text-xl leading-snug; }
+}
+
+@layer components {
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-100 p-6 transition-all duration-200 hover:shadow-md;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center px-4 py-2.5 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-growth hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-growth transition-colors duration-200;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center px-4 py-2.5 border border-gray-200 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-growth transition-colors duration-200;
+  }
+
+  .input-primary {
+    @apply block w-full rounded-lg border-gray-200 shadow-sm focus:border-growth focus:ring-growth sm:text-sm transition-colors duration-200;
+  }
+
+  .label-primary {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+  }
+
+  .sidebar {
+    @apply fixed inset-y-0 right-0 w-64 bg-gradient-to-b from-trust to-excellence text-white;
+  }
+
+  .sidebar-link {
+    @apply flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200;
+  }
+
+  .sidebar-link.active {
+    @apply bg-growth/20 text-white;
+  }
+
+  .sidebar-link:not(.active) {
+    @apply text-white/80 hover:bg-white/10;
+  }
+
+  .dashboard-stats {
+    @apply grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4;
+  }
+
+  .stat-card {
+    @apply card flex items-start space-x-4 space-x-reverse;
+  }
+
+  .stat-icon {
+    @apply flex-shrink-0 p-3 rounded-lg bg-growth/10 text-growth;
+  }
+
+  .table-container {
+    @apply relative overflow-x-auto rounded-xl border border-gray-100 bg-white shadow-sm;
+  }
+
+  .table-header {
+    @apply bg-gray-50/50 text-right text-sm font-medium text-gray-500;
+  }
+
+  .table-cell {
+    @apply whitespace-nowrap px-6 py-4 text-sm text-gray-900;
+  }
+
+  .form-section {
+    @apply space-y-6 bg-white p-6 rounded-xl shadow-sm border border-gray-100;
+  }
+} 
