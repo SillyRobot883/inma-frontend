@@ -7,7 +7,10 @@ import {
   Settings,
   LogOut,
   Building2,
-  ChevronDown
+  ChevronDown,
+  Bell,
+  User,
+  Shield
 } from 'lucide-react';
 import logo from '../assets/1-05.png';
 
@@ -39,21 +42,42 @@ const Layout = ({ children }) => {
 
   const handleClubSwitch = (clubId) => {
     switchClub(clubId);
-    // Update the current route with the new club ID
     const currentPath = location.pathname;
     const newPath = currentPath.replace(/\/\d+/, `/${clubId}`);
     navigate(newPath);
   };
 
+  const getRoleIcon = (role) => {
+    switch (role) {
+      case 'hr':
+        return <Users className="h-4 w-4" />;
+      case 'leader':
+        return <Shield className="h-4 w-4" />;
+      default:
+        return <User className="h-4 w-4" />;
+    }
+  };
+
+  const getRoleText = (role) => {
+    switch (role) {
+      case 'hr':
+        return 'موارد بشرية';
+      case 'leader':
+        return 'مشرف نادي';
+      default:
+        return 'عضو';
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50/50">
       {!isClubsPage && (
-        <div className="sidebar">
+        <div className="fixed top-0 right-0 w-64 h-full bg-trust shadow-xl z-50">
           <div className="flex flex-col h-full">
             {/* Logo section */}
-            <div className="flex items-center justify-center h-20 px-4 bg-excellence/50">
+            <div className="flex items-center justify-center h-20 px-4 border-b border-white/10">
               <img
-                className="h-24 w-auto"
+                className="h-24 w-auto transform transition-transform duration-300 hover:scale-105"
                 src={logo}
                 alt="إنماء الإندية"
               />
@@ -61,28 +85,48 @@ const Layout = ({ children }) => {
 
             {/* User info */}
             <div className="px-4 py-6 border-b border-white/10">
-              <div className="flex items-center space-x-3 space-x-reverse">
-                <div className="h-10 w-10 rounded-full bg-growth/20 flex items-center justify-center">
-                  <span className="text-sm font-medium text-white">
-                    {user?.name?.charAt(0)}
-                  </span>
+              <div className="flex flex-col space-y-4">
+                {/* User Avatar and Name */}
+                <div className="flex items-center space-x-3 space-x-reverse">
+                  <div className="h-12 w-12 rounded-full bg-growth/20 flex items-center justify-center ring-2 ring-white/20 transform transition-transform duration-300 hover:scale-105">
+                    <span className="text-base font-medium text-white">
+                      {user?.name?.charAt(0)}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-medium text-white">
+                      {user?.name}
+                    </h3>
+                    <div className="flex items-center mt-1 text-xs text-white/70">
+                      {getRoleIcon(currentClub?.role)}
+                      <span className="mr-1.5 font-medium">{getRoleText(currentClub?.role)}</span>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-sm font-medium text-white">
-                    {user?.name}
-                  </h3>
-                  <button
-                    onClick={() => document.getElementById('clubDropdown').classList.toggle('hidden')}
-                    className="mt-1 flex items-center text-xs text-white/70 hover:text-white"
-                  >
-                    <span>{currentClub?.name}</span>
-                    <ChevronDown className="h-3 w-3 mr-1" />
-                  </button>
-                  {/* Dropdown */}
+
+                {/* Current Club Section */}
+                <div className="bg-white/5 rounded-xl p-3 transition-all duration-300 hover:bg-white/10">
+                  <div className="flex items-center justify-between">
+                    <button
+                      onClick={() => document.getElementById('clubDropdown').classList.toggle('hidden')}
+                      className="flex items-center justify-between w-full text-white group"
+                    >
+                      <ChevronDown className="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" />
+                      <div className="text-right">
+                        <p className="text-xs text-white/70">النادي الحالي</p>
+                        <p className="text-sm font-medium mt-0.5">{currentClub?.name}</p>
+                      </div>
+                    </button>
+                  </div>
+
+                  {/* Enhanced Dropdown */}
                   <div
                     id="clubDropdown"
-                    className="hidden absolute z-10 mt-2 w-56 bg-white rounded-lg shadow-lg py-1 right-16"
+                    className="hidden absolute z-10 mt-2 w-64 bg-white rounded-lg shadow-lg py-1 right-16 border border-gray-100"
                   >
+                    <div className="px-3 py-2 text-xs text-gray-500 bg-gray-50 rounded-t-lg border-b border-gray-100">
+                      الأندية المتاحة
+                    </div>
                     {user?.clubs.map((club) => (
                       <button
                         key={club.id}
@@ -90,15 +134,18 @@ const Layout = ({ children }) => {
                           handleClubSwitch(club.id);
                           document.getElementById('clubDropdown').classList.add('hidden');
                         }}
-                        className={`w-full text-right px-4 py-2 text-sm hover:bg-gray-100 ${
-                          club.id === currentClub?.id ? 'bg-trust/10 text-trust' : 'text-gray-700'
+                        className={`w-full text-right px-4 py-3 text-sm hover:bg-gray-50 transition-colors ${
+                          club.id === currentClub?.id ? 'bg-trust/5 text-trust' : 'text-gray-700'
                         }`}
                       >
                         <div className="flex items-center justify-between">
-                          <span className="text-xs px-1.5 py-0.5 rounded bg-gray-100 text-gray-600">
-                            {club.role === 'hr' ? 'موارد بشرية' : club.role === 'leader' ? 'قائد' : 'عضو'}
-                          </span>
-                          <span>{club.name}</span>
+                          <div className="flex items-center space-x-2 space-x-reverse">
+                            {getRoleIcon(club.role)}
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">
+                              {getRoleText(club.role)}
+                            </span>
+                          </div>
+                          <span className="font-medium">{club.name}</span>
                         </div>
                       </button>
                     ))}
@@ -111,16 +158,23 @@ const Layout = ({ children }) => {
             <nav className="flex-1 px-2 py-4 space-y-1">
               {navigation.map((item) => {
                 const Icon = item.icon;
+                const isActive = location.pathname === item.href;
                 return (
                   <Link
                     key={item.name}
                     to={item.href}
-                    className={`sidebar-link ${
-                      location.pathname === item.href ? 'active' : ''
+                    className={`flex items-center px-4 py-3 rounded-xl transition-all duration-300 ${
+                      isActive 
+                        ? 'bg-white/10 text-white' 
+                        : 'text-white/90 hover:bg-white/5'
                     }`}
                   >
-                    <Icon className="h-5 w-5 ml-3" />
-                    {item.name}
+                    <Icon className={`h-5 w-5 ml-3 transition-transform duration-300 ${
+                      isActive ? 'scale-110' : 'group-hover:scale-110'
+                    }`} />
+                    <span className={`font-medium ${isActive ? 'text-white' : 'text-white/90'}`}>
+                      {item.name}
+                    </span>
                   </Link>
                 );
               })}
@@ -130,17 +184,17 @@ const Layout = ({ children }) => {
             <div className="px-2 py-4 border-t border-white/10">
               <Link
                 to="/settings"
-                className="sidebar-link"
+                className="flex items-center px-4 py-3 rounded-xl text-white/90 hover:bg-white/5 transition-all duration-300"
               >
-                <Settings className="h-5 w-5 ml-3" />
-                الإعدادات
+                <Settings className="h-5 w-5 ml-3 group-hover:rotate-90 transition-transform duration-300" />
+                <span className="font-medium">الإعدادات</span>
               </Link>
               <button
                 onClick={() => {/* Implement logout */}}
-                className="sidebar-link w-full text-right text-red-300 hover:bg-red-500/20"
+                className="w-full flex items-center px-4 py-3 rounded-xl text-red-300 hover:bg-red-500/20 transition-all duration-300"
               >
-                <LogOut className="h-5 w-5 ml-3" />
-                تسجيل الخروج
+                <LogOut className="h-5 w-5 ml-3 group-hover:-translate-x-1 transition-transform duration-300" />
+                <span className="font-medium">تسجيل الخروج</span>
               </button>
             </div>
           </div>
@@ -150,15 +204,15 @@ const Layout = ({ children }) => {
       {/* Main content */}
       <div className={!isClubsPage ? "mr-64" : ""}>
         <header className="bg-white shadow-sm border-b border-gray-200">
-          <div className="px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-2xl font-kaff text-trust">
+          <div className="px-6 py-6">
+            <h1 className="text-2xl font-kaff font-bold text-trust">
               {isClubsPage ? "الأندية" : (navigation.find((item) => item.href === location.pathname)?.name || 'الرئيسية')}
             </h1>
           </div>
         </header>
 
         <main className="py-8">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto px-6">
             {children}
           </div>
         </main>
