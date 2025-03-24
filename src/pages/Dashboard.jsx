@@ -133,7 +133,7 @@ const Dashboard = () => {
               <div className="bg-trust/5 rounded-xl p-6 transition-all duration-300 hover:bg-trust/10 group">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-500 mb-2">المهام المكتملة</p>
+                    <p className="text-sm font-medium text-gray-500 mb-2">الساعات المكتملة</p>
                     <p className="text-3xl font-bold text-trust transition-all duration-300 group-hover:scale-105">
                       {memberStats.completedTasks}
                     </p>
@@ -159,7 +159,7 @@ const Dashboard = () => {
               <div className="bg-yellow-50 rounded-xl p-6 transition-all duration-300 hover:bg-yellow-100/50 group">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-gray-500 mb-2">المهام المعلقة</p>
+                    <p className="text-sm text-gray-500 mb-2">الساعات المعلقة</p>
                     <p className="text-3xl font-medium text-yellow-600 transition-all duration-300 group-hover:scale-105">
                       {memberStats.pendingTasks}
                     </p>
@@ -174,7 +174,7 @@ const Dashboard = () => {
 
           {/* Personal Recent Activity */}
           <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
-            <h3 className="text-xl font-kaff text-trust mb-6">نشاطاتي الأخيرة</h3>
+            <h3 className="text-xl font-kaff text-trust mb-6">طلبات اعتماد الساعات الأخيرة</h3>
             <div className="space-y-4">
               {memberStats.recentActivity.map((activity) => (
                 <div
@@ -261,13 +261,13 @@ const Dashboard = () => {
                 <div className="bg-excellence/5 rounded-xl p-6 transition-all duration-300 hover:bg-excellence/10 group">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-gray-500 mb-2">المهام المكتملة</p>
+                      <p className="text-sm text-gray-500 mb-2">الساعات المكتملة</p>
                       <p className="text-3xl font-medium text-excellence transition-all duration-300 group-hover:scale-105">
                         {clubStats.completedTasks}
                       </p>
                       <p className="text-sm text-gray-500 mt-2 flex items-center">
                         <Target className="h-4 w-4 ml-1" />
-                        {clubStats.pendingTasks} مهمة معلقة
+                        {clubStats.pendingTasks} ساعة معلقة
                       </p>
                     </div>
                     <div className="bg-excellence/10 rounded-full p-4 transition-all duration-300 group-hover:bg-excellence/20">
@@ -299,7 +299,7 @@ const Dashboard = () => {
 
             {/* Club Recent Submissions */}
             <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
-              <h3 className="text-xl font-kaff text-trust mb-6">آخر المهام المقدمة للنادي</h3>
+              <h3 className="text-xl font-kaff text-trust mb-6">آخر طلبات اعتماد الساعات للنادي</h3>
               <div className="space-y-4">
                 {clubStats.recentSubmissions.map((activity) => (
                   <div

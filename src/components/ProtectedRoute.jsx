@@ -6,7 +6,7 @@ const useAuth = () => {
   return {
     user: {
       id: 1,
-      name: 'Abdulaziz',
+      name: 'John Doe',
       role: 'inma_admin',
       clubId: 1
     },

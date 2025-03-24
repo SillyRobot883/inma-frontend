@@ -7,6 +7,7 @@ import HRDashboard from './pages/HRDashboard';
 import CollegeAdminDashboard from './pages/CollegeAdminDashboard';
 import InmaAdminDashboard from './pages/InmaAdminDashboard';
 import TaskSubmission from './pages/TaskSubmission';
+import ClubDetails from './pages/ClubDetails';
 import { useAuth } from './context/AuthContext';
 
 const ProtectedRoute = ({ children, allowedRoles = [] }) => {
@@ -128,6 +129,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/club/:clubId"
+            element={
+              <ProtectedRoute>
+                <ClubDetails />
               </ProtectedRoute>
             }
           />

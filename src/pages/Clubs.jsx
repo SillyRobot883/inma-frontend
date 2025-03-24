@@ -121,7 +121,7 @@ const Clubs = () => {
 
               <div className="mt-6">
                 <Link
-                  to={`/dashboard/${club.id}`}
+                  to={`/club/${club.id}`}
                   className="btn-secondary w-full text-center"
                 >
                   عرض التفاصيل

@@ -145,7 +145,7 @@ const TaskSubmission = () => {
       <div className="space-y-8">
         {/* Task Submission Form */}
         <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-kaff text-trust mb-6">تقديم مهمة جديدة</h2>
+          <h2 className="text-xl font-kaff text-trust mb-6">رفع ساعات تطوعية جديدة</h2>
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Member Information Section */}
             <div className="bg-gray-50 rounded-lg p-4 space-y-4">
@@ -178,7 +178,7 @@ const TaskSubmission = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  عنوان المهمة
+                  عنوان النشاط التطوعي
                 </label>
                 <input
                   type="text"
@@ -238,7 +238,7 @@ const TaskSubmission = () => {
             {/* Task Categories with Better UX */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                تصنيف المهمة
+                تصنيف النشاط التطوعي
               </label>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {taskCategories.map(category => (
@@ -276,7 +276,7 @@ const TaskSubmission = () => {
             
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                وصف المهمة
+                وصف النشاط التطوعي
               </label>
               <textarea
                 value={formData.description}
@@ -314,14 +314,14 @@ const TaskSubmission = () => {
               type="submit"
               className="w-full md:w-auto px-6 py-2 bg-trust text-white rounded-md hover:bg-trust/90 transition-colors"
             >
-              تقديم المهمة
+              تقديم النشاط التطوعي
             </button>
           </form>
         </div>
 
         {/* Task History */}
         <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-kaff text-trust mb-6">سجل المهام</h2>
+          <h2 className="text-xl font-kaff text-trust mb-6">سجل الساعات التطوعية</h2>
           <div className="space-y-4">
             {taskHistory.map(task => (
               <div

@@ -242,7 +242,7 @@ const HRDashboard = () => {
           <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-500">المهام المعلقة</p>
+                <p className="text-sm font-medium text-gray-500">الساعات المعلقة</p>
                 <p className="text-2xl font-bold text-yellow-600 mt-1">
                   {submissions.filter(s => s.status === 'pending').length}
                 </p>
@@ -315,7 +315,7 @@ const HRDashboard = () => {
         <div className="bg-white rounded-xl shadow-sm">
           <div className="p-6 border-b border-gray-100">
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-kaff font-bold text-trust">المهام المقدمة</h2>
+              <h2 className="text-xl font-kaff font-bold text-trust">طلبات اعتماد الساعات</h2>
               <div className="flex items-center space-x-4 space-x-reverse">
                 <div className="relative">
                   <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -470,7 +470,7 @@ const HRDashboard = () => {
           <div className="bg-white rounded-xl shadow-xl w-full max-w-3xl max-h-[80vh] overflow-y-auto">
             <div className="p-6 border-b border-gray-100">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-kaff text-trust">تفاصيل المهمة</h2>
+                <h2 className="text-xl font-kaff text-trust">تفاصيل النشاط التطوعي</h2>
                 <button 
                   onClick={() => setSelectedTask(null)}
                   className="text-gray-400 hover:text-gray-500"

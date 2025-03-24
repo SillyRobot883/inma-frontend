@@ -27,7 +27,7 @@ const Layout = ({ children }) => {
       icon: Home 
     },
     { 
-      name: 'تقديم مهمة', 
+      name: 'رفع الساعات التطوعية', 
       href: `/task-submission/${currentClub?.id}`,
       icon: ClipboardList 
     },
@@ -109,12 +109,19 @@ const Layout = ({ children }) => {
                   <div className="flex items-center justify-between">
                     <button
                       onClick={() => document.getElementById('clubDropdown').classList.toggle('hidden')}
-                      className="flex items-center justify-between w-full text-white group"
+                      className="flex items-center w-full text-white group"
                     >
                       <ChevronDown className="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" />
-                      <div className="text-right">
-                        <p className="text-xs text-white/70">النادي الحالي</p>
-                        <p className="text-sm font-medium mt-0.5">{currentClub?.name}</p>
+                      <div className="text-right flex items-center space-x-3 space-x-reverse mr-3">
+                        <img
+                          className="h-8 w-8 rounded-lg shadow-sm ring-2 ring-white/20"
+                          src={`/src/assets/club-${currentClub?.id}.png`}
+                          alt={currentClub?.name}
+                        />
+                        <div>
+                          <p className="text-xs text-white/70">النادي الحالي</p>
+                          <p className="text-sm font-medium mt-0.5">{currentClub?.name}</p>
+                        </div>
                       </div>
                     </button>
                   </div>
