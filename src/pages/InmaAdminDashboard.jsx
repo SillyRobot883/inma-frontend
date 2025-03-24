@@ -217,76 +217,66 @@ const InmaAdminDashboard = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredClubs.map((club) => (
-              <div key={club.id} className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow duration-200">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-start space-x-4 space-x-reverse">
-                    <div className="h-12 w-12 rounded-xl bg-trust/10 flex items-center justify-center">
-                      <Building2 className="h-6 w-6 text-trust" />
+              <div
+                key={club.id}
+                className="card hover:shadow-lg transition-shadow duration-200"
+              >
+                <div className="flex items-center space-x-4 space-x-reverse">
+                  <div className="h-16 w-16 rounded-xl overflow-hidden">
+                    <img
+                      src={`/src/assets/club-${club.id}.png`}
+                      alt={club.name}
+                      className="h-full w-full object-cover"
+                      onError={(e) => {
+                        e.target.onerror = null; // Prevent infinite loop
+                        e.target.parentElement.classList.add('bg-trust/10');
+                        e.target.parentElement.innerHTML = `
+                          <div class="h-full w-full flex items-center justify-center">
+                            <svg class="h-8 w-8 text-trust" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"/><path d="M3 9V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4"/></svg>
+                          </div>
+                        `;
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-kaff text-trust">
+                      {club.name}
+                    </h3>
+                  </div>
+                </div>
+
+                <div className="mt-6 grid grid-cols-2 gap-4">
+                  <div className="flex items-center space-x-2 space-x-reverse">
+                    <div className="p-2 rounded-lg bg-growth/10">
+                      <Users className="h-5 w-5 text-growth" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-medium text-gray-900">
-                        {club.name}
-                      </h3>
-                      <div className="flex items-center mt-2 space-x-2 space-x-reverse">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-trust/10 text-trust">
-                          {club.activeMembers} عضو نشط
-                        </span>
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-growth/10 text-growth">
-                          {club.approvedTasks} ساعة مكتملة
-                        </span>
-                      </div>
+                      <p className="text-sm text-gray-500">عدد الأعضاء</p>
+                      <p className="text-lg font-medium text-trust">
+                        {club.members}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-2 space-x-reverse">
-                    <button 
-                      className="btn-secondary"
-                      onClick={() => navigate(`/inma-admin/clubs/${club.id}`)}
-                    >
-                      <ArrowRight className="h-5 w-5 ml-2" />
-                      عرض التفاصيل
-                    </button>
+                    <div className="p-2 rounded-lg bg-growth/10">
+                      <Clock className="h-5 w-5 text-growth" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">إجمالي الساعات</p>
+                      <p className="text-lg font-medium text-trust">
+                        {club.totalHours}
+                      </p>
+                    </div>
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">إجمالي الأعضاء</span>
-                    <span className="font-medium text-gray-900">{club.members}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">إجمالي الساعات</span>
-                    <span className="font-medium text-gray-900">{club.totalHours}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">الساعات المعلقة</span>
-                    <span className="font-medium text-yellow-600">{club.pendingTasks}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">تحتاج معلومات</span>
-                    <span className="font-medium text-blue-600">{club.needsInfo}</span>
-                  </div>
-                </div>
-
-                <div className="mt-4 pt-4 border-t border-gray-100">
-                  <h4 className="text-sm font-medium text-gray-500 mb-2">آخر النشاطات</h4>
-                  <div className="space-y-2">
-                    {club.recentActivity.map((activity) => (
-                      <div key={activity.id} className="flex items-center justify-between text-sm">
-                        <div className="flex items-center space-x-2 space-x-reverse">
-                          <span className="text-gray-900">{activity.title}</span>
-                          <span className="text-gray-500">•</span>
-                          <span className="text-gray-500">{activity.member}</span>
-                        </div>
-                        <div className="flex items-center space-x-2 space-x-reverse">
-                          <span className="text-gray-500">{activity.hours}</span>
-                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getStatusColor(activity.status)}`}>
-                            {getStatusIcon(activity.status)}
-                            <span className="mr-1">{getStatusText(activity.status)}</span>
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                <div className="mt-6">
+                  <button 
+                    onClick={() => navigate(`/inma-admin/clubs/${club.id}`)}
+                    className="btn-secondary w-full text-center"
+                  >
+                    عرض التفاصيل
+                  </button>
                 </div>
               </div>
             ))}
