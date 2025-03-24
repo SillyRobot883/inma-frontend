@@ -8,6 +8,8 @@ import CollegeAdminDashboard from './pages/CollegeAdminDashboard';
 import InmaAdminDashboard from './pages/InmaAdminDashboard';
 import TaskSubmission from './pages/TaskSubmission';
 import ClubDetails from './pages/ClubDetails';
+import VolunteerHoursLog from './pages/VolunteerHoursLog';
+import MemberManagement from './pages/MemberManagement';
 import { useAuth } from './context/AuthContext';
 
 const ProtectedRoute = ({ children, allowedRoles = [] }) => {
@@ -153,6 +155,22 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={['member', 'hr', 'leader']}>
                 <TaskSubmission />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/volunteer-hours/:clubId"
+            element={
+              <ProtectedRoute>
+                <VolunteerHoursLog />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/member-management/:clubId"
+            element={
+              <ProtectedRoute allowedRoles={['hr', 'leader']}>
+                <MemberManagement />
               </ProtectedRoute>
             }
           />

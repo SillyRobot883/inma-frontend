@@ -10,7 +10,9 @@ import {
   ChevronDown,
   Bell,
   User,
-  Shield
+  Shield,
+  Clock,
+  UserCog
 } from 'lucide-react';
 import logo from '../assets/1-05.png';
 
@@ -31,12 +33,24 @@ const Layout = ({ children }) => {
       href: `/task-submission/${currentClub?.id}`,
       icon: ClipboardList 
     },
+    { 
+      name: 'سجل الساعات التطوعية', 
+      href: `/volunteer-hours/${currentClub?.id}`,
+      icon: Clock 
+    },
     ...(currentClub?.role === 'hr' || currentClub?.role === 'leader'
-      ? [{ 
-          name: 'لوحة الموارد البشرية', 
-          href: `/hr-dashboard/${currentClub?.id}`,
-          icon: Users 
-        }]
+      ? [
+          { 
+            name: 'إدارة الأعضاء', 
+            href: `/member-management/${currentClub?.id}`,
+            icon: UserCog 
+          },
+          { 
+            name: 'لوحة الموارد البشرية', 
+            href: `/hr-dashboard/${currentClub?.id}`,
+            icon: Users 
+          }
+        ]
       : []),
   ];
 
