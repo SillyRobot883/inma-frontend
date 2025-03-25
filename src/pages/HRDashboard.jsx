@@ -28,15 +28,29 @@ import {
   MessageCircle,
   Tag,
   CalendarDays,
-  Clock4
+  Clock4,
+  Pencil
 } from 'lucide-react';
 
 const HRDashboard = () => {
   const { clubId } = useParams();
   const { user, currentClub } = useAuth();
   const [selectedTask, setSelectedTask] = useState(null);
-  const [filterStatus, setFilterStatus] = useState('all');
+  const [filterStatus, setFilterStatus] = useState('pending');
   const [searchQuery, setSearchQuery] = useState('');
+  
+  // New state variables
+  const [editingHours, setEditingHours] = useState(null);
+  const [actionModal, setActionModal] = useState(null);
+  const [actionComment, setActionComment] = useState('');
+  const [editedHours, setEditedHours] = useState('');
+  const [editComment, setEditComment] = useState('');
+
+  // Helper function to format hours
+  const formatHours = (timeString) => {
+    const [hours, minutes] = timeString.split(':').map(Number);
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:00`;
+  };
 
   // Dummy data for submissions with more tasks
   const submissions = [
@@ -45,7 +59,7 @@ const HRDashboard = () => {
       member: 'فهد السالم',
       title: 'تنسيق فعالية النادي',
       status: 'pending',
-      hours: '04:00',
+      hours: '04:00:00',
       date: '2024-03-16',
       description: 'تم تنسيق فعالية النادي التقنية التي أقيمت في المبنى الرئيسي',
       category: 'مهمة تخدم برامج أو مشاريع النادي',
@@ -59,7 +73,7 @@ const HRDashboard = () => {
       member: 'نورة العتيبي',
       title: 'إعداد التقرير الشهري',
       status: 'approved',
-      hours: '02:30',
+      hours: '02:30:00',
       date: '2024-03-15',
       description: 'تم إعداد التقرير الشهري للنادي وتوثيق جميع الفعاليات',
       category: 'مهمة تخدم الأنشطة الداخلية في النادي',
@@ -71,7 +85,7 @@ const HRDashboard = () => {
       member: 'عبدالله محمد',
       title: 'تنظيم ورشة عمل البرمجة',
       status: 'needs_info',
-      hours: '03:00',
+      hours: '03:00:00',
       date: '2024-03-14',
       description: 'تنظيم ورشة عمل البرمجة وتجهيز المحتوى التدريبي',
       category: 'مهمة تخدم برامج أو مشاريع النادي',
@@ -85,7 +99,7 @@ const HRDashboard = () => {
       member: 'سارة الأحمد',
       title: 'تصميم شعار النادي',
       status: 'approved',
-      hours: '05:00',
+      hours: '05:00:00',
       date: '2024-03-13',
       description: 'تصميم شعار جديد للنادي مع دليل الهوية البصرية',
       category: 'مهمة تخدم الأنشطة الداخلية في النادي',
@@ -97,7 +111,7 @@ const HRDashboard = () => {
       member: 'محمد العمري',
       title: 'تطوير موقع النادي',
       status: 'pending',
-      hours: '08:00',
+      hours: '08:00:00',
       date: '2024-03-12',
       description: 'تطوير وتحديث الموقع الإلكتروني للنادي',
       category: 'مهمة تخدم مبادرات النادي',
@@ -111,7 +125,7 @@ const HRDashboard = () => {
       member: 'ريم السعيد',
       title: 'تنظيم لقاء أعضاء النادي',
       status: 'needs_info',
-      hours: '02:00',
+      hours: '02:00:00',
       date: '2024-03-11',
       description: 'تنظيم اللقاء الشهري لأعضاء النادي',
       category: 'مهمة تخدم الأنشطة الداخلية في النادي',
@@ -125,7 +139,7 @@ const HRDashboard = () => {
       member: 'خالد الغامدي',
       title: 'إعداد محتوى تدريبي',
       status: 'approved',
-      hours: '06:00',
+      hours: '06:00:00',
       date: '2024-03-10',
       description: 'إعداد محتوى تدريبي لورشة العمل القادمة',
       category: 'مهمة تخدم برامج أو مشاريع النادي',
@@ -137,7 +151,7 @@ const HRDashboard = () => {
       member: 'لينا الصالح',
       title: 'تنسيق مع الرعاة',
       status: 'pending',
-      hours: '03:30',
+      hours: '03:30:00',
       date: '2024-03-09',
       description: 'التنسيق مع الرعاة للفعالية القادمة',
       category: 'مهمة تخدم المشاركات خارج الجامعة',
@@ -151,7 +165,7 @@ const HRDashboard = () => {
       member: 'عمر الزهراني',
       title: 'تحديث قاعدة البيانات',
       status: 'needs_info',
-      hours: '04:00',
+      hours: '04:00:00',
       date: '2024-03-08',
       description: 'تحديث قاعدة بيانات أعضاء النادي',
       category: 'مهمة تخدم الأنشطة الداخلية في النادي',
@@ -165,7 +179,7 @@ const HRDashboard = () => {
       member: 'منى الحربي',
       title: 'تصوير فعالية النادي',
       status: 'approved',
-      hours: '03:00',
+      hours: '03:00:00',
       date: '2024-03-07',
       description: 'توثيق وتصوير فعالية النادي الأخيرة',
       category: 'مهمة تخدم المشاركات المجتمعية',
@@ -234,6 +248,54 @@ const HRDashboard = () => {
       submission.category.includes(searchQuery)
     );
 
+  // Action handlers
+  const handleEditHours = (submission) => {
+    setEditingHours(submission);
+    const [hours, minutes, seconds] = submission.hours.split(':').map(Number);
+    setEditedHours({
+      hours: hours.toString().padStart(2, '0'),
+      minutes: minutes.toString().padStart(2, '0'),
+      seconds: seconds.toString().padStart(2, '0')
+    });
+    setEditComment('');
+  };
+
+  const handleSaveHours = () => {
+    // Validate hours format
+    const hours = parseInt(editedHours.hours);
+    const minutes = parseInt(editedHours.minutes);
+    const seconds = parseInt(editedHours.seconds);
+
+    if (isNaN(hours) || isNaN(minutes) || isNaN(seconds) ||
+        minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59) {
+      alert('الرجاء إدخال الوقت بالصيغة الصحيحة');
+      return;
+    }
+
+    const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    
+    // Here you would typically make an API call to update the hours
+    // For now, we'll just close the modal
+    setEditingHours(null);
+    setEditedHours({ hours: '', minutes: '', seconds: '' });
+    setEditComment('');
+  };
+
+  const handleAction = (type, submission) => {
+    setActionModal({ type, submission });
+    setActionComment('');
+  };
+
+  const handleSubmitAction = () => {
+    // Only require comment for needs_info and deny actions
+    if ((actionModal.type === 'needs_info' || actionModal.type === 'deny') && !actionComment.trim()) return;
+    
+    // Here you would typically make an API call to update the status
+    // For now, we'll just close the modal
+    setActionModal(null);
+    setActionComment('');
+  };
+
   return (
     <Layout>
       <div className="space-y-8">
@@ -295,10 +357,18 @@ const HRDashboard = () => {
               <div>
                 <p className="text-sm font-medium text-gray-500">إجمالي الساعات</p>
                 <p className="text-2xl font-bold text-trust mt-1">
-                  {submissions.reduce((acc, curr) => {
-                    const [hours, minutes] = curr.hours.split(':').map(Number);
-                    return acc + hours + minutes / 60;
-                  }, 0).toFixed(1)}
+                  {(() => {
+                    const totalSeconds = submissions.reduce((acc, curr) => {
+                      const [hours, minutes, seconds] = curr.hours.split(':').map(Number);
+                      return acc + hours * 3600 + minutes * 60 + seconds;
+                    }, 0);
+                    
+                    const hours = Math.floor(totalSeconds / 3600);
+                    const minutes = Math.floor((totalSeconds % 3600) / 60);
+                    const seconds = totalSeconds % 60;
+                    
+                    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                  })()}
                 </p>
                 <p className="text-sm font-medium text-gray-500 mt-1">
                   ساعة عمل
@@ -380,7 +450,7 @@ const HRDashboard = () => {
                           {submission.member}
                         </span>
                         <span>•</span>
-                        <span className="flex items-center">
+                        <span className="flex items-center bg-trust/5 px-3 py-1 rounded-full font-medium text-trust">
                           <Clock4 className="h-4 w-4 ml-1" />
                           {submission.hours}
                         </span>
@@ -437,22 +507,47 @@ const HRDashboard = () => {
                     </span>
                     <div className="flex items-center space-x-2 space-x-reverse">
                       <button 
-                        className="p-2 text-gray-400 hover:text-trust rounded-lg hover:bg-gray-50 transition-colors duration-200"
-                        onClick={() => setSelectedTask(submission)}
+                        className={`p-2 rounded-lg transition-colors duration-200 ${
+                          submission.status === 'approved'
+                            ? 'text-gray-300 cursor-not-allowed'
+                            : 'text-gray-400 hover:text-trust hover:bg-gray-50'
+                        }`}
+                        onClick={() => submission.status !== 'approved' && handleEditHours(submission)}
+                        disabled={submission.status === 'approved'}
                       >
-                        <Eye className="h-5 w-5" />
+                        <Pencil className="h-5 w-5" />
                       </button>
-                      <button className={`p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200 ${
-                        submission.status === 'approved' 
-                          ? 'text-growth hover:text-growth-dark' 
-                          : 'text-gray-400 hover:text-trust'
-                      }`}>
+                      <button 
+                        className={`p-2 rounded-lg transition-colors duration-200 ${
+                          submission.status === 'approved'
+                            ? 'text-growth/50 cursor-not-allowed'
+                            : 'text-gray-400 hover:text-trust hover:bg-gray-50'
+                        }`}
+                        onClick={() => submission.status !== 'approved' && handleAction('approve', submission)}
+                        disabled={submission.status === 'approved'}
+                      >
                         <CheckCircle className="h-5 w-5" />
                       </button>
-                      <button className="p-2 text-gray-400 hover:text-yellow-600 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                      <button 
+                        className={`p-2 rounded-lg transition-colors duration-200 ${
+                          submission.status === 'approved'
+                            ? 'text-gray-300 cursor-not-allowed'
+                            : 'text-gray-400 hover:text-yellow-600 hover:bg-gray-50'
+                        }`}
+                        onClick={() => submission.status !== 'approved' && handleAction('needs_info', submission)}
+                        disabled={submission.status === 'approved'}
+                      >
                         <AlertTriangle className="h-5 w-5" />
                       </button>
-                      <button className="p-2 text-gray-400 hover:text-red-600 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                      <button 
+                        className={`p-2 rounded-lg transition-colors duration-200 ${
+                          submission.status === 'approved'
+                            ? 'text-gray-300 cursor-not-allowed'
+                            : 'text-gray-400 hover:text-red-600 hover:bg-gray-50'
+                        }`}
+                        onClick={() => submission.status !== 'approved' && handleAction('deny', submission)}
+                        disabled={submission.status === 'approved'}
+                      >
                         <XCircle className="h-5 w-5" />
                       </button>
                     </div>
@@ -574,6 +669,158 @@ const HRDashboard = () => {
                     selectedTask.status === 'approved' ? 'bg-growth hover:bg-growth-dark' : ''
                   }`}>
                     {selectedTask.status === 'approved' ? 'تم الموافقة' : 'موافقة'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Hours Modal */}
+      {editingHours && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
+            <div className="p-6 border-b border-gray-100">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-kaff text-trust">تعديل الساعات</h2>
+                <button 
+                  onClick={() => setEditingHours(null)}
+                  className="text-gray-400 hover:text-gray-500"
+                >
+                  <XCircle className="h-6 w-6" />
+                </button>
+              </div>
+            </div>
+            <div className="p-6">
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    عدد الساعات (HH:MM:SS)
+                  </label>
+                  <div className="grid grid-cols-3 gap-4 items-end">
+                    <div>
+                      <label className="block text-xs font-medium text-gray-500 mb-1">
+                        ثواني
+                      </label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="59"
+                        value={editedHours.seconds}
+                        onChange={(e) => setEditedHours({ ...editedHours, seconds: e.target.value })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust text-center"
+                        placeholder="00"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-500 mb-1">
+                        دقائق
+                      </label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="59"
+                        value={editedHours.minutes}
+                        onChange={(e) => setEditedHours({ ...editedHours, minutes: e.target.value })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust text-center"
+                        placeholder="00"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-500 mb-1">
+                        ساعات
+                      </label>
+                      <input
+                        type="number"
+                        min="0"
+                        value={editedHours.hours}
+                        onChange={(e) => setEditedHours({ ...editedHours, hours: e.target.value })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust text-center"
+                        placeholder="00"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    تعليق (اختياري)
+                  </label>
+                  <textarea
+                    value={editComment}
+                    onChange={(e) => setEditComment(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust h-24 resize-none"
+                    placeholder="أضف تعليقاً..."
+                  />
+                </div>
+                <div className="flex justify-end space-x-3 space-x-reverse">
+                  <button
+                    onClick={() => setEditingHours(null)}
+                    className="btn-secondary"
+                  >
+                    إلغاء
+                  </button>
+                  <button
+                    onClick={handleSaveHours}
+                    className="btn-primary"
+                  >
+                    حفظ
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Action Modal (Needs Info/Deny) */}
+      {actionModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
+            <div className="p-6 border-b border-gray-100">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-kaff text-trust">
+                  {actionModal.type === 'needs_info' ? 'طلب معلومات إضافية' : 
+                   actionModal.type === 'deny' ? 'رفض الطلب' : 'موافقة على الطلب'}
+                </h2>
+                <button 
+                  onClick={() => setActionModal(null)}
+                  className="text-gray-400 hover:text-gray-500"
+                >
+                  <XCircle className="h-6 w-6" />
+                </button>
+              </div>
+            </div>
+            <div className="p-6">
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    {actionModal.type === 'needs_info' ? 'ما هي المعلومات المطلوبة؟' : 
+                     actionModal.type === 'deny' ? 'سبب الرفض' : 'تعليق (اختياري)'}
+                  </label>
+                  <textarea
+                    value={actionComment}
+                    onChange={(e) => setActionComment(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust h-24 resize-none"
+                    placeholder={actionModal.type === 'approve' ? 'أضف تعليقاً (اختياري)...' : 'اكتب السبب هنا...'}
+                    required={actionModal.type !== 'approve'}
+                  />
+                </div>
+                <div className="flex justify-end space-x-3 space-x-reverse">
+                  <button
+                    onClick={() => setActionModal(null)}
+                    className="btn-secondary"
+                  >
+                    إلغاء
+                  </button>
+                  <button
+                    onClick={handleSubmitAction}
+                    className={`btn-primary ${
+                      (actionModal.type !== 'approve' && !actionComment.trim()) ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                    disabled={actionModal.type !== 'approve' && !actionComment.trim()}
+                  >
+                    {actionModal.type === 'approve' ? 'موافقة' : 'تأكيد'}
                   </button>
                 </div>
               </div>
