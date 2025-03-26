@@ -127,11 +127,17 @@ const Layout = ({ children }) => {
                     >
                       <ChevronDown className="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" />
                       <div className="text-right flex items-center space-x-3 space-x-reverse mr-3">
-                        <img
-                          className="h-8 w-8 rounded-lg shadow-sm ring-2 ring-white/20"
-                          src={`/src/assets/club-${currentClub?.id}.png`}
-                          alt={currentClub?.name}
-                        />
+                        <div className="h-8 w-8 rounded-lg shadow-sm ring-2 ring-white/20 overflow-hidden">
+                          <img
+                            className="h-full w-full object-cover"
+                            src={`/src/assets/club-${currentClub?.id}.png`}
+                            alt={currentClub?.name}
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = '/src/assets/1-06.png';
+                            }}
+                          />
+                        </div>
                         <div>
                           <p className="text-xs text-white/70">النادي الحالي</p>
                           <p className="text-sm font-medium mt-0.5">{currentClub?.name}</p>
