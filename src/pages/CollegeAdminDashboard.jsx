@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../components/AdminLayout';
+import ClubCard from '../components/ClubCard';
 import { 
   Building2, 
   Users, 
@@ -24,6 +25,15 @@ import {
 const CollegeAdminDashboard = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Format hours to Hrs:Mins:Secs
+  const formatHours = (hours) => {
+    const totalSeconds = Math.floor(hours * 3600);
+    const hrs = Math.floor(totalSeconds / 3600);
+    const mins = Math.floor((totalSeconds % 3600) / 60);
+    const secs = totalSeconds % 60;
+    return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  };
 
   // Dummy data for clubs
   const clubs = [
@@ -72,6 +82,206 @@ const CollegeAdminDashboard = () => {
           status: 'needs_info',
           hours: '03:00',
           date: '2024-03-14'
+        }
+      ]
+    },
+    {
+      id: 3,
+      name: 'نادي التصميم',
+      members: 42,
+      activeMembers: 35,
+      totalHours: 168.5,
+      pendingTasks: 6,
+      needsInfo: 1,
+      approvedTasks: 28,
+      recentActivity: [
+        {
+          id: 4,
+          title: 'تصميم شعار النادي',
+          member: 'سارة أحمد',
+          status: 'approved',
+          hours: '05:00',
+          date: '2024-03-13'
+        }
+      ]
+    },
+    {
+      id: 4,
+      name: 'نادي التصوير',
+      members: 35,
+      activeMembers: 25,
+      totalHours: 98.0,
+      pendingTasks: 4,
+      needsInfo: 2,
+      approvedTasks: 15,
+      recentActivity: [
+        {
+          id: 5,
+          title: 'تصوير فعالية الجامعة',
+          member: 'محمد علي',
+          status: 'pending',
+          hours: '03:30',
+          date: '2024-03-12'
+        }
+      ]
+    },
+    {
+      id: 5,
+      name: 'نادي المسرح',
+      members: 50,
+      activeMembers: 40,
+      totalHours: 245.0,
+      pendingTasks: 10,
+      needsInfo: 3,
+      approvedTasks: 35,
+      recentActivity: [
+        {
+          id: 6,
+          title: 'تدريب الممثلين',
+          member: 'ليلى محمد',
+          status: 'approved',
+          hours: '06:00',
+          date: '2024-03-11'
+        }
+      ]
+    },
+    {
+      id: 6,
+      name: 'نادي القراءة',
+      members: 30,
+      activeMembers: 22,
+      totalHours: 75.5,
+      pendingTasks: 3,
+      needsInfo: 1,
+      approvedTasks: 12,
+      recentActivity: [
+        {
+          id: 7,
+          title: 'مناقشة كتاب',
+          member: 'أحمد خالد',
+          status: 'approved',
+          hours: '02:00',
+          date: '2024-03-10'
+        }
+      ]
+    },
+    {
+      id: 7,
+      name: 'نادي الرياضة',
+      members: 60,
+      activeMembers: 45,
+      totalHours: 320.0,
+      pendingTasks: 12,
+      needsInfo: 4,
+      approvedTasks: 42,
+      recentActivity: [
+        {
+          id: 8,
+          title: 'تنظيم مباراة',
+          member: 'عمر سعد',
+          status: 'pending',
+          hours: '04:30',
+          date: '2024-03-09'
+        }
+      ]
+    },
+    {
+      id: 8,
+      name: 'نادي الفنون',
+      members: 40,
+      activeMembers: 30,
+      totalHours: 145.0,
+      pendingTasks: 7,
+      needsInfo: 2,
+      approvedTasks: 20,
+      recentActivity: [
+        {
+          id: 9,
+          title: 'معرض فني',
+          member: 'نور سارة',
+          status: 'approved',
+          hours: '05:00',
+          date: '2024-03-08'
+        }
+      ]
+    },
+    {
+      id: 9,
+      name: 'نادي اللغات',
+      members: 55,
+      activeMembers: 42,
+      totalHours: 198.0,
+      pendingTasks: 9,
+      needsInfo: 3,
+      approvedTasks: 28,
+      recentActivity: [
+        {
+          id: 10,
+          title: 'ورشة محادثة',
+          member: 'فاطمة أحمد',
+          status: 'pending',
+          hours: '03:00',
+          date: '2024-03-07'
+        }
+      ]
+    },
+    {
+      id: 10,
+      name: 'نادي البيئة',
+      members: 25,
+      activeMembers: 18,
+      totalHours: 85.0,
+      pendingTasks: 4,
+      needsInfo: 1,
+      approvedTasks: 15,
+      recentActivity: [
+        {
+          id: 11,
+          title: 'حملة تنظيف',
+          member: 'خالد محمد',
+          status: 'approved',
+          hours: '04:00',
+          date: '2024-03-06'
+        }
+      ]
+    },
+    {
+      id: 11,
+      name: 'نادي الإعلام',
+      members: 35,
+      activeMembers: 28,
+      totalHours: 120.0,
+      pendingTasks: 6,
+      needsInfo: 2,
+      approvedTasks: 18,
+      recentActivity: [
+        {
+          id: 12,
+          title: 'إعداد نشرة إخبارية',
+          member: 'سلمى أحمد',
+          status: 'pending',
+          hours: '03:30',
+          date: '2024-03-05'
+        }
+      ]
+    },
+    {
+      id: 12,
+      name: 'نادي التطوع',
+      members: 45,
+      activeMembers: 35,
+      totalHours: 280.0,
+      pendingTasks: 11,
+      needsInfo: 4,
+      approvedTasks: 38,
+      recentActivity: [
+        {
+          id: 13,
+          title: 'زيارة دار أيتام',
+          member: 'عبدالله سعد',
+          status: 'approved',
+          hours: '06:00',
+          date: '2024-03-04'
         }
       ]
     }
@@ -127,13 +337,9 @@ const CollegeAdminDashboard = () => {
         <div className="bg-white rounded-xl shadow-sm p-6">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-kaff text-trust">لوحة تحكم الكلية</h2>
+              <h2 className="text-2xl font-kaff text-trust">لوحة تحكم العمادة</h2>
             </div>
             <div className="flex items-center space-x-4 space-x-reverse">
-              <button className="btn-primary">
-                <FileText className="h-5 w-5 ml-2" />
-                تقرير شامل
-              </button>
               <button className="btn-primary">
                 <Plus className="h-5 w-5 ml-2" />
                 إضافة نادي جديد
@@ -175,7 +381,7 @@ const CollegeAdminDashboard = () => {
               <div>
                 <p className="text-sm text-gray-500">إجمالي الساعات</p>
                 <p className="text-2xl font-medium text-trust mt-1">
-                  {clubs.reduce((acc, club) => acc + club.totalHours, 0).toFixed(1)}
+                  {formatHours(clubs.reduce((acc, club) => acc + club.totalHours, 0))}
                 </p>
               </div>
               <div className="bg-trust/10 rounded-full p-3">
@@ -221,68 +427,12 @@ const CollegeAdminDashboard = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredClubs.map((club) => (
-              <div
+              <ClubCard
                 key={club.id}
-                className="card hover:shadow-lg transition-shadow duration-200"
-              >
-                <div className="flex items-center space-x-4 space-x-reverse">
-                  <div className="h-16 w-16 rounded-xl overflow-hidden">
-                    <img
-                      src={`/src/assets/club-${club.id}.png`}
-                      alt={club.name}
-                      className="h-full w-full object-cover"
-                      onError={(e) => {
-                        e.target.onerror = null; // Prevent infinite loop
-                        e.target.parentElement.classList.add('bg-trust/10');
-                        e.target.parentElement.innerHTML = `
-                          <div class="h-full w-full flex items-center justify-center">
-                            <svg class="h-8 w-8 text-trust" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"/><path d="M3 9V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4"/></svg>
-                          </div>
-                        `;
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-kaff text-trust">
-                      {club.name}
-                    </h3>
-                  </div>
-                </div>
-
-                <div className="mt-6 grid grid-cols-2 gap-4">
-                  <div className="flex items-center space-x-2 space-x-reverse">
-                    <div className="p-2 rounded-lg bg-growth/10">
-                      <Users className="h-5 w-5 text-growth" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500">عدد الأعضاء</p>
-                      <p className="text-lg font-medium text-trust">
-                        {club.members}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-2 space-x-reverse">
-                    <div className="p-2 rounded-lg bg-growth/10">
-                      <Clock className="h-5 w-5 text-growth" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500">إجمالي الساعات</p>
-                      <p className="text-lg font-medium text-trust">
-                        {club.totalHours}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-6">
-                  <button 
-                    onClick={() => navigate(`/college-admin/clubs/${club.id}`)}
-                    className="btn-secondary w-full text-center"
-                  >
-                    عرض التفاصيل
-                  </button>
-                </div>
-              </div>
+                club={club}
+                onViewDetails={(id) => navigate(`/college-dashboard/club/${id}`)}
+                formatHours={formatHours}
+              />
             ))}
           </div>
         </div>

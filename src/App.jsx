@@ -49,9 +49,9 @@ function App() {
           <Route path="/" element={
             <Navigate to={user ? (
               user.role === 'inma_admin' 
-                ? '/inma-admin'
+                ? '/inma-dashboard'
                 : user.role === 'college_admin'
-                ? '/college-admin'
+                ? '/college-dashboard'
                 : `/dashboard/${currentClub?.id}`
             ) : '/login'} replace />
           } />
@@ -59,7 +59,7 @@ function App() {
           
           {/* College Admin Routes */}
           <Route
-            path="/college-admin"
+            path="/college-dashboard"
             element={
               <ProtectedRoute allowedRoles={['college_admin']}>
                 <CollegeAdminDashboard />
@@ -67,7 +67,7 @@ function App() {
             }
           />
           <Route
-            path="/college-admin/clubs"
+            path="/college-dashboard/clubs"
             element={
               <ProtectedRoute allowedRoles={['college_admin']}>
                 <Clubs />
@@ -75,17 +75,25 @@ function App() {
             }
           />
           <Route
-            path="/college-admin/reports"
+            path="/college-dashboard/reports"
             element={
               <ProtectedRoute allowedRoles={['college_admin']}>
                 <div>College Admin Reports</div>
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/college-dashboard/club/:clubId"
+            element={
+              <ProtectedRoute allowedRoles={['college_admin']}>
+                <ClubDetails />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Inma Admin Routes */}
           <Route
-            path="/inma-admin"
+            path="/inma-dashboard"
             element={
               <ProtectedRoute allowedRoles={['inma_admin']}>
                 <InmaAdminDashboard />
@@ -93,7 +101,7 @@ function App() {
             }
           />
           <Route
-            path="/inma-admin/clubs"
+            path="/inma-dashboard/clubs"
             element={
               <ProtectedRoute allowedRoles={['inma_admin']}>
                 <Clubs />
@@ -101,7 +109,7 @@ function App() {
             }
           />
           <Route
-            path="/inma-admin/reports"
+            path="/inma-dashboard/reports"
             element={
               <ProtectedRoute allowedRoles={['inma_admin']}>
                 <div>Inma Admin Reports</div>
@@ -109,7 +117,7 @@ function App() {
             }
           />
           <Route
-            path="/inma-admin/users"
+            path="/inma-dashboard/users"
             element={
               <ProtectedRoute allowedRoles={['inma_admin']}>
                 <div>User Management</div>
@@ -117,10 +125,18 @@ function App() {
             }
           />
           <Route
-            path="/inma-admin/settings"
+            path="/inma-dashboard/settings"
             element={
               <ProtectedRoute allowedRoles={['inma_admin']}>
                 <div>System Settings</div>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/inma-dashboard/club/:clubId"
+            element={
+              <ProtectedRoute allowedRoles={['inma_admin']}>
+                <ClubDetails />
               </ProtectedRoute>
             }
           />

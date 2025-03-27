@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import AdminLayout from '../components/AdminLayout';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   Building2, 
   Users, 
@@ -22,10 +23,14 @@ import {
   Trophy,
   Plus,
   Edit2,
-  X
+  X,
+  ArrowRightToLine
 } from 'lucide-react';
 
 const ClubDetails = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isInmaAdmin = location.pathname.startsWith('/inma-dashboard');
   const [filterStatus, setFilterStatus] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTask, setSelectedTask] = useState(null);
@@ -127,6 +132,15 @@ const ClubDetails = () => {
     ]
   };
 
+  // Format hours to Hrs:Mins:Secs
+  const formatHours = (hours) => {
+    const totalSeconds = Math.floor(hours * 3600);
+    const hrs = Math.floor(totalSeconds / 3600);
+    const mins = Math.floor((totalSeconds % 3600) / 60);
+    const secs = totalSeconds % 60;
+    return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  };
+
   const getStatusColor = (status) => {
     switch (status) {
       case 'approved':
@@ -174,8 +188,17 @@ const ClubDetails = () => {
   });
 
   return (
-    <AdminLayout>
+    <AdminLayout isInmaAdmin={isInmaAdmin}>
       <div className="space-y-8">
+        {/* Back Button */}
+        <button 
+          onClick={() => navigate(-1)}
+          className="flex items-center text-gray-600 hover:text-trust transition-colors"
+        >
+          <ArrowRightToLine className="h-5 w-5 ml-2" />
+          <span>رجوع</span>
+        </button>
+
         {/* Club Header */}
         <div className="bg-white rounded-xl shadow-sm p-6">
           <div className="flex items-center justify-between">
@@ -190,20 +213,18 @@ const ClubDetails = () => {
                     {club.activeMembers} عضو نشط
                   </span>
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-growth/10 text-growth">
-                    {club.approvedTasks} ساعة مكتملة
+                    {formatHours(club.approvedTasks)} ساعة مكتملة
                   </span>
                 </div>
               </div>
             </div>
             <div className="flex items-center space-x-3 space-x-reverse">
-              <button className="btn-secondary">
-                <FileText className="h-5 w-5 ml-2" />
-                تقرير شامل
-              </button>
-              <button className="btn-primary">
-                <Edit2 className="h-5 w-5 ml-2" />
-                تعديل النادي
-              </button>
+              {isInmaAdmin && (
+                <button className="btn-primary">
+                  <Edit2 className="h-5 w-5 ml-2" />
+                  تعديل النادي
+                </button>
+              )}
             </div>
           </div>
         </div>
