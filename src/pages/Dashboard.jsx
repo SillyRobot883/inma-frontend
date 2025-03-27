@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import Layout from '../components/Layout';
+import Leaderboard from '../components/Leaderboard';
 import { useAuth } from '../context/AuthContext';
 import { 
   Clock, 
@@ -14,13 +15,20 @@ import {
   Building2,
   TrendingUp,
   BarChart3,
-  Calendar
+  Calendar,
+  Trophy
 } from 'lucide-react';
 
 const Dashboard = () => {
   const { clubId } = useParams();
   const { user, currentClub } = useAuth();
   const isAdmin = currentClub?.role === 'leader' || currentClub?.role === 'hr';
+
+  // Helper function to format time
+  const formatTime = (timeString) => {
+    const [hours, minutes] = timeString.split(':');
+    return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:00`;
+  };
 
   // Dummy data for member stats
   const memberStats = {
@@ -54,9 +62,9 @@ const Dashboard = () => {
     pendingTasks: 12,
     completedTasks: 156,
     topPerformers: [
-      { name: 'عبدالله محمد', hours: '65:30' },
-      { name: 'سارة أحمد', hours: '58:45' },
-      { name: 'خالد العمري', hours: '52:15' }
+      { name: 'عبدالله محمد', hours: '65:30', role: 'عضو' },
+      { name: 'سارة أحمد', hours: '58:45', role: 'عضو' },
+      { name: 'خالد العمري', hours: '52:15', role: 'عضو' }
     ],
     recentSubmissions: [
       {
@@ -97,11 +105,17 @@ const Dashboard = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6 space-x-reverse">
               <div className="relative">
-                <img
-                  className="h-20 w-20 rounded-xl shadow-md ring-2 ring-trust/20 transition-transform duration-300 hover:scale-105"
-                  src={`/src/assets/club-${clubId}.png`}
-                  alt={currentClub?.name}
-                />
+                <div className="h-20 w-20 rounded-xl shadow-md ring-2 ring-trust/20 overflow-hidden">
+                  <img
+                    className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                    src={`/src/assets/club-${clubId}.png`}
+                    alt={currentClub?.name}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = '/src/assets/1-06.png';
+                    }}
+                  />
+                </div>
                 <div className="absolute -bottom-2 -right-2 bg-trust/10 rounded-full p-1.5">
                   <Building2 className="h-4 w-4 text-trust" />
                 </div>
@@ -148,7 +162,7 @@ const Dashboard = () => {
                   <div>
                     <p className="text-sm text-gray-500 mb-2">إجمالي الساعات</p>
                     <p className="text-3xl font-medium text-growth transition-all duration-300 group-hover:scale-105">
-                      {memberStats.totalHours}
+                      {formatTime(memberStats.totalHours)}
                     </p>
                   </div>
                   <div className="bg-growth/10 rounded-full p-4 transition-all duration-300 group-hover:bg-growth/20">
@@ -192,7 +206,7 @@ const Dashboard = () => {
                       <div className="flex items-center space-x-3 space-x-reverse mt-1 text-sm text-gray-500">
                         <span className="flex items-center">
                           <Timer className="h-4 w-4 ml-1" />
-                          {activity.hours}
+                          {formatTime(activity.hours)}
                         </span>
                         <span>•</span>
                         <span className="flex items-center">
@@ -246,11 +260,11 @@ const Dashboard = () => {
                     <div>
                       <p className="text-sm text-gray-500 mb-2">إجمالي ساعات النادي</p>
                       <p className="text-3xl font-medium text-growth transition-all duration-300 group-hover:scale-105">
-                        {clubStats.totalClubHours}
+                        {formatTime(clubStats.totalClubHours)}
                       </p>
                       <p className="text-sm text-gray-500 mt-2 flex items-center">
                         <BarChart3 className="h-4 w-4 ml-1" />
-                        معدل {clubStats.averageHoursPerMember} لكل عضو
+                        معدل {formatTime(clubStats.averageHoursPerMember)} لكل عضو
                       </p>
                     </div>
                     <div className="bg-growth/10 rounded-full p-4 transition-all duration-300 group-hover:bg-growth/20">
@@ -289,7 +303,7 @@ const Dashboard = () => {
                         className="flex items-center justify-between text-sm p-2 rounded-lg transition-all duration-300 hover:bg-trust/10"
                       >
                         <span className="text-gray-700 font-medium">{performer.name}</span>
-                        <span className="text-trust font-medium">{performer.hours}</span>
+                        <span className="text-trust font-medium">{formatTime(performer.hours)}</span>
                       </div>
                     ))}
                   </div>
@@ -319,7 +333,7 @@ const Dashboard = () => {
                           <span>•</span>
                           <span className="flex items-center">
                             <Timer className="h-4 w-4 ml-1" />
-                            {activity.hours}
+                            {formatTime(activity.hours)}
                           </span>
                           <span>•</span>
                           <span className="flex items-center">
@@ -338,6 +352,20 @@ const Dashboard = () => {
             </div>
           </div>
         )}
+
+        {/* Global Leaderboard - Visible to all users */}
+        <div className="space-y-6">
+          <div className="flex items-center space-x-3 space-x-reverse">
+            <div className="bg-trust/10 rounded-full p-2">
+              <Trophy className="h-6 w-6 text-trust" />
+            </div>
+            <h2 className="text-2xl font-kaff text-trust">قائمة المتصدرين</h2>
+          </div>
+          <Leaderboard 
+            data={clubStats.topPerformers}
+            maxItems={5}
+          />
+        </div>
       </div>
     </Layout>
   );
