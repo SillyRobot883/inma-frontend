@@ -27,28 +27,18 @@ const AdminLayout = ({ children, isInmaAdmin = false }) => {
   const navigation = [
     { 
       name: 'لوحة التحكم', 
-      href: isInmaAdmin ? '/inma-admin' : '/college-admin',
+      href: isInmaAdmin ? '/inma-dashboard' : '/college-dashboard',
       icon: LayoutDashboard 
-    },
-    { 
-      name: 'الأندية', 
-      href: isInmaAdmin ? '/inma-admin/clubs' : '/college-admin/clubs',
-      icon: Building2 
-    },
-    { 
-      name: 'التقارير', 
-      href: isInmaAdmin ? '/inma-admin/reports' : '/college-admin/reports',
-      icon: FileText 
     },
     ...(isInmaAdmin ? [
       { 
         name: 'إدارة المستخدمين', 
-        href: '/inma-admin/users',
+        href: '/inma-dashboard/users',
         icon: Users 
       },
       { 
         name: 'إعدادات النظام', 
-        href: '/inma-admin/settings',
+        href: '/inma-dashboard/settings',
         icon: Settings 
       }
     ] : []),
@@ -83,7 +73,7 @@ const AdminLayout = ({ children, isInmaAdmin = false }) => {
                   </h3>
                   <div className="flex items-center mt-1 text-xs text-white/70">
                     <Shield className="h-4 w-4 ml-1" />
-                    <span className="font-medium">{isInmaAdmin ? 'مشرف إنماء' : 'مشرف كلية'}</span>
+                    <span className="font-medium">{isInmaAdmin ? 'مشرف إنماء' : 'مشرف العمادة'}</span>
                   </div>
                 </div>
               </div>
