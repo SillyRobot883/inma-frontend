@@ -284,7 +284,12 @@ const VolunteeringHoursLog = () => {
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="font-medium text-gray-900 text-lg">{submission.title}</h3>
-                      <div className="flex items-center space-x-2 space-x-reverse">
+                      <div className={`flex items-center space-x-2 space-x-reverse px-3 py-1.5 rounded-lg ${submission.status === 'approved'
+                        ? 'bg-growth/10'
+                        : submission.status === 'rejected'
+                          ? 'bg-red-50'
+                          : 'bg-yellow-50'
+                        }`}>
                         {submission.status === 'approved' && <CheckCircle2 className="h-5 w-5 text-growth" />}
                         {submission.status === 'rejected' && <XCircle className="h-5 w-5 text-red-500" />}
                         {submission.status === 'pending' && <AlertCircle className="h-5 w-5 text-yellow-500" />}
