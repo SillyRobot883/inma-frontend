@@ -48,15 +48,15 @@ function App() {
         <Routes>
           <Route path="/" element={
             <Navigate to={user ? (
-              user.role === 'inma_admin' 
+              user.role === 'inma_admin'
                 ? '/inma-dashboard'
                 : user.role === 'college_admin'
-                ? '/college-dashboard'
-                : `/dashboard/${currentClub?.id}`
+                  ? '/college-dashboard'
+                  : `/dashboard/${currentClub?.id}`
             ) : '/login'} replace />
           } />
           <Route path="/login" element={<Login />} />
-          
+
           {/* College Admin Routes */}
           <Route
             path="/college-dashboard"
@@ -177,7 +177,7 @@ function App() {
           <Route
             path="/volunteer-hours/:clubId"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={['member', 'hr', 'leader', 'inma_admin', 'college_admin']}>
                 <VolunteerHoursLog />
               </ProtectedRoute>
             }
