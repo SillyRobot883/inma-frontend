@@ -313,8 +313,8 @@ const VolunteeringHoursLog = () => {
                         <Calendar className="h-5 w-5 ml-2 text-gray-500" />
                         <span className="text-gray-600">{new Date(submission.submittedAt).toLocaleDateString('ar-SA')}</span>
                       </div>
-                      <div className="bg-white px-4 py-2 rounded-lg shadow-sm">
-                        <span className="text-gray-600">{submission.category}</span>
+                      <div className="bg-gradient-to-br from-trust/10 to-white px-4 py-2 rounded-lg shadow-sm border border-trust/20">
+                        <span className="text-trust font-medium">{submission.category}</span>
                       </div>
                     </div>
 
