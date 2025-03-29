@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({
     id: 1,
     name: 'عبدالعزيز الكثيري',
-    role: 'inma_admin',
+    role: 'hr',
     clubs: [
       {
         id: 1,
@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
       {
         id: 3,
         name: 'نادي التصميم',
-        role: 'leader'
+        role: 'member'
       }
     ],
     selectedClubId: 1 // Default selected club
@@ -52,10 +52,10 @@ export const AuthProvider = ({ children }) => {
   const currentClub = user?.clubs?.find(club => club.id === user?.selectedClubId);
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      isAuthenticated, 
-      login, 
+    <AuthContext.Provider value={{
+      user,
+      isAuthenticated,
+      login,
       logout,
       switchClub,
       currentClub
