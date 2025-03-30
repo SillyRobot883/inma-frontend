@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import AdminLayout from '../components/AdminLayout';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { 
   Building2, 
   Users, 
@@ -482,25 +483,6 @@ const ClubDetails = () => {
                         <div className="flex items-center space-x-2 space-x-reverse">
                           <Clock className="h-5 w-5 text-gray-400" />
                           <span className="font-medium text-trust">{performer.hours}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Achievements */}
-                <div className="bg-white rounded-xl shadow-sm p-6">
-                  <h3 className="text-lg font-kaff text-trust mb-4">الإنجازات</h3>
-                  <div className="space-y-4">
-                    {club.achievements.map((achievement) => (
-                      <div key={achievement.id} className="flex items-start space-x-4 space-x-reverse">
-                        <div className="h-10 w-10 rounded-full bg-growth/10 flex items-center justify-center">
-                          <Trophy className="h-5 w-5 text-growth" />
-                        </div>
-                        <div>
-                          <h4 className="font-medium text-gray-900">{achievement.title}</h4>
-                          <p className="text-sm text-gray-500 mt-1">{achievement.description}</p>
-                          <p className="text-xs text-gray-400 mt-1">{achievement.date}</p>
                         </div>
                       </div>
                     ))}
