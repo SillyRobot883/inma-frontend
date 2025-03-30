@@ -16,7 +16,8 @@ import {
   TrendingUp,
   BarChart3,
   Calendar,
-  Trophy
+  Trophy,
+  ChevronLeft
 } from 'lucide-react';
 
 const Dashboard = () => {
@@ -125,10 +126,15 @@ const Dashboard = () => {
                 <p className="text-gray-600 text-sm font-medium">مرحباً بك في لوحة التحكم</p>
               </div>
             </div>
-            <button className="btn-primary transform transition-transform duration-300 hover:scale-105">
-              <Clock className="h-5 w-5 ml-2" />
-              تسجيل ساعات جديدة
-            </button>
+            <div className="flex items-center space-x-3 space-x-reverse">
+              <a 
+                href={`/task-submission/${clubId}`}
+                className="btn-primary transform transition-transform duration-300 hover:scale-105"
+              >
+                <Clock className="h-5 w-5 ml-2" />
+                تسجيل ساعات جديدة
+              </a>
+            </div>
           </div>
         </div>
 
@@ -188,7 +194,16 @@ const Dashboard = () => {
 
           {/* Personal Recent Activity */}
           <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
-            <h3 className="text-xl font-kaff text-trust mb-6">طلبات اعتماد الساعات الأخيرة</h3>
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-kaff text-trust">طلبات اعتماد الساعات الأخيرة</h3>
+              <a 
+                href={`/volunteer-hours/${clubId}`} 
+                className="text-sm text-trust hover:text-trust-dark font-medium flex items-center"
+              >
+                عرض الكل
+                <ChevronLeft className="h-4 w-4 ml-1" />
+              </a>
+            </div>
             <div className="space-y-4">
               {memberStats.recentActivity.map((activity) => (
                 <div
@@ -204,7 +219,7 @@ const Dashboard = () => {
                         {activity.title}
                       </h3>
                       <div className="flex items-center space-x-3 space-x-reverse mt-1 text-sm text-gray-500">
-                        <span className="flex items-center">
+                        <span className="flex items-center bg-trust/5 px-3 py-1 rounded-full font-medium text-trust">
                           <Timer className="h-4 w-4 ml-1" />
                           {formatTime(activity.hours)}
                         </span>
@@ -237,7 +252,7 @@ const Dashboard = () => {
 
             {/* Club Stats */}
             <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="bg-trust/5 rounded-xl p-6 transition-all duration-300 hover:bg-trust/10 group">
                   <div className="flex items-center justify-between">
                     <div>
@@ -289,31 +304,21 @@ const Dashboard = () => {
                     </div>
                   </div>
                 </div>
-                <div className="bg-trust/5 rounded-xl p-6 transition-all duration-300 hover:bg-trust/10">
-                  <div className="flex items-center justify-between mb-4">
-                    <p className="text-sm text-gray-500">أفضل الأعضاء أداءً</p>
-                    <div className="bg-trust/10 rounded-full p-2">
-                      <Award className="h-5 w-5 text-trust" />
-                    </div>
-                  </div>
-                  <div className="space-y-3">
-                    {clubStats.topPerformers.map((performer, index) => (
-                      <div 
-                        key={index} 
-                        className="flex items-center justify-between text-sm p-2 rounded-lg transition-all duration-300 hover:bg-trust/10"
-                      >
-                        <span className="text-gray-700 font-medium">{performer.name}</span>
-                        <span className="text-trust font-medium">{formatTime(performer.hours)}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
               </div>
             </div>
 
             {/* Club Recent Submissions */}
             <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
-              <h3 className="text-xl font-kaff text-trust mb-6">آخر طلبات اعتماد الساعات للنادي</h3>
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-kaff text-trust">آخر طلبات اعتماد الساعات للنادي</h3>
+                <a 
+                  href={`/hr-dashboard/${clubId}`} 
+                  className="text-sm text-trust hover:text-trust-dark font-medium flex items-center"
+                >
+                  عرض الكل
+                  <ChevronLeft className="h-4 w-4 ml-1" />
+                </a>
+              </div>
               <div className="space-y-4">
                 {clubStats.recentSubmissions.map((activity) => (
                   <div
@@ -331,7 +336,7 @@ const Dashboard = () => {
                         <div className="flex items-center space-x-3 space-x-reverse mt-1 text-sm text-gray-500">
                           <span className="font-medium text-trust">{activity.member}</span>
                           <span>•</span>
-                          <span className="flex items-center">
+                          <span className="flex items-center bg-trust/5 px-3 py-1 rounded-full font-medium text-trust">
                             <Timer className="h-4 w-4 ml-1" />
                             {formatTime(activity.hours)}
                           </span>

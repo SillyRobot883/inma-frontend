@@ -35,34 +35,6 @@ const TaskSubmission = () => {
     committee: 'لجنة البرامج والفعاليات'
   };
 
-  // Updated task history with the correct user name
-  const taskHistory = [
-    {
-      id: 1,
-      title: 'تنظيم فعالية نادي البرمجة',
-      time: '03:00:00',
-      submittedAt: '2024-03-15T14:30:00',
-      status: 'approved',
-      feedback: 'عمل ممتاز! شكراً على جهودك'
-    },
-    {
-      id: 2,
-      title: 'إعداد محتوى تدريبي',
-      time: '02:30:00',
-      submittedAt: '2024-03-14T09:45:00',
-      status: 'pending',
-      feedback: null
-    },
-    {
-      id: 3,
-      title: 'تنسيق اجتماع النادي',
-      time: '01:15:00',
-      submittedAt: '2024-03-13T16:20:00',
-      status: 'rejected',
-      feedback: 'يرجى إضافة تفاصيل أكثر عن المهمة'
-    }
-  ];
-
   // Task categories with their descriptions
   const taskCategories = [
     {
@@ -129,23 +101,12 @@ const TaskSubmission = () => {
     }));
   };
 
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case 'approved':
-        return <CheckCircle2 className="w-5 h-5 text-growth" />;
-      case 'rejected':
-        return <XCircle className="w-5 h-5 text-red-500" />;
-      default:
-        return <ClockIcon className="w-5 h-5 text-yellow-500" />;
-    }
-  };
-
   return (
     <Layout>
       <div className="space-y-8">
         {/* Task Submission Form */}
         <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-kaff text-trust mb-6">رفع ساعات تطوعية جديدة</h2>
+          <h2 className="text-xl font-kaff font-bold text-trust mb-6">رفع ساعات تطوعية جديدة</h2>
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Member Information Section */}
             <div className="bg-gray-50 rounded-lg p-4 space-y-4">
@@ -317,44 +278,6 @@ const TaskSubmission = () => {
               تقديم النشاط التطوعي
             </button>
           </form>
-        </div>
-
-        {/* Task History */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-kaff text-trust mb-6">سجل الساعات التطوعية</h2>
-          <div className="space-y-4">
-            {taskHistory.map(task => (
-              <div
-                key={task.id}
-                className="flex items-start space-x-4 space-x-reverse border-b border-gray-100 last:border-0 pb-4 last:pb-0"
-              >
-                <div className="flex-shrink-0">
-                  <FileText className="h-6 w-6 text-gray-400" />
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-medium text-gray-900">{task.title}</h3>
-                    {getStatusIcon(task.status)}
-                  </div>
-                  <div className="mt-1 text-sm text-gray-500">
-                    <span className="inline-flex items-center ml-4">
-                      <Clock className="h-4 w-4 ml-1" />
-                      {task.time}
-                    </span>
-                    <span className="inline-flex items-center">
-                      <Calendar className="h-4 w-4 ml-1" />
-                      {new Date(task.submittedAt).toLocaleDateString('ar-SA')}
-                    </span>
-                  </div>
-                  {task.feedback && (
-                    <p className="mt-2 text-sm text-gray-600">
-                      {task.feedback}
-                    </p>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </Layout>
