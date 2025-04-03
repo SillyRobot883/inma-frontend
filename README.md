@@ -4,7 +4,7 @@ Frontend application for the Inma Clubs Management System, a comprehensive platf
 
 ## Overview
 
-إنماء الإندية (Inma Clubs) is a modern web application designed to streamline the management of student clubs and their activities. The platform provides tools for club administrators, members, and INMA administrators to efficiently manage club operations, track volunteer hours, and monitor member engagement.
+إنماء الإندية (Inma Clubs) is a web application designed to streamline the management of student clubs and their activities. The platform provides tools for club administrators, members, and INMA administrators to efficiently manage club operations, track volunteer hours, and monitor member engagement.
 
 ## Features
 
@@ -44,14 +44,7 @@ Frontend application for the Inma Clubs Management System, a comprehensive platf
 - **Context API**: State management solution for global application state
 - **Lucide Icons**: Modern icon library for UI elements
 
-### Development Tools
-- **Vite**: Next-generation frontend build tool
-- **ESLint**: JavaScript linting tool
-- **Prettier**: Code formatting tool
-- **PostCSS**: CSS processing tool
-- **Autoprefixer**: CSS vendor prefixing tool
-
-## Project Structure
+## Project Structure (TODO)
 
 ```
 src/
@@ -112,7 +105,7 @@ npm run dev
 yarn dev
 ```
 
-5. Open [http://localhost:5173](http://localhost:5173) in your browser
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
 
 ### Building for Production
 
@@ -168,12 +161,3 @@ yarn preview
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Support
-
-For support, please contact the development team or open an issue in the repository.
-
-## Acknowledgments
-
-- University administration for their support
-- Development team for their contributions
-- Open source community for their tools and libraries 
