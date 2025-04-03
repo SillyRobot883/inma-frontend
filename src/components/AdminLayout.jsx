@@ -30,18 +30,11 @@ const AdminLayout = ({ children, isInmaAdmin = false }) => {
       href: isInmaAdmin ? '/inma-dashboard' : '/college-dashboard',
       icon: LayoutDashboard 
     },
-    ...(isInmaAdmin ? [
-      { 
-        name: 'إدارة المستخدمين', 
-        href: '/inma-dashboard/users',
-        icon: Users 
-      },
-      { 
-        name: 'إعدادات النظام', 
-        href: '/inma-dashboard/settings',
-        icon: Settings 
-      }
-    ] : []),
+    { 
+      name: 'إدارة المستخدمين', 
+      href: isInmaAdmin ? '/inma-dashboard/users' : '/college-dashboard/users',
+      icon: Users 
+    }
   ];
 
   return (

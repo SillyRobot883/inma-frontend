@@ -10,6 +10,7 @@ import TaskSubmission from './pages/TaskSubmission';
 import ClubDetails from './pages/ClubDetails';
 import VolunteerHoursLog from './pages/VolunteerHoursLog';
 import MemberManagement from './pages/MemberManagement';
+import AdminMemberManagement from './pages/AdminMemberManagement';
 import { useAuth } from './context/AuthContext';
 
 const ProtectedRoute = ({ children, allowedRoles = [] }) => {
@@ -75,18 +76,18 @@ function App() {
             }
           />
           <Route
-            path="/college-dashboard/reports"
-            element={
-              <ProtectedRoute allowedRoles={['college_admin']}>
-                <div>College Admin Reports</div>
-              </ProtectedRoute>
-            }
-          />
-          <Route
             path="/college-dashboard/club/:clubId"
             element={
               <ProtectedRoute allowedRoles={['college_admin']}>
                 <ClubDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/college-dashboard/users"
+            element={
+              <ProtectedRoute allowedRoles={['college_admin']}>
+                <AdminMemberManagement isInmaAdmin={false} />
               </ProtectedRoute>
             }
           />
@@ -109,18 +110,10 @@ function App() {
             }
           />
           <Route
-            path="/inma-dashboard/reports"
-            element={
-              <ProtectedRoute allowedRoles={['inma_admin']}>
-                <div>Inma Admin Reports</div>
-              </ProtectedRoute>
-            }
-          />
-          <Route
             path="/inma-dashboard/users"
             element={
               <ProtectedRoute allowedRoles={['inma_admin']}>
-                <div>User Management</div>
+                <AdminMemberManagement isInmaAdmin={true} />
               </ProtectedRoute>
             }
           />

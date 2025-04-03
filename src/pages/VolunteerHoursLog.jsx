@@ -72,6 +72,15 @@ const VolunteeringHoursLog = () => {
       return total + hours + minutes / 60 + seconds / 3600;
     }, 0);
 
+  // Format total hours to Hrs:Mins:Secs
+  const formatTotalHours = (decimalHours) => {
+    const totalSeconds = Math.floor(decimalHours * 3600);
+    const hrs = Math.floor(totalSeconds / 3600);
+    const mins = Math.floor((totalSeconds % 3600) / 60);
+    const secs = totalSeconds % 60;
+    return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  };
+
   // Filter previous submissions based on search query and status
   const filteredSubmissions = previousSubmissions.filter(submission => {
     const matchesSearch = submission.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -163,7 +172,7 @@ const VolunteeringHoursLog = () => {
                 </div>
                 <span className="text-lg font-medium text-gray-900">إجمالي الساعات التطوعية المعتمدة</span>
               </div>
-              <div className="text-2xl font-bold text-trust">{totalHours.toFixed(1)} ساعة</div>
+              <div className="text-2xl font-bold text-trust">{formatTotalHours(totalHours)}</div>
             </div>
           </div>
         </div>
