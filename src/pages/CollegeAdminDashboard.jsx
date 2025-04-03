@@ -340,10 +340,7 @@ const CollegeAdminDashboard = () => {
               <h2 className="text-2xl font-kaff text-trust">لوحة تحكم العمادة</h2>
             </div>
             <div className="flex items-center space-x-4 space-x-reverse">
-              <button className="btn-primary">
-                <Plus className="h-5 w-5 ml-2" />
-                إضافة نادي جديد
-              </button>
+              {/* Removed the "Add New Club" button as it should only be available for INMA admins */}
             </div>
           </div>
         </div>

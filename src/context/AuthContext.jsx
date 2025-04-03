@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({
     id: 1,
     name: 'عبدالعزيز الكثيري',
-    role: 'hr',
+    role: 'college_admin',
     clubs: [
       {
         id: 1,

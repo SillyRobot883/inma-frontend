@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import AdminLayout from '../components/AdminLayout';
 import { 
   Building2, 
@@ -47,6 +48,29 @@ const ClubDetails = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTask, setSelectedTask] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!clubId) {
+      setError('Club ID is missing');
+      setIsLoading(false);
+      return;
+    }
+
+    // Here you would typically fetch the club data from your API
+    // For now, we'll use the dummy data but with proper error handling
+    try {
+      const parsedClubId = parseInt(clubId);
+      if (isNaN(parsedClubId)) {
+        throw new Error('Invalid club ID');
+      }
+      setIsLoading(false);
+    } catch (err) {
+      setError(err.message);
+      setIsLoading(false);
+    }
+  }, [clubId]);
 
   // Helper functions
   const formatTimeFromDecimal = (decimalHours) => {
@@ -132,9 +156,9 @@ const ClubDetails = () => {
 
   // Dummy data for club details
   const club = {
-    id: parseInt(clubId),
+    id: clubId ? parseInt(clubId) : null,
     name: 'نادي التطوير',
-    logo: `/src/assets/club-${clubId}.png`,
+    logo: clubId ? `/src/assets/club-${clubId}.png` : '/src/assets/1-06.png',
     description: 'نادي التطوير هو نادي طلابي يهدف إلى تطوير مهارات الطلاب في مجال التطوير البرمجي وتنظيم الفعاليات التقنية.',
     establishmentDate: '2023-01-15',
     category: 'تقني',
@@ -270,6 +294,33 @@ const ClubDetails = () => {
                          activity.member.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesStatus && matchesSearch;
   });
+
+  if (isLoading) {
+    return (
+      <AdminLayout isInmaAdmin={isInmaAdmin}>
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-trust"></div>
+        </div>
+      </AdminLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <AdminLayout isInmaAdmin={isInmaAdmin}>
+        <div className="flex flex-col items-center justify-center h-64 space-y-4">
+          <AlertCircle className="h-12 w-12 text-red-500" />
+          <p className="text-lg text-gray-700">{error}</p>
+          <button
+            onClick={() => navigate(-1)}
+            className="btn-primary"
+          >
+            العودة للخلف
+          </button>
+        </div>
+      </AdminLayout>
+    );
+  }
 
   return (
     <AdminLayout isInmaAdmin={isInmaAdmin}>
@@ -598,7 +649,7 @@ const ClubDetails = () => {
                   <div className="p-6 border-b border-gray-100">
                     <div className="flex items-center justify-between">
                       <h3 className="text-lg font-kaff text-trust">طلبات اعتماد الساعات</h3>
-                      <div className="flex items-center space-x-4 space-x-reverse">
+                    <div className="flex items-center space-x-4 space-x-reverse">
                         <div className="relative">
                           <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                           <input

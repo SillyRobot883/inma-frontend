@@ -214,6 +214,7 @@ const MemberManagement = () => {
   // New member form state
   const [newMember, setNewMember] = useState({
     name: "",
+    idNumber: "",
     studentId: "",
     email: "",
     phone: "",
@@ -224,6 +225,7 @@ const MemberManagement = () => {
     hours: "00",
     minutes: "00",
     seconds: "00",
+    engagement: "active"
   })
 
   // تحسين دالة formatTimeFromDecimal لتكون أكثر دقة
@@ -329,23 +331,26 @@ const MemberManagement = () => {
 
   const handleAddMember = (e) => {
     e.preventDefault()
-    // Format time as HH:MM:SS
-    const formattedTime = `${newMember.hours.padStart(2, "0")}:${newMember.minutes.padStart(2, "0")}:${newMember.seconds.padStart(2, "0")}`
-    console.log({ ...newMember, totalHours: formattedTime })
-    setShowAddMemberModal(false)
-    // Reset form
+    if (!newMember.name || !newMember.idNumber) {
+      alert('الرجاء إدخال اسم العضو ورقم الهوية')
+      return
+    }
+    const member = {
+      id: Date.now(),
+      name: newMember.name,
+      idNumber: newMember.idNumber,
+      role: newMember.role,
+      engagement: newMember.engagement,
+      totalHours: '00:00:00',
+      completedTasks: 0,
+      pendingTasks: 0
+    }
+    setMembers([...members, member])
     setNewMember({
-      name: "",
-      studentId: "",
-      email: "",
-      phone: "",
-      role: "member",
-      committee: "",
-      major: "",
-      level: "",
-      hours: "00",
-      minutes: "00",
-      seconds: "00",
+      name: '',
+      idNumber: '',
+      role: 'member',
+      engagement: 'active'
     })
   }
 
@@ -641,10 +646,20 @@ const MemberManagement = () => {
                     <label className="block text-sm font-medium text-gray-700 mb-1">اسم العضو</label>
                     <input
                       type="text"
+                      placeholder="اسم العضو"
                       value={newMember.name}
                       onChange={(e) => setNewMember({ ...newMember, name: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-trust focus:border-trust"
-                      required
+                      className="input-field"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">رقم الهوية</label>
+                    <input
+                      type="text"
+                      placeholder="رقم الهوية"
+                      value={newMember.idNumber}
+                      onChange={(e) => setNewMember({ ...newMember, idNumber: e.target.value })}
+                      className="input-field"
                     />
                   </div>
                   <div>
@@ -702,7 +717,7 @@ const MemberManagement = () => {
                       <option value="لجنة البرامج والفعاليات">لجنة البرامج والفعاليات</option>
                       <option value="لجنة الموارد البشرية">لجنة الموارد البشرية</option>
                       <option value="لجنة التسويق والإعلام">لجنة التسويق والإعلام</option>
-                      <option value="لجنة التطوير التقن��">لجنة التطوير التقني</option>
+                      <option value="لجنة التطوير التقني">لجنة التطوير التقني</option>
                     </select>
                   </div>
                   <div>

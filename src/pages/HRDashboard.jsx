@@ -261,24 +261,23 @@ const HRDashboard = () => {
   };
 
   const handleSaveHours = () => {
-    // Validate hours format
-    const hours = parseInt(editedHours.hours);
-    const minutes = parseInt(editedHours.minutes);
-    const seconds = parseInt(editedHours.seconds);
-
-    if (isNaN(hours) || isNaN(minutes) || isNaN(seconds) ||
-        minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59) {
-      alert('الرجاء إدخال الوقت بالصيغة الصحيحة');
+    if (!editingHours.comments) {
+      alert('الرجاء إضافة تعليق عند تعديل الساعات');
       return;
     }
-
-    const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    
-    // Here you would typically make an API call to update the hours
-    // For now, we'll just close the modal
+    // Rest of the save logic
+    const updatedSubmissions = submissions.map(submission => {
+      if (submission.id === editingHours.id) {
+        return {
+          ...submission,
+          hours: editingHours.hours,
+          comments: editingHours.comments
+        };
+      }
+      return submission;
+    });
+    setSubmissions(updatedSubmissions);
     setEditingHours(null);
-    setEditedHours({ hours: '', minutes: '', seconds: '' });
-    setEditComment('');
   };
 
   const handleAction = (type, submission) => {
@@ -744,7 +743,7 @@ const HRDashboard = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    تعليق (اختياري)
+                    ما سبب تعديل الساعات؟
                   </label>
                   <textarea
                     value={editComment}
