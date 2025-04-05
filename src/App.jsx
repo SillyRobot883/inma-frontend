@@ -12,6 +12,7 @@ import VolunteerHoursLog from './pages/VolunteerHoursLog';
 import MemberManagement from './pages/MemberManagement';
 import AdminMemberManagement from './pages/AdminMemberManagement';
 import { useAuth } from './context/AuthContext';
+import TestOverlay from './components/TestOverlay';
 
 const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   const { user, isAuthenticated, currentClub } = useAuth();
@@ -185,6 +186,7 @@ function App() {
           />
         </Routes>
         <Toaster />
+        <TestOverlay />
       </div>
     </Router>
   );
