@@ -17,13 +17,28 @@ import {
   BarChart3,
   Calendar,
   Trophy,
-  ChevronLeft
+  ChevronLeft,
+  Crown,
+  UserPlus,
+  Shield,
+  XCircle
 } from 'lucide-react';
+import { useState } from 'react';
 
 const Dashboard = () => {
   const { clubId } = useParams();
   const { user, currentClub } = useAuth();
   const isAdmin = currentClub?.role === 'leader' || currentClub?.role === 'hr';
+  const [showLeaderChangeModal, setShowLeaderChangeModal] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [newLeader, setNewLeader] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    ssn: '',
+    currentLeaderSSN: ''
+  });
+  const [error, setError] = useState('');
 
   // Helper function to format time
   const formatTime = (timeString) => {
@@ -98,6 +113,61 @@ const Dashboard = () => {
     }
   };
 
+  const handleLeaderChange = () => {
+    setShowLeaderChangeModal(true);
+    setCurrentStep(1);
+    setNewLeader({
+      name: '',
+      email: '',
+      phone: '',
+      ssn: '',
+      currentLeaderSSN: ''
+    });
+    setError('');
+  };
+
+  const handleNextStep = () => {
+    if (currentStep === 1) {
+      // Validate new leader info
+      if (!newLeader.name || !newLeader.email || !newLeader.phone || !newLeader.ssn) {
+        setError('الرجاء إكمال جميع الحقول المطلوبة');
+        return;
+      }
+      setCurrentStep(2);
+    } else if (currentStep === 2) {
+      // Verify current leader's SSN
+      if (!newLeader.currentLeaderSSN) {
+        setError('الرجاء إدخال رقم هويتك للتأكيد');
+        return;
+      }
+      if (newLeader.currentLeaderSSN !== '1234567890') {
+        setError('رقم هويتك غير صحيح. يرجى التأكد من الرقم وإعادة المحاولة');
+        return;
+      }
+      setCurrentStep(3);
+    } else if (currentStep === 3) {
+      // Here you would typically make an API call to update the leader
+      console.log('Changing leader to:', newLeader);
+      setShowLeaderChangeModal(false);
+    }
+  };
+
+  const handlePreviousStep = () => {
+    setCurrentStep(currentStep - 1);
+    setError('');
+  };
+
+  const handleSelectExistingMember = (member) => {
+    setNewLeader({
+      ...newLeader,
+      name: member.name,
+      email: member.email,
+      phone: '0500000000', // This would come from the member's data
+      ssn: '',
+      currentLeaderSSN: ''
+    });
+  };
+
   return (
     <Layout>
       <div className="space-y-8">
@@ -127,13 +197,15 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="flex items-center space-x-3 space-x-reverse">
-              <a 
-                href={`/task-submission/${clubId}`}
-                className="btn-primary transform transition-transform duration-300 hover:scale-105"
-              >
-                <Clock className="h-5 w-5 ml-2" />
-                تسجيل ساعات جديدة
-              </a>
+              {currentClub?.role === 'leader' && (
+                <button
+                  onClick={handleLeaderChange}
+                  className="btn-primary transform transition-transform duration-300 hover:scale-105"
+                >
+                  <Crown className="h-5 w-5 ml-2" />
+                  تغيير قائد النادي
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -144,7 +216,7 @@ const Dashboard = () => {
             <div className="bg-trust/10 rounded-full p-2">
               <UserCircle className="h-6 w-6 text-trust" />
             </div>
-            <h2 className="text-2xl font-kaff font-bold text-trust">معلوماتي الشخصية</h2>
+            <h2 className="text-2xl font-kaff text-trust">معلوماتي الشخصية</h2>
           </div>
 
           {/* Personal Stats */}
@@ -371,6 +443,215 @@ const Dashboard = () => {
             maxItems={5}
           />
         </div>
+
+        {/* Leader Change Modal */}
+        {showLeaderChangeModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+            <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+              <div className="p-6 border-b border-gray-100">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-kaff text-trust">
+                    {currentStep === 1 ? 'تغيير قائد النادي' : 
+                     currentStep === 2 ? 'تأكيد التغيير' : 
+                     'مراجعة المعلومات'}
+                  </h2>
+                  <button
+                    onClick={() => setShowLeaderChangeModal(false)}
+                    className="text-gray-400 hover:text-gray-500"
+                  >
+                    <XCircle className="h-6 w-6" />
+                  </button>
+                </div>
+              </div>
+              <div className="p-6">
+                {error && (
+                  <div className="mb-4 p-4 bg-red-50 rounded-lg text-red-600">
+                    {error}
+                  </div>
+                )}
+                {currentStep === 1 ? (
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="text-lg font-medium text-gray-900 mb-4">اختر من الأعضاء الحاليين</h3>
+                      <div className="space-y-3">
+                        {clubStats.topPerformers.map(member => (
+                          <button
+                            key={member.name}
+                            onClick={() => handleSelectExistingMember(member)}
+                            className={`w-full p-4 rounded-lg border transition-all duration-200 ${
+                              newLeader.name === member.name
+                                ? 'border-trust bg-trust/5'
+                                : 'border-gray-200 hover:border-trust/50'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center space-x-3 space-x-reverse">
+                                <UserCircle className="h-8 w-8 text-gray-400" />
+                                <div className="text-right">
+                                  <p className="font-medium text-gray-900">{member.name}</p>
+                                  <p className="text-sm text-gray-500">{member.email}</p>
+                                </div>
+                              </div>
+                              <span className="text-sm text-gray-500">{member.role}</span>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="border-t border-gray-100 pt-6">
+                      <h3 className="text-lg font-medium text-gray-900 mb-4">أو أدخل معلومات القائد الجديد</h3>
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            الاسم الكامل
+                          </label>
+                          <input
+                            type="text"
+                            value={newLeader.name}
+                            onChange={(e) => setNewLeader({ ...newLeader, name: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            placeholder="أدخل الاسم الكامل"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            البريد الإلكتروني
+                          </label>
+                          <input
+                            type="email"
+                            value={newLeader.email}
+                            onChange={(e) => setNewLeader({ ...newLeader, email: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            placeholder="أدخل البريد الإلكتروني"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            رقم الجوال
+                          </label>
+                          <input
+                            type="tel"
+                            value={newLeader.phone}
+                            onChange={(e) => setNewLeader({ ...newLeader, phone: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            placeholder="أدخل رقم الجوال"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            رقم الهوية
+                          </label>
+                          <input
+                            type="text"
+                            value={newLeader.ssn}
+                            onChange={(e) => setNewLeader({ ...newLeader, ssn: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            placeholder="أدخل رقم الهوية"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : currentStep === 2 ? (
+                  <div className="space-y-6">
+                    <div className="bg-blue-50 rounded-lg p-4">
+                      <div className="flex items-center space-x-3 space-x-reverse">
+                        <Shield className="h-5 w-5 text-blue-500" />
+                        <p className="text-blue-700">
+                          لتأكيد تغيير قائد النادي، يرجى إدخال رقم هويتك للتأكيد
+                        </p>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        رقم هويتك
+                      </label>
+                      <input
+                        type="text"
+                        value={newLeader.currentLeaderSSN}
+                        onChange={(e) => setNewLeader({ ...newLeader, currentLeaderSSN: e.target.value })}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                        placeholder="أدخل رقم هويتك للتأكيد"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-6">
+                    <div className="bg-blue-50 rounded-lg p-4">
+                      <div className="flex items-center space-x-3 space-x-reverse">
+                        <CheckCircle2 className="h-5 w-5 text-blue-500" />
+                        <p className="text-blue-700">
+                          يرجى مراجعة معلومات القائد الجديد قبل تأكيد التغيير
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-white rounded-lg border border-gray-200 p-6">
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <span className="text-gray-600">الاسم الكامل</span>
+                          <span className="font-medium">{newLeader.name}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-gray-600">البريد الإلكتروني</span>
+                          <span className="font-medium">{newLeader.email}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-gray-600">رقم الجوال</span>
+                          <span className="font-medium">{newLeader.phone}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-gray-600">رقم الهوية</span>
+                          <span className="font-medium">{newLeader.ssn}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-red-50 rounded-lg p-4">
+                      <div className="flex items-center space-x-3 space-x-reverse">
+                        <AlertCircle className="h-5 w-5 text-red-500" />
+                        <p className="text-red-700">
+                          تنبيه: هذا الإجراء لا يمكن التراجع عنه. سيتم نقل صلاحيات قائد النادي بشكل كامل إلى القائد الجديد.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                <div className="flex justify-end space-x-3 space-x-reverse mt-6">
+                  {currentStep > 1 && (
+                    <button
+                      type="button"
+                      onClick={handlePreviousStep}
+                      className="btn-secondary"
+                    >
+                      رجوع
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setShowLeaderChangeModal(false)}
+                    className="btn-secondary"
+                  >
+                    إلغاء
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleNextStep}
+                    className={`px-4 py-2 rounded-lg font-medium text-white transition-colors duration-200 ${
+                      currentStep === 3 
+                        ? 'bg-red-600 hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2' 
+                        : 'bg-trust hover:bg-trust-dark focus:ring-2 focus:ring-trust focus:ring-offset-2'
+                    }`}
+                  >
+                    {currentStep === 1 ? 'التالي' : 
+                     currentStep === 2 ? 'تأكيد التغيير' : 
+                     'تأكيد وتعيين القائد الجديد'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
   );

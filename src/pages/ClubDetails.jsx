@@ -50,6 +50,8 @@ const ClubDetails = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedClub, setEditedClub] = useState(null);
 
   useEffect(() => {
     if (!clubId) {
@@ -58,19 +60,58 @@ const ClubDetails = () => {
       return;
     }
 
-    // Here you would typically fetch the club data from your API
-    // For now, we'll use the dummy data but with proper error handling
+    // fetch the club data from your API
     try {
       const parsedClubId = parseInt(clubId);
       if (isNaN(parsedClubId)) {
         throw new Error('Invalid club ID');
       }
+      // Initialize editedClub with the current club data
+      setEditedClub({
+        name: club.name,
+        description: club.description,
+        establishmentDate: club.establishmentDate,
+        category: club.category,
+        supervisor: club.supervisor,
+        currentLeader: club.currentLeader || 'محمد عبدالله السالم' // Add current leader
+      });
       setIsLoading(false);
     } catch (err) {
       setError(err.message);
       setIsLoading(false);
     }
   }, [clubId]);
+
+  const handleEditClub = () => {
+    setIsEditing(true);
+  };
+
+  const handleSaveEdit = () => {
+    // an API call to save the changes
+    setClub(prev => ({
+      ...prev,
+      name: editedClub.name,
+      description: editedClub.description,
+      establishmentDate: editedClub.establishmentDate,
+      category: editedClub.category,
+      supervisor: editedClub.supervisor,
+      currentLeader: editedClub.currentLeader
+    }));
+    setIsEditing(false);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    // Reset editedClub to current club data
+    setEditedClub({
+      name: club.name,
+      description: club.description,
+      establishmentDate: club.establishmentDate,
+      category: club.category,
+      supervisor: club.supervisor,
+      currentLeader: club.currentLeader
+    });
+  };
 
   // Helper functions
   const formatTimeFromDecimal = (decimalHours) => {
@@ -163,6 +204,7 @@ const ClubDetails = () => {
     establishmentDate: '2023-01-15',
     category: 'تقني',
     supervisor: 'د. أحمد محمد',
+    currentLeader: 'محمد عبدالله السالم', // Add current leader
     members: 45,
     activeMembers: 32,
     totalHours: '156:30:00',
@@ -232,58 +274,6 @@ const ClubDetails = () => {
         time: '10:00',
         location: 'قاعة المعارض',
         attendees: 50
-      }
-    ],
-    achievements: [
-      {
-        id: 1,
-        title: 'جائزة أفضل نادي تقني',
-        date: '2024-02-15',
-        description: 'حصل النادي على جائزة أفضل نادي تقني في الجامعة لعام 2024'
-      },
-      {
-        id: 2,
-        title: 'تنظيم مؤتمر تقني ناجح',
-        date: '2024-01-20',
-        description: 'تم تنظيم مؤتمر تقني شارك فيه أكثر من 200 طالب'
-      }
-    ],
-    membersList: [
-      {
-        id: 1,
-        name: 'عبدالله محمد',
-        role: 'عضو',
-        hours: '65:30:00',
-        tasks: 15,
-        engagement: 'عالية',
-        joinDate: '2023-09-15',
-        department: 'علوم الحاسب',
-        level: 'سنة ثالثة',
-        status: 'نشط'
-      },
-      {
-        id: 2,
-        name: 'سارة أحمد',
-        role: 'عضو',
-        hours: '58:45:00',
-        tasks: 12,
-        engagement: 'عالية',
-        joinDate: '2023-09-15',
-        department: 'نظم المعلومات',
-        level: 'سنة رابعة',
-        status: 'نشط'
-      },
-      {
-        id: 3,
-        name: 'خالد العمري',
-        role: 'عضو',
-        hours: '52:15:00',
-        tasks: 10,
-        engagement: 'متوسطة',
-        joinDate: '2023-10-01',
-        department: 'علوم الحاسب',
-        level: 'سنة ثانية',
-        status: 'نشط'
       }
     ]
   };
@@ -368,9 +358,21 @@ const ClubDetails = () => {
             </div>
             <div className="flex items-center space-x-3 space-x-reverse">
               {isInmaAdmin && (
-                <button className="btn-primary">
-                  <Edit2 className="h-5 w-5 ml-2" />
-                  تعديل النادي
+                <button 
+                  onClick={isEditing ? handleSaveEdit : handleEditClub}
+                  className="btn-primary"
+                >
+                  {isEditing ? (
+                    <>
+                      <CheckCircle2 className="h-5 w-5 ml-2" />
+                      حفظ التغييرات
+                    </>
+                  ) : (
+                    <>
+                      <Edit2 className="h-5 w-5 ml-2" />
+                      تعديل النادي
+                    </>
+                  )}
                 </button>
               )}
             </div>
@@ -420,24 +422,101 @@ const ClubDetails = () => {
                 {/* Club Info */}
                 <div className="bg-gray-50 rounded-xl p-6">
                   <h3 className="text-lg font-kaff text-trust mb-4">معلومات النادي</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <p className="text-sm text-gray-500 mb-2">الوصف</p>
-                      <p className="text-gray-700">{club.description}</p>
+                  {isEditing ? (
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm text-gray-500 mb-1">اسم النادي</label>
+                        <input
+                          type="text"
+                          value={editedClub.name}
+                          onChange={(e) => setEditedClub({ ...editedClub, name: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm text-gray-500 mb-1">الوصف</label>
+                        <textarea
+                          value={editedClub.description}
+                          onChange={(e) => setEditedClub({ ...editedClub, description: e.target.value })}
+                          rows={3}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm text-gray-500 mb-1">تاريخ التأسيس</label>
+                        <input
+                          type="date"
+                          value={editedClub.establishmentDate}
+                          onChange={(e) => setEditedClub({ ...editedClub, establishmentDate: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm text-gray-500 mb-1">التصنيف</label>
+                        <input
+                          type="text"
+                          value={editedClub.category}
+                          onChange={(e) => setEditedClub({ ...editedClub, category: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm text-gray-500 mb-1">المشرف</label>
+                        <input
+                          type="text"
+                          value={editedClub.supervisor}
+                          onChange={(e) => setEditedClub({ ...editedClub, supervisor: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm text-gray-500 mb-1">قائد النادي الحالي</label>
+                        <input
+                          type="text"
+                          value={editedClub.currentLeader}
+                          onChange={(e) => setEditedClub({ ...editedClub, currentLeader: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                        />
+                      </div>
+                      <div className="flex justify-end space-x-3 space-x-reverse">
+                        <button
+                          onClick={handleCancelEdit}
+                          className="btn-secondary"
+                        >
+                          إلغاء
+                        </button>
+                        <button
+                          onClick={handleSaveEdit}
+                          className="btn-primary"
+                        >
+                          حفظ التغييرات
+                        </button>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-sm text-gray-500 mb-2">تاريخ التأسيس</p>
-                      <p className="text-gray-700">{club.establishmentDate}</p>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <p className="text-sm text-gray-500 mb-2">الوصف</p>
+                        <p className="text-gray-700">{club.description}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500 mb-2">تاريخ التأسيس</p>
+                        <p className="text-gray-700">{club.establishmentDate}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500 mb-2">التصنيف</p>
+                        <p className="text-gray-700">{club.category}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500 mb-2">المشرف</p>
+                        <p className="text-gray-700">{club.supervisor}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500 mb-2">قائد النادي الحالي</p>
+                        <p className="text-gray-700">{club.currentLeader}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-sm text-gray-500 mb-2">التصنيف</p>
-                      <p className="text-gray-700">{club.category}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500 mb-2">المشرف</p>
-                      <p className="text-gray-700">{club.supervisor}</p>
-                    </div>
-                  </div>
+                  )}
                 </div>
 
                 {/* Quick Stats */}
@@ -533,25 +612,6 @@ const ClubDetails = () => {
                         <div className="flex items-center space-x-2 space-x-reverse">
                           <Clock className="h-5 w-5 text-gray-400" />
                           <span className="font-medium text-trust">{performer.hours}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Achievements */}
-                <div className="bg-white rounded-xl shadow-sm p-6">
-                  <h3 className="text-lg font-kaff text-trust mb-4">الإنجازات</h3>
-                  <div className="space-y-4">
-                    {club.achievements.map((achievement) => (
-                      <div key={achievement.id} className="flex items-start space-x-4 space-x-reverse">
-                        <div className="h-10 w-10 rounded-full bg-growth/10 flex items-center justify-center">
-                          <Trophy className="h-5 w-5 text-growth" />
-                        </div>
-                        <div>
-                          <h4 className="font-medium text-gray-900">{achievement.title}</h4>
-                          <p className="text-sm text-gray-500 mt-1">{achievement.description}</p>
-                          <p className="text-xs text-gray-400 mt-1">{achievement.date}</p>
                         </div>
                       </div>
                     ))}

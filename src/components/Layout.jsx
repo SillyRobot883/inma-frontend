@@ -15,6 +15,7 @@ import {
   UserCog
 } from 'lucide-react';
 import logo from '../assets/1-05.png';
+import { createPortal } from 'react-dom';
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -244,6 +245,9 @@ const Layout = ({ children }) => {
           </div>
         </main>
       </div>
+
+      {/* Portal container for modals */}
+      <div id="modal-root"></div>
     </div>
   );
 };

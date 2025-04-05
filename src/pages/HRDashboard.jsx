@@ -185,6 +185,24 @@ const HRDashboard = () => {
       category: 'مهمة تخدم المشاركات المجتمعية',
       attachments: ['event_photos.zip', 'photo_release.pdf'],
       comments: []
+    },
+    {
+      id: 11,
+      member: 'أحمد العبدلي',
+      title: 'تنظيم معرض المشاريع',
+      status: 'needs_info',
+      hours: '05:00:00',
+      date: '2024-03-06',
+      description: 'تنظيم معرض المشاريع السنوي للنادي',
+      category: 'مهمة تخدم برامج أو مشاريع النادي',
+      attachments: ['exhibition_plan.pdf'],
+      comments: [
+        { id: 7, user: 'خالد', text: 'الرجاء إضافة قائمة بالمشاريع المشاركة وتفاصيل كل مشروع', date: '2024-03-06 10:30' },
+        { id: 8, user: 'أحمد العبدلي', text: 'تم إضافة قائمة المشاريع وتفاصيلها في المرفقات الجديدة', date: '2024-03-06 15:45' },
+        { id: 9, user: 'خالد', text: 'شكراً على التحديث. هل يمكن إضافة صور للمشاريع أيضاً؟', date: '2024-03-06 16:20' },
+        { id: 10, user: 'أحمد العبدلي', text: 'تم إضافة صور المشاريع في المرفقات', date: '2024-03-06 17:30' }
+      ],
+      updatedAttachments: ['exhibition_plan.pdf', 'projects_list.xlsx', 'projects_photos.zip']
     }
   ];
 
@@ -427,7 +445,7 @@ const HRDashboard = () => {
                           ? 'bg-growth/10' 
                           : 'bg-trust/10'
                       } flex items-center justify-center`}>
-                        <UserCircle className={`h-6 w-6 ${
+                        <FileText className={`h-6 w-6 ${
                           submission.status === 'approved' 
                             ? 'text-growth' 
                             : 'text-trust'

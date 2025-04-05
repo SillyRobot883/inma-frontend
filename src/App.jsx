@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Toaster } from './components/ui/toaster';
 import Login from './pages/Login';
 import Clubs from './pages/Clubs';
+import ClubsSelection from './pages/ClubsSelection';
 import Dashboard from './pages/Dashboard';
 import HRDashboard from './pages/HRDashboard';
 import CollegeAdminDashboard from './pages/CollegeAdminDashboard';
@@ -29,7 +30,7 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   // For club members, check if they have access to the current club
   const hasClubAccess = user.clubs.some(club => club.id.toString() === currentClub?.id?.toString());
   if (!hasClubAccess) {
-    return <Navigate to={`/dashboard/${user.clubs[0].id}`} replace />;
+    return <Navigate to="/clubs-selection" replace />;
   }
 
   // If no specific roles are required, or user's role in current club is in allowed roles
@@ -37,8 +38,8 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
     return children;
   }
 
-  // Redirect to dashboard if user doesn't have required role
-  return <Navigate to={`/dashboard/${currentClub.id}`} replace />;
+  // Redirect to clubs selection if user doesn't have required role
+  return <Navigate to="/clubs-selection" replace />;
 };
 
 function App() {
@@ -54,10 +55,11 @@ function App() {
                 ? '/inma-dashboard'
                 : user.role === 'college_admin'
                 ? '/college-dashboard'
-                : `/dashboard/${currentClub?.id}`
+                : '/clubs-selection'
             ) : '/login'} replace />
           } />
           <Route path="/login" element={<Login />} />
+          <Route path="/clubs-selection" element={<ClubsSelection />} />
           
           {/* College Admin Routes */}
           <Route

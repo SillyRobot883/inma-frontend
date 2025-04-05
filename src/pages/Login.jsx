@@ -11,7 +11,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Dummy login - will be replaced with real API call
-    navigate('/dashboard/1');
+    navigate('/clubs-selection');
   };
 
   return (
