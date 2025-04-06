@@ -133,7 +133,7 @@ const InmaAdminDashboard = () => {
       members: 50,
       activeMembers: 40,
       totalHours: 245.0,
-      pendingTasks: 10,
+      pendingTasks: 25,
       needsInfo: 3,
       approvedTasks: 35,
       recentActivity: [
@@ -173,7 +173,7 @@ const InmaAdminDashboard = () => {
       members: 60,
       activeMembers: 45,
       totalHours: 320.0,
-      pendingTasks: 12,
+      pendingTasks: 22,
       needsInfo: 4,
       approvedTasks: 42,
       recentActivity: [
@@ -333,8 +333,8 @@ const InmaAdminDashboard = () => {
     const matchesSearch = club.name.toLowerCase().includes(searchQuery.toLowerCase());
     if (!showStrugglingOnly) return matchesSearch;
     
-    // Check if club is struggling (more than 10 pending tasks)
-    const isStruggling = club.pendingTasks > 10;
+    // Check if club is struggling (more than 20 pending tasks)
+    const isStruggling = club.pendingTasks > 20;
     
     // Check if club is inactive (no activity for 14+ days)
     const lastActivityDate = new Date(club.recentActivity[0]?.date || '');
@@ -413,7 +413,7 @@ const InmaAdminDashboard = () => {
                     const lastActivityDate = new Date(club.recentActivity[0]?.date || '');
                     const today = new Date();
                     const daysSinceLastActivity = Math.floor((today - lastActivityDate) / (1000 * 60 * 60 * 24));
-                    return club.pendingTasks > 10 || daysSinceLastActivity > 14;
+                    return club.pendingTasks > 20 || daysSinceLastActivity > 14;
                   }).length}
                 </p>
               </div>

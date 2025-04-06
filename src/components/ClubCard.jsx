@@ -5,12 +5,12 @@ const ClubCard = ({ club, onViewDetails, formatHours }) => {
 
   // for context (backend team)
 
-  // متعثر (struggling) = more than 10 pending volunteer hours submissions (tasks)
+  // متعثر (struggling) = more than 20 pending volunteer hours submissions (tasks)
   // غير نشط (inactive) = no activity for 14+ days
-  // الأندية المتعثرة: clubs with more than 10 pending tasks OR no activity for 14+ days
+  // الأندية المتعثرة: clubs with more than 20 pending tasks OR no activity for 14+ days
 
   // Calculate club status based on pending tasks
-  const isStruggling = club.pendingTasks > 10;
+  const isStruggling = club.pendingTasks > 20;
   
   // Calculate if club is inactive based on last activity
   const lastActivityDate = new Date(club.recentActivity[0]?.date || '');
