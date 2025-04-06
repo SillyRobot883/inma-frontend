@@ -210,13 +210,6 @@ const Layout = ({ children }) => {
 
             {/* Footer */}
             <div className="px-2 py-4 border-t border-white/10">
-              <Link
-                to="/settings"
-                className="flex items-center px-4 py-3 rounded-xl text-white/90 hover:bg-white/5 transition-all duration-300"
-              >
-                <Settings className="h-5 w-5 ml-3 group-hover:rotate-90 transition-transform duration-300" />
-                <span className="font-medium">الإعدادات</span>
-              </Link>
               <button
                 onClick={() => {/* Implement logout */}}
                 className="w-full flex items-center px-4 py-3 rounded-xl text-red-300 hover:bg-red-500/20 transition-all duration-300"
