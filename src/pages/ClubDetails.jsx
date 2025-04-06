@@ -195,6 +195,16 @@ const ClubDetails = () => {
     return colors[category] || 'bg-gray-100 text-gray-600';
   };
 
+  // Format date in Hijri
+  const formatHijriDate = (date) => {
+    const hijriDate = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    }).format(new Date(date));
+    return hijriDate.replace('١٤٤٥', '١٤٤٦'); // Replace 1445 with 1446
+  };
+
   // Dummy data for club details
   const club = {
     id: clubId ? parseInt(clubId) : null,
@@ -352,6 +362,10 @@ const ClubDetails = () => {
                   </span>
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-growth/10 text-growth">
                     {club.totalHours} ساعة مكتملة
+                  </span>
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-600">
+                    <Clock4 className="h-3 w-3 ml-1" />
+                    آخر نشاط: {formatHijriDate(club.recentActivity[0]?.date || '')}
                   </span>
                 </div>
               </div>

@@ -19,12 +19,14 @@ import {
   Edit2,
   Trash2,
   TrendingUp,
-  BarChart3
+  BarChart3,
+  AlertTriangle
 } from 'lucide-react';
 
 const InmaAdminDashboard = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
+  const [showStrugglingOnly, setShowStrugglingOnly] = useState(false);
 
   // Format hours to Hrs:Mins:Secs
   const formatHours = (hours) => {
@@ -53,7 +55,7 @@ const InmaAdminDashboard = () => {
           member: 'فهد السالم',
           status: 'pending',
           hours: '04:00',
-          date: '2024-03-16'
+          date: '2025-04-05'
         },
         {
           id: 2,
@@ -61,7 +63,7 @@ const InmaAdminDashboard = () => {
           member: 'نورة العتيبي',
           status: 'approved',
           hours: '02:30',
-          date: '2024-03-15'
+          date: '2025-04-04'
         }
       ]
     },
@@ -81,7 +83,7 @@ const InmaAdminDashboard = () => {
           member: 'عبدالله محمد',
           status: 'needs_info',
           hours: '03:00',
-          date: '2024-03-14'
+          date: '2025-04-03'
         }
       ]
     },
@@ -101,7 +103,7 @@ const InmaAdminDashboard = () => {
           member: 'سارة أحمد',
           status: 'approved',
           hours: '05:00',
-          date: '2024-03-13'
+          date: '2025-04-02'
         }
       ]
     },
@@ -121,7 +123,7 @@ const InmaAdminDashboard = () => {
           member: 'محمد علي',
           status: 'pending',
           hours: '03:30',
-          date: '2024-03-12'
+          date: '2025-04-01'
         }
       ]
     },
@@ -141,7 +143,7 @@ const InmaAdminDashboard = () => {
           member: 'ليلى محمد',
           status: 'approved',
           hours: '06:00',
-          date: '2024-03-11'
+          date: '2025-03-31'
         }
       ]
     },
@@ -161,7 +163,7 @@ const InmaAdminDashboard = () => {
           member: 'أحمد خالد',
           status: 'approved',
           hours: '02:00',
-          date: '2024-03-10'
+          date: '2025-03-30'
         }
       ]
     },
@@ -181,7 +183,7 @@ const InmaAdminDashboard = () => {
           member: 'عمر سعد',
           status: 'pending',
           hours: '04:30',
-          date: '2024-03-09'
+          date: '2025-03-29'
         }
       ]
     },
@@ -201,7 +203,7 @@ const InmaAdminDashboard = () => {
           member: 'نور سارة',
           status: 'approved',
           hours: '05:00',
-          date: '2024-03-08'
+          date: '2025-03-28'
         }
       ]
     },
@@ -221,7 +223,7 @@ const InmaAdminDashboard = () => {
           member: 'فاطمة أحمد',
           status: 'pending',
           hours: '03:00',
-          date: '2024-03-07'
+          date: '2025-03-27'
         }
       ]
     },
@@ -241,7 +243,7 @@ const InmaAdminDashboard = () => {
           member: 'خالد محمد',
           status: 'approved',
           hours: '04:00',
-          date: '2024-03-06'
+          date: '2025-03-26'
         }
       ]
     },
@@ -261,7 +263,7 @@ const InmaAdminDashboard = () => {
           member: 'سلمى أحمد',
           status: 'pending',
           hours: '03:30',
-          date: '2024-03-05'
+          date: '2025-03-15'
         }
       ]
     },
@@ -281,7 +283,7 @@ const InmaAdminDashboard = () => {
           member: 'عبدالله سعد',
           status: 'approved',
           hours: '06:00',
-          date: '2024-03-04'
+          date: '2025-03-10'
         }
       ]
     }
@@ -326,9 +328,22 @@ const InmaAdminDashboard = () => {
     }
   };
 
-  const filteredClubs = clubs.filter(club => 
-    club.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Filter clubs based on search and struggling status
+  const filteredClubs = clubs.filter(club => {
+    const matchesSearch = club.name.toLowerCase().includes(searchQuery.toLowerCase());
+    if (!showStrugglingOnly) return matchesSearch;
+    
+    // Check if club is struggling (more than 10 pending tasks)
+    const isStruggling = club.pendingTasks > 10;
+    
+    // Check if club is inactive (no activity for 14+ days)
+    const lastActivityDate = new Date(club.recentActivity[0]?.date || '');
+    const today = new Date();
+    const daysSinceLastActivity = Math.floor((today - lastActivityDate) / (1000 * 60 * 60 * 24));
+    const isInactive = daysSinceLastActivity > 14;
+    
+    return matchesSearch && (isStruggling || isInactive);
+  });
 
   return (
     <AdminLayout isInmaAdmin={true}>
@@ -392,13 +407,18 @@ const InmaAdminDashboard = () => {
           <div className="bg-white rounded-xl shadow-sm p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-500">الساعات المعلقة</p>
+                <p className="text-sm text-gray-500">الأندية المتعثرة</p>
                 <p className="text-2xl font-medium text-yellow-600 mt-1">
-                  {clubs.reduce((acc, club) => acc + club.pendingTasks, 0)}
+                  {clubs.filter(club => {
+                    const lastActivityDate = new Date(club.recentActivity[0]?.date || '');
+                    const today = new Date();
+                    const daysSinceLastActivity = Math.floor((today - lastActivityDate) / (1000 * 60 * 60 * 24));
+                    return club.pendingTasks > 10 || daysSinceLastActivity > 14;
+                  }).length}
                 </p>
               </div>
               <div className="bg-yellow-100 rounded-full p-3">
-                <AlertCircle className="h-6 w-6 text-yellow-600" />
+                <AlertTriangle className="h-6 w-6 text-yellow-600" />
               </div>
             </div>
           </div>
@@ -419,9 +439,14 @@ const InmaAdminDashboard = () => {
                   className="pl-10 pr-12 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust w-64"
                 />
               </div>
-              <button className="btn-secondary">
-                <Filter className="h-5 w-5 ml-2" />
-                تصفية
+              <button 
+                onClick={() => setShowStrugglingOnly(!showStrugglingOnly)}
+                className={`btn-secondary flex items-center ${
+                  showStrugglingOnly ? 'bg-yellow-100 text-yellow-800' : ''
+                }`}
+              >
+                <AlertTriangle className="h-5 w-5 ml-2" />
+                {showStrugglingOnly ? 'عرض الكل' : 'عرض المتعثرة فقط'}
               </button>
             </div>
           </div>
