@@ -253,7 +253,7 @@ const CollegeAdminDashboard = () => {
       members: 35,
       activeMembers: 28,
       totalHours: 120.0,
-      pendingTasks: 6,
+      pendingTasks: 38,
       needsInfo: 2,
       approvedTasks: 18,
       recentActivity: [
