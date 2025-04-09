@@ -54,7 +54,18 @@ const ClubDetails = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedClub, setEditedClub] = useState(null);
+  const [editedClub, setEditedClub] = useState({
+    name: '',
+    description: '',
+    establishmentDate: '',
+    category: 'عام',
+    supervisor: '',
+    supervisorPhone: '',
+    currentLeader: '',
+    leaderPhone: '',
+    leaderEmail: '',
+    logo: null
+  });
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [deleteStep, setDeleteStep] = useState(1);
   const [deleteConfirmation, setDeleteConfirmation] = useState('');
@@ -80,7 +91,11 @@ const ClubDetails = () => {
         establishmentDate: club.establishmentDate,
         category: club.category,
         supervisor: club.supervisor,
-        currentLeader: club.currentLeader || 'محمد عبدالله السالم' // Add current leader
+        currentLeader: club.currentLeader,
+        supervisorPhone: club.supervisorPhone || '',
+        leaderPhone: club.leaderPhone || '',
+        leaderEmail: club.leaderEmail || '',
+        logo: club.logo
       });
       setIsLoading(false);
     } catch (err) {
@@ -90,12 +105,17 @@ const ClubDetails = () => {
   }, [clubId]);
 
   const handleEditClub = () => {
-    setIsEditing(true);
-    setActiveTab('overview');
+    if (isEditing) {
+      handleCancelEdit();
+    } else {
+      setIsEditing(true);
+      setActiveTab('overview');
+    }
   };
 
   const handleSaveEdit = () => {
-    // an API call to save the changes
+    // Here you would typically make an API call to save the changes
+    // For now, we'll just update the local state
     setClub(prev => ({
       ...prev,
       name: editedClub.name,
@@ -103,8 +123,16 @@ const ClubDetails = () => {
       establishmentDate: editedClub.establishmentDate,
       category: editedClub.category,
       supervisor: editedClub.supervisor,
-      currentLeader: editedClub.currentLeader
+      currentLeader: editedClub.currentLeader,
+      supervisorPhone: editedClub.supervisorPhone,
+      leaderPhone: editedClub.leaderPhone,
+      leaderEmail: editedClub.leaderEmail,
+      logo: editedClub.logo
     }));
+    
+    // Show success message or notification here
+    
+    // Exit edit mode
     setIsEditing(false);
   };
 
@@ -117,7 +145,11 @@ const ClubDetails = () => {
       establishmentDate: club.establishmentDate,
       category: club.category,
       supervisor: club.supervisor,
-      currentLeader: club.currentLeader
+      currentLeader: club.currentLeader,
+      supervisorPhone: club.supervisorPhone || '',
+      leaderPhone: club.leaderPhone || '',
+      leaderEmail: club.leaderEmail || '',
+      logo: club.logo
     });
   };
 
@@ -238,9 +270,12 @@ const ClubDetails = () => {
     logo: clubId ? `/src/assets/club-${clubId}.png` : '/src/assets/1-06.png',
     description: 'نادي التطوير هو نادي طلابي يهدف إلى تطوير مهارات الطلاب في مجال التطوير البرمجي وتنظيم الفعاليات التقنية.',
     establishmentDate: '2023-01-15',
-    category: 'تقني',
+    category: 'عام',
     supervisor: 'د. أحمد محمد',
-    currentLeader: 'محمد عبدالله السالم', // Add current leader
+    supervisorPhone: '0501234567',
+    currentLeader: 'محمد عبدالله السالم',
+    leaderPhone: '0507654321',
+    leaderEmail: 'mohammed.salem@sm.imamu.edu.sa',
     members: 45,
     activeMembers: 32,
     totalHours: '156:30:00',
@@ -361,27 +396,75 @@ const ClubDetails = () => {
         </button>
 
         {/* Club Header */}
-        <div className="bg-gradient-to-r from-trust/5 to-trust/10 rounded-xl shadow-sm p-8 transition-all duration-300 hover:shadow-md">
+        <div className={`bg-gradient-to-r from-trust/5 to-trust/10 rounded-xl shadow-sm p-8 transition-all duration-300 hover:shadow-md ${isEditing ? 'ring-2 ring-trust ring-opacity-50' : ''}`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6 space-x-reverse">
               <div className="relative">
-                <div className="h-20 w-20 rounded-xl shadow-md ring-2 ring-trust/20 overflow-hidden">
-                  <img
-                    className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-                    src={club.logo}
-                    alt={club.name}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = '/src/assets/1-06.png';
-                    }}
-                  />
-                </div>
-                <div className="absolute -bottom-2 -right-2 bg-trust/10 rounded-full p-1.5">
-                  <Building2 className="h-4 w-4 text-trust" />
-                </div>
+                {isEditing ? (
+                  <div className="relative">
+                    <div className="h-20 w-20 rounded-xl shadow-md ring-2 ring-trust overflow-hidden relative group">
+                      <img
+                        className="h-full w-full object-cover transition-transform duration-300 group-hover:opacity-50"
+                        src={editedClub.logo || club.logo}
+                        alt={editedClub.name || club.name}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = '/src/assets/1-06.png';
+                        }}
+                      />
+                      <label className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                        <Upload className="h-6 w-6 text-white" />
+                        <input
+                          type="file"
+                          className="hidden"
+                          accept="image/*"
+                          onChange={(e) => {
+                            const file = e.target.files[0];
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.onloadend = () => {
+                                setEditedClub(prev => ({ ...prev, logo: reader.result }));
+                              };
+                              reader.readAsDataURL(file);
+                            }
+                          }}
+                        />
+                      </label>
+                    </div>
+                    <div className="absolute top-0 right-0 bg-trust text-white text-xs px-2 py-1 rounded-bl-lg">
+                      تعديل
+                    </div>
+                  </div>
+                ) : (
+                  <div className="h-20 w-20 rounded-xl shadow-md ring-2 ring-trust/20 overflow-hidden">
+                    <img
+                      className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                      src={club.logo}
+                      alt={club.name}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = '/src/assets/1-06.png';
+                      }}
+                    />
+                  </div>
+                )}
               </div>
               <div>
-                <h2 className="text-3xl font-kaff font-bold text-trust mb-1">{club.name}</h2>
+                {isEditing ? (
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={editedClub.name}
+                      onChange={(e) => setEditedClub(prev => ({ ...prev, name: e.target.value }))}
+                      className="text-3xl font-kaff font-bold text-trust mb-1 w-full bg-transparent border-b-2 border-trust focus:outline-none focus:border-trust pr-16"
+                    />
+                    <div className="absolute top-0 right-0 bg-trust text-white text-xs px-2 py-1 rounded-bl-lg">
+                      تعديل
+                    </div>
+                  </div>
+                ) : (
+                  <h2 className="text-3xl font-kaff font-bold text-trust mb-1">{club.name}</h2>
+                )}
                 <div className="flex items-center space-x-2 space-x-reverse mt-2">
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-trust/10 text-trust">
                     {club.activeMembers} عضو نشط
@@ -400,8 +483,12 @@ const ClubDetails = () => {
               {isInmaAdmin && (
                 <>
                   <button
-                    onClick={() => setIsEditing(!isEditing)}
-                    className="btn-secondary"
+                    onClick={handleEditClub}
+                    className={`flex items-center justify-center px-4 py-2 rounded-lg transition-colors duration-200 ${
+                      isEditing 
+                        ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' 
+                        : 'bg-trust/10 text-trust hover:bg-trust/20'
+                    }`}
                   >
                     <Edit2 className="h-5 w-5 ml-2" />
                     {isEditing ? 'إلغاء التعديل' : 'تعديل'}
@@ -459,234 +546,181 @@ const ClubDetails = () => {
           <div className="p-6">
             {activeTab === 'overview' && (
               <div className="space-y-8">
-                {/* Club Info */}
-                <div className="bg-gray-50 rounded-xl p-6">
-                  <h3 className="text-lg font-kaff text-trust mb-4">معلومات النادي</h3>
-                  {isEditing ? (
-                    <div className="space-y-6">
-                      {/* Club Name */}
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          اسم النادي <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          value={editedClub.name}
-                          onChange={(e) => setEditedClub({ ...editedClub, name: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
-                          required
-                        />
+                {/* Combined Edit Box */}
+                <div className={`bg-white rounded-xl p-6 shadow-sm ${isEditing ? 'ring-2 ring-trust ring-opacity-50' : ''}`}>
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center space-x-3 space-x-reverse">
+                      <div className="bg-trust/10 rounded-full p-2">
+                        <Building2 className="h-5 w-5 text-trust" />
                       </div>
-
-                      {/* Club Description */}
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          وصف النادي
-                        </label>
-                        <textarea
-                          value={editedClub.description}
-                          onChange={(e) => setEditedClub({ ...editedClub, description: e.target.value })}
-                          rows={4}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
-                          placeholder="أدخل وصفاً مختصراً عن النادي وأهدافه"
-                        />
-                      </div>
-
-                      {/* Club Logo */}
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          شعار النادي
-                        </label>
-                        <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-trust/50 transition-colors">
-                          <div className="space-y-1 text-center">
-                            {editedClub.logo ? (
-                              <div className="relative">
-                                <img
-                                  src={editedClub.logo}
-                                  alt="Club logo preview"
-                                  className="mx-auto h-32 w-32 object-cover rounded-lg"
-                                />
-                                <button
-                                  type="button"
-                                  onClick={() => setEditedClub({ ...editedClub, logo: null })}
-                                  className="absolute -top-2 -right-2 bg-red-100 rounded-full p-1 text-red-600 hover:bg-red-200"
-                                >
-                                  <X className="h-4 w-4" />
-                                </button>
-                              </div>
-                            ) : (
-                              <>
-                                <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                                <div className="flex text-sm text-gray-600">
-                                  <label className="relative cursor-pointer bg-white rounded-md font-medium text-trust hover:text-trust-dark focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-trust">
-                                    <span>رفع صورة</span>
-                                    <input
-                                      type="file"
-                                      className="sr-only"
-                                      accept="image/*"
-                                      onChange={(e) => {
-                                        const file = e.target.files[0];
-                                        if (file) {
-                                          const reader = new FileReader();
-                                          reader.onloadend = () => {
-                                            setEditedClub({ ...editedClub, logo: reader.result });
-                                          };
-                                          reader.readAsDataURL(file);
-                                        }
-                                      }}
-                                    />
-                                  </label>
-                                </div>
-                                <p className="text-xs text-gray-500">PNG, JPG, GIF حتى 10MB</p>
-                              </>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Club Category */}
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          تصنيف النادي <span className="text-red-500">*</span>
-                        </label>
-                        <select
-                          value={editedClub.category}
-                          onChange={(e) => setEditedClub({ ...editedClub, category: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
-                          required
-                        >
-                          <option value="عام">عام</option>
-                          <option value="تخصصي">تخصصي</option>
-                        </select>
-                      </div>
-
-                      {/* Foundation Date */}
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          تاريخ التأسيس
-                        </label>
-                        <input
-                          type="date"
-                          value={editedClub.establishmentDate}
-                          onChange={(e) => setEditedClub({ ...editedClub, establishmentDate: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
-                        />
-                      </div>
-
-                      {/* Supervisor Information */}
-                      <div className="border-t border-gray-200 pt-4">
-                        <h4 className="text-md font-medium text-gray-900 mb-3">معلومات المشرف</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              اسم المشرف <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              value={editedClub.supervisor}
-                              onChange={(e) => setEditedClub({ ...editedClub, supervisor: e.target.value })}
-                              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
-                              required
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              رقم هاتف المشرف <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                              type="tel"
-                              value={editedClub.supervisorPhone || ''}
-                              onChange={(e) => setEditedClub({ ...editedClub, supervisorPhone: e.target.value })}
-                              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
-                              required
-                              placeholder="05xxxxxxxx"
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Club Leader Information */}
-                      <div className="border-t border-gray-200 pt-4">
-                        <h4 className="text-md font-medium text-gray-900 mb-3">معلومات قائد النادي</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              اسم قائد النادي <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              value={editedClub.currentLeader}
-                              onChange={(e) => setEditedClub({ ...editedClub, currentLeader: e.target.value })}
-                              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
-                              required
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              رقم هاتف قائد النادي <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                              type="tel"
-                              value={editedClub.leaderPhone || ''}
-                              onChange={(e) => setEditedClub({ ...editedClub, leaderPhone: e.target.value })}
-                              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
-                              required
-                              placeholder="05xxxxxxxx"
-                            />
-                          </div>
-                          <div className="md:col-span-2">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              البريد الإلكتروني الجامعي <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                              type="email"
-                              value={editedClub.leaderEmail || ''}
-                              onChange={(e) => setEditedClub({ ...editedClub, leaderEmail: e.target.value })}
-                              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
-                              required
-                              placeholder="example@university.edu.sa"
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex justify-end space-x-3 space-x-reverse pt-4 border-t border-gray-200">
-                        <button
-                          onClick={handleCancelEdit}
-                          className="btn-secondary"
-                        >
-                          إلغاء
-                        </button>
-                        <button
-                          onClick={handleSaveEdit}
-                          className="btn-primary"
-                        >
-                          حفظ التغييرات
-                        </button>
-                      </div>
+                      <h4 className="text-lg font-medium text-gray-900">معلومات النادي</h4>
                     </div>
-                  ) : (
+                    {isEditing && (
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-trust text-white">
+                        <Edit2 className="h-3 w-3 ml-1" />
+                        وضع التعديل
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Basic Information */}
+                  <div className="mb-8">
+                    <h5 className="text-md font-medium text-gray-700 mb-4">المعلومات الأساسية</h5>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <p className="text-sm text-gray-500 mb-2">الوصف</p>
-                        <p className="text-gray-700">{club.description}</p>
+                        {isEditing ? (
+                          <textarea
+                            value={editedClub.description}
+                            onChange={(e) => setEditedClub(prev => ({ ...prev, description: e.target.value }))}
+                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            rows={3}
+                          />
+                        ) : (
+                          <p className="text-gray-700">{club.description}</p>
+                        )}
                       </div>
                       <div>
                         <p className="text-sm text-gray-500 mb-2">تاريخ التأسيس</p>
-                        <p className="text-gray-700">{club.establishmentDate}</p>
+                        {isEditing ? (
+                          <input
+                            type="date"
+                            value={editedClub.establishmentDate}
+                            onChange={(e) => setEditedClub(prev => ({ ...prev, establishmentDate: e.target.value }))}
+                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                          />
+                        ) : (
+                          <p className="text-gray-700">{club.establishmentDate}</p>
+                        )}
                       </div>
                       <div>
                         <p className="text-sm text-gray-500 mb-2">التصنيف</p>
-                        <p className="text-gray-700">{club.category}</p>
+                        {isEditing ? (
+                          <select
+                            value={editedClub.category}
+                            onChange={(e) => setEditedClub(prev => ({ ...prev, category: e.target.value }))}
+                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                          >
+                            <option value="عام">عام</option>
+                            <option value="تخصصي">تخصصي</option>
+                          </select>
+                        ) : (
+                          <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-trust/10 text-trust">
+                            {club.category}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Supervisor Information */}
+                  <div className="mb-8">
+                    <h5 className="text-md font-medium text-gray-700 mb-4">معلومات المشرف</h5>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <p className="text-sm text-gray-500 mb-2">اسم المشرف</p>
+                        {isEditing ? (
+                          <input
+                            type="text"
+                            value={editedClub.supervisor}
+                            onChange={(e) => setEditedClub(prev => ({ ...prev, supervisor: e.target.value }))}
+                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                          />
+                        ) : (
+                          <p className="text-gray-700">{club.supervisor}</p>
+                        )}
                       </div>
                       <div>
-                        <p className="text-sm text-gray-500 mb-2">المشرف</p>
-                        <p className="text-gray-700">{club.supervisor}</p>
+                        <p className="text-sm text-gray-500 mb-2">رقم الهاتف</p>
+                        {isEditing ? (
+                          <input
+                            type="tel"
+                            value={editedClub.supervisorPhone}
+                            onChange={(e) => setEditedClub(prev => ({ ...prev, supervisorPhone: e.target.value }))}
+                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            placeholder="05xxxxxxxx"
+                            pattern="[0-9]{10}"
+                          />
+                        ) : (
+                          <div className="flex items-center space-x-2 space-x-reverse">
+                            <Phone className="h-4 w-4 text-gray-400" />
+                            <p className="text-gray-700">{club.supervisorPhone}</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Club Leader Information */}
+                  <div className="mb-8">
+                    <h5 className="text-md font-medium text-gray-700 mb-4">معلومات قائد النادي</h5>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <p className="text-sm text-gray-500 mb-2">اسم قائد النادي</p>
+                        {isEditing ? (
+                          <input
+                            type="text"
+                            value={editedClub.currentLeader}
+                            onChange={(e) => setEditedClub(prev => ({ ...prev, currentLeader: e.target.value }))}
+                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                          />
+                        ) : (
+                          <p className="text-gray-700">{club.currentLeader}</p>
+                        )}
                       </div>
                       <div>
-                        <p className="text-sm text-gray-500 mb-2">قائد النادي الحالي</p>
-                        <p className="text-gray-700">{club.currentLeader}</p>
+                        <p className="text-sm text-gray-500 mb-2">رقم الهاتف</p>
+                        {isEditing ? (
+                          <input
+                            type="tel"
+                            value={editedClub.leaderPhone}
+                            onChange={(e) => setEditedClub(prev => ({ ...prev, leaderPhone: e.target.value }))}
+                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            placeholder="05xxxxxxxx"
+                            pattern="[0-9]{10}"
+                          />
+                        ) : (
+                          <div className="flex items-center space-x-2 space-x-reverse">
+                            <Phone className="h-4 w-4 text-gray-400" />
+                            <p className="text-gray-700">{club.leaderPhone}</p>
+                          </div>
+                        )}
                       </div>
+                      <div className="md:col-span-2">
+                        <p className="text-sm text-gray-500 mb-2">البريد الإلكتروني</p>
+                        {isEditing ? (
+                          <input
+                            type="email"
+                            value={editedClub.leaderEmail}
+                            onChange={(e) => setEditedClub(prev => ({ ...prev, leaderEmail: e.target.value }))}
+                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            placeholder="example@sm.imamu.edu.sa"
+                          />
+                        ) : (
+                          <div className="flex items-center space-x-2 space-x-reverse">
+                            <Mail className="h-4 w-4 text-gray-400" />
+                            <p className="text-gray-700">{club.leaderEmail}</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Edit Actions */}
+                  {isEditing && (
+                    <div className="flex justify-end space-x-3 space-x-reverse mt-6 pt-6 border-t border-gray-100">
+                      <button
+                        onClick={handleCancelEdit}
+                        className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                      >
+                        إلغاء
+                      </button>
+                      <button
+                        onClick={handleSaveEdit}
+                        className="px-4 py-2 bg-trust text-white rounded-lg hover:bg-trust-dark transition-colors"
+                      >
+                        حفظ التغييرات
+                      </button>
                     </div>
                   )}
                 </div>
@@ -1304,6 +1338,7 @@ const ClubDetails = () => {
                           onClick={() => setDeleteStep(2)}
                           className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
                         >
+                          <Trash2 className="h-5 w-5 ml-2" />
                           متابعة
                         </button>
                       </div>
@@ -1343,7 +1378,8 @@ const ClubDetails = () => {
                           className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                           disabled={deleteConfirmation !== club.name}
                         >
-                          متابعة
+                          <Trash2 className="h-5 w-5 ml-2" />
+                          تأكيد الحذف
                         </button>
                       </div>
                     </div>
