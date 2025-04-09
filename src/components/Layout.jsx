@@ -78,7 +78,7 @@ const Layout = ({ children }) => {
       case 'hr':
         return 'موارد بشرية';
       case 'leader':
-        return 'مشرف نادي';
+        return  'قائد نادي';
       default:
         return 'عضو';
     }
