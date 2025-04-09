@@ -356,6 +356,45 @@ const ClubDetails = () => {
     return matchesStatus && matchesSearch;
   });
 
+  const renderClubStatus = () => {
+    // Calculate struggling criteria
+    const memberEngagement = club.activeMembers > 0 ? club.engagementScore / club.activeMembers : 0;
+    const pendingTasksRatio = club.activeMembers > 0 ? club.pendingTasks / club.activeMembers : 0;
+    
+    const lastActivityDate = new Date(club.recentActivity[0]?.date || '');
+    const today = new Date();
+    const daysSinceLastActivity = Math.floor((today - lastActivityDate) / (1000 * 60 * 60 * 24));
+    
+    const isStruggling = memberEngagement < 0.6 || pendingTasksRatio > 0.3 || daysSinceLastActivity > 7;
+    
+    if (isStruggling) {
+      return (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+          <h3 className="text-red-800 font-semibold mb-2">Club Needs Attention</h3>
+          <ul className="space-y-2">
+            {memberEngagement < 0.6 && (
+              <li className="text-red-700">
+                • Low member engagement: {Math.round(memberEngagement * 100)}% (target: 60%)
+              </li>
+            )}
+            {pendingTasksRatio > 0.3 && (
+              <li className="text-red-700">
+                • High pending tasks ratio: {Math.round(pendingTasksRatio * 100)}% (target: 30%)
+              </li>
+            )}
+            {daysSinceLastActivity > 7 && (
+              <li className="text-red-700">
+                • No activity for {daysSinceLastActivity} days
+              </li>
+            )}
+          </ul>
+        </div>
+      );
+    }
+    
+    return null;
+  };
+
   if (isLoading) {
     return (
       <AdminLayout isInmaAdmin={isInmaAdmin}>
@@ -823,6 +862,8 @@ const ClubDetails = () => {
                     ))}
                   </div>
                 </div>
+
+                {renderClubStatus()}
               </div>
             )}
 
