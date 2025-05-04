@@ -214,6 +214,7 @@ const MemberManagement = () => {
   // New member form state
   const [newMember, setNewMember] = useState({
     name: "",
+    idNumber: "",
     studentId: "",
     email: "",
     phone: "",
@@ -224,6 +225,7 @@ const MemberManagement = () => {
     hours: "00",
     minutes: "00",
     seconds: "00",
+    status: "active",
   })
 
   // تحسين دالة formatTimeFromDecimal لتكون أكثر دقة
@@ -257,6 +259,28 @@ const MemberManagement = () => {
         return "bg-growth text-white"
       case "member":
         return "bg-excellence text-white"
+      default:
+        return "bg-gray-100 text-gray-800"
+    }
+  }
+
+  const getStatusText = (status) => {
+    switch (status) {
+      case "active":
+        return "منتسب"
+      case "inactive":
+        return "منسحب"
+      default:
+        return ""
+    }
+  }
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "active":
+        return "bg-growth text-white"
+      case "inactive":
+        return "bg-red-500 text-white"
       default:
         return "bg-gray-100 text-gray-800"
     }
@@ -329,30 +353,45 @@ const MemberManagement = () => {
 
   const handleAddMember = (e) => {
     e.preventDefault()
-    // Format time as HH:MM:SS
-    const formattedTime = `${newMember.hours.padStart(2, "0")}:${newMember.minutes.padStart(2, "0")}:${newMember.seconds.padStart(2, "0")}`
-    console.log({ ...newMember, totalHours: formattedTime })
-    setShowAddMemberModal(false)
-    // Reset form
+    if (!newMember.name || !newMember.idNumber) {
+      alert("الرجاء إدخال اسم العضو ورقم الهوية")
+      return
+    }
+    const member = {
+      id: Date.now(),
+      name: newMember.name,
+      idNumber: newMember.idNumber,
+      role: newMember.role,
+      engagement: newMember.engagement,
+      totalHours: "00:00:00",
+      completedTasks: 0,
+      pendingTasks: 0,
+    }
+    setMembers([...members, member])
     setNewMember({
       name: "",
-      studentId: "",
-      email: "",
-      phone: "",
+      idNumber: "",
       role: "member",
-      committee: "",
-      major: "",
-      level: "",
-      hours: "00",
-      minutes: "00",
-      seconds: "00",
+      engagement: "active",
     })
   }
 
   const handleDeleteMember = (memberId) => {
-    // Here you would typically make an API call to delete the member
-    console.log("Deleting member with ID:", memberId)
-    setShowDeleteConfirmation(null)
+    const member = members.find((m) => m.id === memberId)
+
+    if (member && member.pendingTasks > 0) {
+      // If member has pending tasks, change status to inactive
+      console.log("Member has pending tasks, changing status to inactive:", memberId)
+      // Here you would typically make an API call to update the member status
+      setShowDeleteConfirmation(null)
+      // Show a notification to the user
+      alert("تم تغيير حالة العضو إلى منسحب لوجود ساعات معلقة")
+    } else {
+      // If no pending tasks, delete the member
+      console.log("Deleting member with ID:", memberId)
+      // Here you would typically make an API call to delete the member
+      setShowDeleteConfirmation(null)
+    }
   }
 
   return (
@@ -485,6 +524,12 @@ const MemberManagement = () => {
                     scope="col"
                     className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
+                    الحالة
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
                     اللجنة
                   </th>
                   <th
@@ -566,6 +611,13 @@ const MemberManagement = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
+                      <span
+                        className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(member.status || "active")}`}
+                      >
+                        {getStatusText(member.status || "active")}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">{member.committee}</div>
                     </td>
                     {/* تحسين عرض الساعات في جدول الأعضاء */}
@@ -641,10 +693,20 @@ const MemberManagement = () => {
                     <label className="block text-sm font-medium text-gray-700 mb-1">اسم العضو</label>
                     <input
                       type="text"
+                      placeholder="اسم العضو"
                       value={newMember.name}
                       onChange={(e) => setNewMember({ ...newMember, name: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-trust focus:border-trust"
-                      required
+                      className="input-field"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">رقم الهوية</label>
+                    <input
+                      type="text"
+                      placeholder="رقم الهوية"
+                      value={newMember.idNumber}
+                      onChange={(e) => setNewMember({ ...newMember, idNumber: e.target.value })}
+                      className="input-field"
                     />
                   </div>
                   <div>
@@ -691,6 +753,18 @@ const MemberManagement = () => {
                     </select>
                   </div>
                   <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">الحالة</label>
+                    <select
+                      value={newMember.status}
+                      onChange={(e) => setNewMember({ ...newMember, status: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-trust focus:border-trust"
+                      required
+                    >
+                      <option value="active">منتسب (Active)</option>
+                      <option value="inactive">منسحب (Inactive)</option>
+                    </select>
+                  </div>
+                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">اللجنة</label>
                     <select
                       value={newMember.committee}
@@ -702,7 +776,7 @@ const MemberManagement = () => {
                       <option value="لجنة البرامج والفعاليات">لجنة البرامج والفعاليات</option>
                       <option value="لجنة الموارد البشرية">لجنة الموارد البشرية</option>
                       <option value="لجنة التسويق والإعلام">لجنة التسويق والإعلام</option>
-                      <option value="لجنة التطوير التقن��">لجنة التطوير التقني</option>
+                      <option value="لجنة التطوير التقني">لجنة التطوير التقني</option>
                     </select>
                   </div>
                   <div>
@@ -803,23 +877,46 @@ const MemberManagement = () => {
                   <AlertTriangle className="h-8 w-8 text-red-500" />
                 </div>
               </div>
-              <p className="text-center text-gray-700 mb-6">
-                هل أنت متأكد من رغبتك في حذف العضو{" "}
-                <span className="font-bold text-trust">{showDeleteConfirmation.name}</span>؟ لا يمكن التراجع عن هذا
-                الإجراء.
-              </p>
-              <div className="flex justify-center space-x-3 space-x-reverse">
-                <button onClick={() => setShowDeleteConfirmation(null)} className="btn-secondary">
-                  إلغاء
-                </button>
-                <button
-                  onClick={() => handleDeleteMember(showDeleteConfirmation.id)}
-                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition-colors"
-                >
-                  <Trash2 className="h-5 w-5 ml-2 inline-block" />
-                  تأكيد الحذف
-                </button>
-              </div>
+              {showDeleteConfirmation.pendingTasks > 0 ? (
+                <div>
+                  <p className="text-center text-gray-700 mb-6">
+                    العضو <span className="font-bold text-trust">{showDeleteConfirmation.name}</span> لديه ساعات معلقة.
+                    سيتم تغيير حالته إلى منسحب حتى الانتهاء منها.
+                  </p>
+                  <div className="flex justify-center space-x-3 space-x-reverse">
+                    <button onClick={() => setShowDeleteConfirmation(null)} className="btn-secondary">
+                      إلغاء
+                    </button>
+                    <button
+                      onClick={() => handleDeleteMember(showDeleteConfirmation.id)}
+                      className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
+                    >
+                      <UserX className="h-5 w-5 ml-2 inline-block" />
+                      تغيير الحالة إلى منسحب
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <p className="text-center text-gray-700 mb-6">
+                    هل أنت متأكد من رغبتك في حذف العضو{" "}
+                    <span className="font-bold text-trust">{showDeleteConfirmation.name}</span>؟ لا يمكن التراجع عن هذا
+                    الإجراء.
+                  </p>
+                  <div className="flex justify-center space-x-3 space-x-reverse">
+                    <button onClick={() => setShowDeleteConfirmation(null)} className="btn-secondary">
+                      إلغاء
+                    </button>
+                    <button
+                      onClick={() => handleDeleteMember(showDeleteConfirmation.id)}
+                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition-colors"
+                    >
+                      <Trash2 className="h-5 w-5 ml-2 inline-block" />
+                      تأكيد الحذف
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -908,6 +1005,19 @@ const MemberManagement = () => {
                       <div>
                         <p className="text-sm text-gray-500">التخصص</p>
                         <p className="font-medium">{showMemberDetails.major}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-3 space-x-reverse">
+                      <div className="bg-trust/10 p-2 rounded-full">
+                        <UserCog className="h-5 w-5 text-trust" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500">الحالة</p>
+                        <span
+                          className={`mt-1 px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(showMemberDetails.status || "active")}`}
+                        >
+                          {getStatusText(showMemberDetails.status || "active")}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -1041,4 +1151,3 @@ const MemberManagement = () => {
 }
 
 export default MemberManagement
-

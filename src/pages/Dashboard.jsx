@@ -1,10 +1,13 @@
-import { useParams } from 'react-router-dom';
-import Layout from '../components/Layout';
-import { useAuth } from '../context/AuthContext';
-import { 
-  Clock, 
-  CheckCircle2, 
-  AlertCircle, 
+"use client"
+
+import { useParams } from "react-router-dom"
+import Layout from "../components/Layout"
+import { useAuth } from "../context/AuthContext"
+import { useState } from "react"
+import {
+  Clock,
+  CheckCircle2,
+  AlertCircle,
   Users,
   Timer,
   Activity,
@@ -14,80 +17,71 @@ import {
   Building2,
   TrendingUp,
   BarChart3,
-  Calendar
-} from 'lucide-react';
+  Calendar,
+  X,
+  AlertTriangle,
+} from "lucide-react"
 
 const Dashboard = () => {
-  const { clubId } = useParams();
-  const { user, currentClub } = useAuth();
-  const isAdmin = currentClub?.role === 'leader' || currentClub?.role === 'hr';
+  const { clubId } = useParams()
+  const { user, currentClub } = useAuth()
+  const isAdmin = currentClub?.role === "leader" || currentClub?.role === "hr"
+  const [showWithdrawalModal, setShowWithdrawalModal] = useState(false)
 
   // Dummy data for member stats
   const memberStats = {
     completedTasks: 15,
-    totalHours: '45:30',
+    totalHours: "45:30",
     pendingTasks: 3,
     recentActivity: [
       {
         id: 1,
-        title: 'تنظيم ورشة عمل Git',
-        status: 'approved',
-        hours: '03:00',
-        date: '2024-03-15'
+        title: "تنظيم ورشة عمل Git",
+        status: "approved",
+        hours: "03:00",
+        date: "2024-03-15",
       },
       {
         id: 2,
-        title: 'إعداد محتوى تدريبي',
-        status: 'pending',
-        hours: '02:30',
-        date: '2024-03-14'
-      }
-    ]
-  };
-
-  // Additional stats for admins
-  const clubStats = {
-    totalMembers: 45,
-    activeMembers: 38,
-    totalClubHours: '650:45',
-    averageHoursPerMember: '14:30',
-    pendingTasks: 12,
-    completedTasks: 156,
-    topPerformers: [
-      { name: 'عبدالله محمد', hours: '65:30' },
-      { name: 'سارة أحمد', hours: '58:45' },
-      { name: 'خالد العمري', hours: '52:15' }
+        title: "إعداد محتوى تدريبي",
+        status: "pending",
+        hours: "02:30",
+        date: "2024-03-14",
+      },
     ],
-    recentSubmissions: [
-      {
-        id: 1,
-        member: 'فهد السالم',
-        title: 'تنسيق فعالية النادي',
-        status: 'pending',
-        hours: '04:00',
-        date: '2024-03-16'
-      },
-      {
-        id: 2,
-        member: 'نورة العتيبي',
-        title: 'إعداد التقرير الشهري',
-        status: 'approved',
-        hours: '02:30',
-        date: '2024-03-15'
-      }
-    ]
-  };
+  }
+
+  // Handle withdrawal request
+  const handleWithdrawalRequest = () => {
+    setShowWithdrawalModal(true)
+  }
+
+  // Process withdrawal
+  const processWithdrawal = () => {
+    if (memberStats.pendingTasks > 0) {
+      // If member has pending tasks, change status to inactive
+      console.log("Member has pending tasks, changing status to inactive")
+      // Here you would typically make an API call to update the member status
+      alert("تم تغيير حالتك إلى منسحب. يرجى إكمال الساعات المعلقة قبل الحذف النهائي.")
+    } else {
+      // If no pending tasks, process complete withdrawal
+      console.log("Processing complete withdrawal")
+      // Here you would typically make an API call to delete the member
+      alert("تم الانسحاب من النادي بنجاح")
+    }
+    setShowWithdrawalModal(false)
+  }
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'approved':
-        return 'bg-growth/10 text-growth group-hover:bg-growth/20';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-600 group-hover:bg-yellow-200';
+      case "approved":
+        return "bg-growth/10 text-growth group-hover:bg-growth/20"
+      case "pending":
+        return "bg-yellow-100 text-yellow-600 group-hover:bg-yellow-200"
       default:
-        return 'bg-gray-100 text-gray-600 group-hover:bg-gray-200';
+        return "bg-gray-100 text-gray-600 group-hover:bg-gray-200"
     }
-  };
+  }
 
   return (
     <Layout>
@@ -170,6 +164,17 @@ const Dashboard = () => {
                 </div>
               </div>
             </div>
+
+            {/* Withdrawal Button */}
+            <div className="mt-6 flex justify-end">
+              <button
+                onClick={() => handleWithdrawalRequest()}
+                className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition-all duration-300 flex items-center shadow-sm hover:shadow-md"
+              >
+                <UserCircle className="h-5 w-5 ml-2" />
+                انسحاب من النادي
+              </button>
+            </div>
           </div>
 
           {/* Personal Recent Activity */}
@@ -202,8 +207,10 @@ const Dashboard = () => {
                       </div>
                     </div>
                   </div>
-                  <span className={`inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${getStatusColor(activity.status)}`}>
-                    {activity.status === 'approved' ? 'تمت الموافقة' : 'قيد المراجعة'}
+                  <span
+                    className={`inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${getStatusColor(activity.status)}`}
+                  >
+                    {activity.status === "approved" ? "تمت الموافقة" : "قيد المراجعة"}
                   </span>
                 </div>
               ))}
@@ -284,8 +291,8 @@ const Dashboard = () => {
                   </div>
                   <div className="space-y-3">
                     {clubStats.topPerformers.map((performer, index) => (
-                      <div 
-                        key={index} 
+                      <div
+                        key={index}
                         className="flex items-center justify-between text-sm p-2 rounded-lg transition-all duration-300 hover:bg-trust/10"
                       >
                         <span className="text-gray-700 font-medium">{performer.name}</span>
@@ -329,8 +336,10 @@ const Dashboard = () => {
                         </div>
                       </div>
                     </div>
-                    <span className={`inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${getStatusColor(activity.status)}`}>
-                      {activity.status === 'approved' ? 'تمت الموافقة' : 'قيد المراجعة'}
+                    <span
+                      className={`inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${getStatusColor(activity.status)}`}
+                    >
+                      {activity.status === "approved" ? "تمت الموافقة" : "قيد المراجعة"}
                     </span>
                   </div>
                 ))}
@@ -338,9 +347,76 @@ const Dashboard = () => {
             </div>
           </div>
         )}
+
+        {/* Withdrawal Confirmation Modal */}
+        {showWithdrawalModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+            <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
+              <div className="p-6 border-b border-gray-100">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-kaff text-trust">تأكيد الانسحاب من النادي</h2>
+                  <button onClick={() => setShowWithdrawalModal(false)} className="text-gray-400 hover:text-gray-500">
+                    <X className="h-6 w-6" />
+                  </button>
+                </div>
+              </div>
+              <div className="p-6">
+                <div className="flex items-center justify-center mb-6">
+                  <div className="h-16 w-16 rounded-full bg-red-100 flex items-center justify-center">
+                    <AlertTriangle className="h-8 w-8 text-red-500" />
+                  </div>
+                </div>
+                {memberStats.pendingTasks > 0 ? (
+                  <div>
+                    <p className="text-center text-gray-700 mb-6">
+                      لديك <span className="font-bold text-yellow-600">{memberStats.pendingTasks}</span> ساعات معلقة.
+                      سيتم تغيير حالتك إلى منسحب حتى الانتهاء منها.
+                    </p>
+                    <div className="flex justify-center space-x-3 space-x-reverse">
+                      <button
+                        onClick={() => setShowWithdrawalModal(false)}
+                        className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-md transition-colors"
+                      >
+                        إلغاء
+                      </button>
+                      <button
+                        onClick={processWithdrawal}
+                        className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
+                      >
+                        <UserCircle className="h-5 w-5 ml-2 inline-block" />
+                        تغيير الحالة إلى منسحب
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <p className="text-center text-gray-700 mb-6">
+                      هل أنت متأكد من رغبتك في الانسحاب من النادي؟ لا يمكن التراجع عن هذا الإجراء.
+                    </p>
+                    <div className="flex justify-center space-x-3 space-x-reverse">
+                      <button
+                        onClick={() => setShowWithdrawalModal(false)}
+                        className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-md transition-colors"
+                      >
+                        إلغاء
+                      </button>
+                      <button
+                        onClick={processWithdrawal}
+                        className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition-colors"
+                      >
+                        <UserCircle className="h-5 w-5 ml-2 inline-block" />
+                        تأكيد الانسحاب
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default Dashboard; 
+export default Dashboard
