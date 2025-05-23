@@ -35,7 +35,10 @@ import {
   Mail,
   Phone,
   UserCog,
-  UserX
+  UserX,
+  Trash2,
+  AlertTriangle,
+  Upload
 } from 'lucide-react';
 
 const ClubDetails = () => {
@@ -50,6 +53,23 @@ const ClubDetails = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedClub, setEditedClub] = useState({
+    name: '',
+    description: '',
+    establishmentDate: '',
+    category: 'عام',
+    supervisor: '',
+    supervisorPhone: '',
+    currentLeader: '',
+    leaderPhone: '',
+    leaderEmail: '',
+    logo: null
+  });
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [deleteStep, setDeleteStep] = useState(1);
+  const [deleteConfirmation, setDeleteConfirmation] = useState('');
+  const [deleteReason, setDeleteReason] = useState('');
 
   useEffect(() => {
     if (!clubId) {
@@ -58,19 +78,98 @@ const ClubDetails = () => {
       return;
     }
 
-    // Here you would typically fetch the club data from your API
-    // For now, we'll use the dummy data but with proper error handling
+    // fetch the club data from your API
     try {
       const parsedClubId = parseInt(clubId);
       if (isNaN(parsedClubId)) {
         throw new Error('Invalid club ID');
       }
+      // Initialize editedClub with the current club data
+      setEditedClub({
+        name: club.name,
+        description: club.description,
+        establishmentDate: club.establishmentDate,
+        category: club.category,
+        supervisor: club.supervisor,
+        currentLeader: club.currentLeader,
+        supervisorPhone: club.supervisorPhone || '',
+        leaderPhone: club.leaderPhone || '',
+        leaderEmail: club.leaderEmail || '',
+        logo: club.logo
+      });
       setIsLoading(false);
     } catch (err) {
       setError(err.message);
       setIsLoading(false);
     }
   }, [clubId]);
+
+  const handleEditClub = () => {
+    if (isEditing) {
+      handleCancelEdit();
+    } else {
+      setIsEditing(true);
+      setActiveTab('overview');
+    }
+  };
+
+  const handleSaveEdit = () => {
+    // Here you would typically make an API call to save the changes
+    // For now, we'll just update the local state
+    setClub(prev => ({
+      ...prev,
+      name: editedClub.name,
+      description: editedClub.description,
+      establishmentDate: editedClub.establishmentDate,
+      category: editedClub.category,
+      supervisor: editedClub.supervisor,
+      currentLeader: editedClub.currentLeader,
+      supervisorPhone: editedClub.supervisorPhone,
+      leaderPhone: editedClub.leaderPhone,
+      leaderEmail: editedClub.leaderEmail,
+      logo: editedClub.logo
+    }));
+    
+    // Show success message or notification here
+    
+    // Exit edit mode
+    setIsEditing(false);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    // Reset editedClub to current club data
+    setEditedClub({
+      name: club.name,
+      description: club.description,
+      establishmentDate: club.establishmentDate,
+      category: club.category,
+      supervisor: club.supervisor,
+      currentLeader: club.currentLeader,
+      supervisorPhone: club.supervisorPhone || '',
+      leaderPhone: club.leaderPhone || '',
+      leaderEmail: club.leaderEmail || '',
+      logo: club.logo
+    });
+  };
+
+  const handleDeleteClub = () => {
+    // Here you would typically make an API call to delete the club
+    console.log('Deleting club:', clubId);
+    console.log('Reason:', deleteReason);
+    setShowDeleteConfirmation(false);
+    setDeleteStep(1);
+    setDeleteConfirmation('');
+    setDeleteReason('');
+    navigate('/inma-dashboard');
+  };
+
+  const resetDeleteProcess = () => {
+    setShowDeleteConfirmation(false);
+    setDeleteStep(1);
+    setDeleteConfirmation('');
+    setDeleteReason('');
+  };
 
   // Helper functions
   const formatTimeFromDecimal = (decimalHours) => {
@@ -154,6 +253,16 @@ const ClubDetails = () => {
     return colors[category] || 'bg-gray-100 text-gray-600';
   };
 
+  // Format date in Hijri
+  const formatHijriDate = (date) => {
+    const hijriDate = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    }).format(new Date(date));
+    return hijriDate.replace('١٤٤٥', '١٤٤٦'); // Replace 1445 with 1446
+  };
+
   // Dummy data for club details
   const club = {
     id: clubId ? parseInt(clubId) : null,
@@ -161,8 +270,12 @@ const ClubDetails = () => {
     logo: clubId ? `/src/assets/club-${clubId}.png` : '/src/assets/1-06.png',
     description: 'نادي التطوير هو نادي طلابي يهدف إلى تطوير مهارات الطلاب في مجال التطوير البرمجي وتنظيم الفعاليات التقنية.',
     establishmentDate: '2023-01-15',
-    category: 'تقني',
+    category: 'عام',
     supervisor: 'د. أحمد محمد',
+    supervisorPhone: '0501234567',
+    currentLeader: 'محمد عبدالله السالم',
+    leaderPhone: '0507654321',
+    leaderEmail: 'mohammed.salem@sm.imamu.edu.sa',
     members: 45,
     activeMembers: 32,
     totalHours: '156:30:00',
@@ -233,58 +346,6 @@ const ClubDetails = () => {
         location: 'قاعة المعارض',
         attendees: 50
       }
-    ],
-    achievements: [
-      {
-        id: 1,
-        title: 'جائزة أفضل نادي تقني',
-        date: '2024-02-15',
-        description: 'حصل النادي على جائزة أفضل نادي تقني في الجامعة لعام 2024'
-      },
-      {
-        id: 2,
-        title: 'تنظيم مؤتمر تقني ناجح',
-        date: '2024-01-20',
-        description: 'تم تنظيم مؤتمر تقني شارك فيه أكثر من 200 طالب'
-      }
-    ],
-    membersList: [
-      {
-        id: 1,
-        name: 'عبدالله محمد',
-        role: 'عضو',
-        hours: '65:30:00',
-        tasks: 15,
-        engagement: 'عالية',
-        joinDate: '2023-09-15',
-        department: 'علوم الحاسب',
-        level: 'سنة ثالثة',
-        status: 'نشط'
-      },
-      {
-        id: 2,
-        name: 'سارة أحمد',
-        role: 'عضو',
-        hours: '58:45:00',
-        tasks: 12,
-        engagement: 'عالية',
-        joinDate: '2023-09-15',
-        department: 'نظم المعلومات',
-        level: 'سنة رابعة',
-        status: 'نشط'
-      },
-      {
-        id: 3,
-        name: 'خالد العمري',
-        role: 'عضو',
-        hours: '52:15:00',
-        tasks: 10,
-        engagement: 'متوسطة',
-        joinDate: '2023-10-01',
-        department: 'علوم الحاسب',
-        level: 'سنة ثانية',
-        status: 'نشط'
-      }
     ]
   };
 
@@ -294,6 +355,45 @@ const ClubDetails = () => {
                          activity.member.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesStatus && matchesSearch;
   });
+
+  const renderClubStatus = () => {
+    // Calculate struggling criteria
+    const memberEngagement = club.activeMembers > 0 ? club.engagementScore / club.activeMembers : 0;
+    const pendingTasksRatio = club.activeMembers > 0 ? club.pendingTasks / club.activeMembers : 0;
+    
+    const lastActivityDate = new Date(club.recentActivity[0]?.date || '');
+    const today = new Date();
+    const daysSinceLastActivity = Math.floor((today - lastActivityDate) / (1000 * 60 * 60 * 24));
+    
+    const isStruggling = memberEngagement < 0.6 || pendingTasksRatio > 0.3 || daysSinceLastActivity > 7;
+    
+    if (isStruggling) {
+      return (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+          <h3 className="text-red-800 font-semibold mb-2">Club Needs Attention</h3>
+          <ul className="space-y-2">
+            {memberEngagement < 0.6 && (
+              <li className="text-red-700">
+                • Low member engagement: {Math.round(memberEngagement * 100)}% (target: 60%)
+              </li>
+            )}
+            {pendingTasksRatio > 0.3 && (
+              <li className="text-red-700">
+                • High pending tasks ratio: {Math.round(pendingTasksRatio * 100)}% (target: 30%)
+              </li>
+            )}
+            {daysSinceLastActivity > 7 && (
+              <li className="text-red-700">
+                • No activity for {daysSinceLastActivity} days
+              </li>
+            )}
+          </ul>
+        </div>
+      );
+    }
+    
+    return null;
+  };
 
   if (isLoading) {
     return (
@@ -335,27 +435,75 @@ const ClubDetails = () => {
         </button>
 
         {/* Club Header */}
-        <div className="bg-gradient-to-r from-trust/5 to-trust/10 rounded-xl shadow-sm p-8 transition-all duration-300 hover:shadow-md">
+        <div className={`bg-gradient-to-r from-trust/5 to-trust/10 rounded-xl shadow-sm p-8 transition-all duration-300 hover:shadow-md ${isEditing ? 'ring-2 ring-trust ring-opacity-50' : ''}`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6 space-x-reverse">
               <div className="relative">
-                <div className="h-20 w-20 rounded-xl shadow-md ring-2 ring-trust/20 overflow-hidden">
-                  <img
-                    className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-                    src={club.logo}
-                    alt={club.name}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = '/src/assets/1-06.png';
-                    }}
-                  />
-                </div>
-                <div className="absolute -bottom-2 -right-2 bg-trust/10 rounded-full p-1.5">
-                  <Building2 className="h-4 w-4 text-trust" />
-                </div>
+                {isEditing ? (
+                  <div className="relative">
+                    <div className="h-20 w-20 rounded-xl shadow-md ring-2 ring-trust overflow-hidden relative group">
+                      <img
+                        className="h-full w-full object-cover transition-transform duration-300 group-hover:opacity-50"
+                        src={editedClub.logo || club.logo}
+                        alt={editedClub.name || club.name}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = '/src/assets/1-06.png';
+                        }}
+                      />
+                      <label className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                        <Upload className="h-6 w-6 text-white" />
+                        <input
+                          type="file"
+                          className="hidden"
+                          accept="image/*"
+                          onChange={(e) => {
+                            const file = e.target.files[0];
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.onloadend = () => {
+                                setEditedClub(prev => ({ ...prev, logo: reader.result }));
+                              };
+                              reader.readAsDataURL(file);
+                            }
+                          }}
+                        />
+                      </label>
+                    </div>
+                    <div className="absolute top-0 right-0 bg-trust text-white text-xs px-2 py-1 rounded-bl-lg">
+                      تعديل
+                    </div>
+                  </div>
+                ) : (
+                  <div className="h-20 w-20 rounded-xl shadow-md ring-2 ring-trust/20 overflow-hidden">
+                    <img
+                      className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                      src={club.logo}
+                      alt={club.name}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = '/src/assets/1-06.png';
+                      }}
+                    />
+                  </div>
+                )}
               </div>
               <div>
-                <h2 className="text-3xl font-kaff font-bold text-trust mb-1">{club.name}</h2>
+                {isEditing ? (
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={editedClub.name}
+                      onChange={(e) => setEditedClub(prev => ({ ...prev, name: e.target.value }))}
+                      className="text-3xl font-kaff font-bold text-trust mb-1 w-full bg-transparent border-b-2 border-trust focus:outline-none focus:border-trust pr-16"
+                    />
+                    <div className="absolute top-0 right-0 bg-trust text-white text-xs px-2 py-1 rounded-bl-lg">
+                      تعديل
+                    </div>
+                  </div>
+                ) : (
+                  <h2 className="text-3xl font-kaff font-bold text-trust mb-1">{club.name}</h2>
+                )}
                 <div className="flex items-center space-x-2 space-x-reverse mt-2">
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-trust/10 text-trust">
                     {club.activeMembers} عضو نشط
@@ -363,15 +511,35 @@ const ClubDetails = () => {
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-growth/10 text-growth">
                     {club.totalHours} ساعة مكتملة
                   </span>
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-600">
+                    <Clock4 className="h-3 w-3 ml-1" />
+                    آخر نشاط: {formatHijriDate(club.recentActivity[0]?.date || '')}
+                  </span>
                 </div>
               </div>
             </div>
             <div className="flex items-center space-x-3 space-x-reverse">
               {isInmaAdmin && (
-                <button className="btn-primary">
-                  <Edit2 className="h-5 w-5 ml-2" />
-                  تعديل النادي
-                </button>
+                <>
+                  <button
+                    onClick={handleEditClub}
+                    className={`flex items-center justify-center px-4 py-2 rounded-lg transition-colors duration-200 ${
+                      isEditing 
+                        ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' 
+                        : 'bg-trust/10 text-trust hover:bg-trust/20'
+                    }`}
+                  >
+                    <Edit2 className="h-5 w-5 ml-2" />
+                    {isEditing ? 'إلغاء التعديل' : 'تعديل'}
+                  </button>
+                  <button
+                    onClick={() => setShowDeleteConfirmation(true)}
+                    className="flex items-center justify-center px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors duration-200"
+                  >
+                    <Trash2 className="h-5 w-5 ml-2" />
+                    حذف النادي
+                  </button>
+                </>
               )}
             </div>
           </div>
@@ -417,27 +585,183 @@ const ClubDetails = () => {
           <div className="p-6">
             {activeTab === 'overview' && (
               <div className="space-y-8">
-                {/* Club Info */}
-                <div className="bg-gray-50 rounded-xl p-6">
-                  <h3 className="text-lg font-kaff text-trust mb-4">معلومات النادي</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <p className="text-sm text-gray-500 mb-2">الوصف</p>
-                      <p className="text-gray-700">{club.description}</p>
+                {/* Combined Edit Box */}
+                <div className={`bg-white rounded-xl p-6 shadow-sm ${isEditing ? 'ring-2 ring-trust ring-opacity-50' : ''}`}>
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center space-x-3 space-x-reverse">
+                      <div className="bg-trust/10 rounded-full p-2">
+                        <Building2 className="h-5 w-5 text-trust" />
+                      </div>
+                      <h4 className="text-lg font-medium text-gray-900">معلومات النادي</h4>
                     </div>
-                    <div>
-                      <p className="text-sm text-gray-500 mb-2">تاريخ التأسيس</p>
-                      <p className="text-gray-700">{club.establishmentDate}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500 mb-2">التصنيف</p>
-                      <p className="text-gray-700">{club.category}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500 mb-2">المشرف</p>
-                      <p className="text-gray-700">{club.supervisor}</p>
+                    {isEditing && (
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-trust text-white">
+                        <Edit2 className="h-3 w-3 ml-1" />
+                        وضع التعديل
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Basic Information */}
+                  <div className="mb-8">
+                    <h5 className="text-md font-medium text-gray-700 mb-4">المعلومات الأساسية</h5>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <p className="text-sm text-gray-500 mb-2">الوصف</p>
+                        {isEditing ? (
+                          <textarea
+                            value={editedClub.description}
+                            onChange={(e) => setEditedClub(prev => ({ ...prev, description: e.target.value }))}
+                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            rows={3}
+                          />
+                        ) : (
+                          <p className="text-gray-700">{club.description}</p>
+                        )}
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500 mb-2">تاريخ التأسيس</p>
+                        {isEditing ? (
+                          <input
+                            type="date"
+                            value={editedClub.establishmentDate}
+                            onChange={(e) => setEditedClub(prev => ({ ...prev, establishmentDate: e.target.value }))}
+                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                          />
+                        ) : (
+                          <p className="text-gray-700">{club.establishmentDate}</p>
+                        )}
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500 mb-2">التصنيف</p>
+                        {isEditing ? (
+                          <select
+                            value={editedClub.category}
+                            onChange={(e) => setEditedClub(prev => ({ ...prev, category: e.target.value }))}
+                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                          >
+                            <option value="عام">عام</option>
+                            <option value="تخصصي">تخصصي</option>
+                          </select>
+                        ) : (
+                          <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-trust/10 text-trust">
+                            {club.category}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
+
+                  {/* Supervisor Information */}
+                  <div className="mb-8">
+                    <h5 className="text-md font-medium text-gray-700 mb-4">معلومات المشرف</h5>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <p className="text-sm text-gray-500 mb-2">اسم المشرف</p>
+                        {isEditing ? (
+                          <input
+                            type="text"
+                            value={editedClub.supervisor}
+                            onChange={(e) => setEditedClub(prev => ({ ...prev, supervisor: e.target.value }))}
+                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                          />
+                        ) : (
+                          <p className="text-gray-700">{club.supervisor}</p>
+                        )}
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500 mb-2">رقم الهاتف</p>
+                        {isEditing ? (
+                          <input
+                            type="tel"
+                            value={editedClub.supervisorPhone}
+                            onChange={(e) => setEditedClub(prev => ({ ...prev, supervisorPhone: e.target.value }))}
+                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            placeholder="05xxxxxxxx"
+                            pattern="[0-9]{10}"
+                          />
+                        ) : (
+                          <div className="flex items-center space-x-2 space-x-reverse">
+                            <Phone className="h-4 w-4 text-gray-400" />
+                            <p className="text-gray-700">{club.supervisorPhone}</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Club Leader Information */}
+                  <div className="mb-8">
+                    <h5 className="text-md font-medium text-gray-700 mb-4">معلومات قائد النادي</h5>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <p className="text-sm text-gray-500 mb-2">اسم قائد النادي</p>
+                        {isEditing ? (
+                          <input
+                            type="text"
+                            value={editedClub.currentLeader}
+                            onChange={(e) => setEditedClub(prev => ({ ...prev, currentLeader: e.target.value }))}
+                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                          />
+                        ) : (
+                          <p className="text-gray-700">{club.currentLeader}</p>
+                        )}
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500 mb-2">رقم الهاتف</p>
+                        {isEditing ? (
+                          <input
+                            type="tel"
+                            value={editedClub.leaderPhone}
+                            onChange={(e) => setEditedClub(prev => ({ ...prev, leaderPhone: e.target.value }))}
+                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            placeholder="05xxxxxxxx"
+                            pattern="[0-9]{10}"
+                          />
+                        ) : (
+                          <div className="flex items-center space-x-2 space-x-reverse">
+                            <Phone className="h-4 w-4 text-gray-400" />
+                            <p className="text-gray-700">{club.leaderPhone}</p>
+                          </div>
+                        )}
+                      </div>
+                      <div className="md:col-span-2">
+                        <p className="text-sm text-gray-500 mb-2">البريد الإلكتروني</p>
+                        {isEditing ? (
+                          <input
+                            type="email"
+                            value={editedClub.leaderEmail}
+                            onChange={(e) => setEditedClub(prev => ({ ...prev, leaderEmail: e.target.value }))}
+                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            placeholder="example@sm.imamu.edu.sa"
+                          />
+                        ) : (
+                          <div className="flex items-center space-x-2 space-x-reverse">
+                            <Mail className="h-4 w-4 text-gray-400" />
+                            <p className="text-gray-700">{club.leaderEmail}</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Edit Actions */}
+                  {isEditing && (
+                    <div className="flex justify-end space-x-3 space-x-reverse mt-6 pt-6 border-t border-gray-100">
+                      <button
+                        onClick={handleCancelEdit}
+                        className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                      >
+                        إلغاء
+                      </button>
+                      <button
+                        onClick={handleSaveEdit}
+                        className="px-4 py-2 bg-trust text-white rounded-lg hover:bg-trust-dark transition-colors"
+                      >
+                        حفظ التغييرات
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 {/* Quick Stats */}
@@ -539,24 +863,7 @@ const ClubDetails = () => {
                   </div>
                 </div>
 
-                {/* Achievements */}
-                <div className="bg-white rounded-xl shadow-sm p-6">
-                  <h3 className="text-lg font-kaff text-trust mb-4">الإنجازات</h3>
-                  <div className="space-y-4">
-                    {club.achievements.map((achievement) => (
-                      <div key={achievement.id} className="flex items-start space-x-4 space-x-reverse">
-                        <div className="h-10 w-10 rounded-full bg-growth/10 flex items-center justify-center">
-                          <Trophy className="h-5 w-5 text-growth" />
-                        </div>
-                        <div>
-                          <h4 className="font-medium text-gray-900">{achievement.title}</h4>
-                          <p className="text-sm text-gray-500 mt-1">{achievement.description}</p>
-                          <p className="text-xs text-gray-400 mt-1">{achievement.date}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                {renderClubStatus()}
               </div>
             )}
 
@@ -1021,6 +1328,148 @@ const ClubDetails = () => {
             )}
           </div>
         </div>
+
+        {/* Delete Confirmation Modal */}
+        {showDeleteConfirmation && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
+              <div className="p-6 border-b border-gray-100">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-kaff text-trust">تأكيد حذف النادي</h2>
+                  <button
+                    onClick={resetDeleteProcess}
+                    className="text-gray-400 hover:text-gray-500 transition-colors"
+                  >
+                    <X className="h-6 w-6" />
+                  </button>
+                </div>
+              </div>
+              <div className="p-6">
+                {deleteStep === 1 && (
+                  <>
+                    <div className="flex items-center justify-center mb-6">
+                      <div className="h-16 w-16 rounded-full bg-red-100 flex items-center justify-center">
+                        <AlertTriangle className="h-8 w-8 text-red-500" />
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <p className="text-center text-gray-700">
+                        هل أنت متأكد من رغبتك في حذف النادي{" "}
+                        <span className="font-bold text-trust">{club.name}</span>؟
+                      </p>
+                      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                        <div className="flex items-start">
+                          <AlertTriangle className="h-5 w-5 text-yellow-600 mt-0.5 ml-2 flex-shrink-0" />
+                          <div>
+                            <h4 className="text-sm font-medium text-yellow-800">تنبيه هام</h4>
+                            <p className="text-sm text-yellow-700 mt-1">
+                              لا يمكن التراجع عن هذا الإجراء. سيتم حذف جميع بيانات النادي نهائياً.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex justify-center space-x-3 space-x-reverse pt-2">
+                        <button
+                          onClick={resetDeleteProcess}
+                          className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                        >
+                          إلغاء
+                        </button>
+                        <button
+                          onClick={() => setDeleteStep(2)}
+                          className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                        >
+                          <Trash2 className="h-5 w-5 ml-2" />
+                          متابعة
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {deleteStep === 2 && (
+                  <>
+                    <div className="flex items-center justify-center mb-6">
+                      <div className="h-16 w-16 rounded-full bg-red-100 flex items-center justify-center">
+                        <AlertTriangle className="h-8 w-8 text-red-500" />
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <p className="text-center text-gray-700">
+                        يرجى كتابة اسم النادي <span className="font-bold text-trust">{club.name}</span> للتأكيد
+                      </p>
+                      <div>
+                        <input
+                          type="text"
+                          value={deleteConfirmation}
+                          onChange={(e) => setDeleteConfirmation(e.target.value)}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                          placeholder="اكتب اسم النادي هنا"
+                        />
+                      </div>
+                      <div className="flex justify-center space-x-3 space-x-reverse pt-2">
+                        <button
+                          onClick={() => setDeleteStep(1)}
+                          className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                        >
+                          رجوع
+                        </button>
+                        <button
+                          onClick={() => setDeleteStep(3)}
+                          className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                          disabled={deleteConfirmation !== club.name}
+                        >
+                          <Trash2 className="h-5 w-5 ml-2" />
+                          تأكيد الحذف
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {deleteStep === 3 && (
+                  <>
+                    <div className="flex items-center justify-center mb-6">
+                      <div className="h-16 w-16 rounded-full bg-red-100 flex items-center justify-center">
+                        <AlertTriangle className="h-8 w-8 text-red-500" />
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <p className="text-center text-gray-700">
+                        يرجى توضيح سبب حذف النادي
+                      </p>
+                      <div>
+                        <textarea
+                          value={deleteReason}
+                          onChange={(e) => setDeleteReason(e.target.value)}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 min-h-[100px] resize-y"
+                          placeholder="اكتب سبب الحذف هنا..."
+                          rows={3}
+                        />
+                      </div>
+                      <div className="flex justify-center space-x-3 space-x-reverse pt-2">
+                        <button
+                          onClick={() => setDeleteStep(2)}
+                          className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                        >
+                          رجوع
+                        </button>
+                        <button
+                          onClick={handleDeleteClub}
+                          className="flex items-center justify-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                          disabled={!deleteReason.trim()}
+                        >
+                          <Trash2 className="h-5 w-5 ml-2" />
+                          تأكيد الحذف
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </AdminLayout>
   );

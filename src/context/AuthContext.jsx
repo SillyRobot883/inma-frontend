@@ -7,7 +7,9 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({
     id: 1,
     name: 'عبدالعزيز الكثيري',
-    role: 'college_admin',
+    studentId: '441234567',
+    committee: 'لجنة التطوير',
+    role: 'member',
     clubs: [
       {
         id: 1,
@@ -54,6 +56,7 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider value={{
       user,
+      setUser,
       isAuthenticated,
       login,
       logout,
