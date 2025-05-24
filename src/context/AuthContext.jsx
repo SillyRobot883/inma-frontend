@@ -1,68 +1,81 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from "react";
+import { login, logout, register } from "../api/auth";
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  // For testing different roles, change this initial state
-  const [user, setUser] = useState({
-    id: 1,
-    name: 'عبدالعزيز الكثيري',
-    studentId: '441234567',
-    committee: 'لجنة التطوير',
-    role: 'member',
-    clubs: [
-      {
-        id: 1,
-        name: 'نادي تيكنيشن',
-        role: 'hr'
-      },
-      {
-        id: 2,
-        name: 'نادي الابتكار',
-        role: 'member'
-      },
-      {
-        id: 3,
-        name: 'نادي التصميم',
-        role: 'member'
-      }
-    ],
-    selectedClubId: 1 // Default selected club
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem("userData");
+    return savedUser ? JSON.parse(savedUser) : null;
   });
+  const [isAuthenticated, setIsAuthenticated] = useState(!!user);
 
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const handleLogin = async (credentials) => {
+    try {
+      const { data } = await login(credentials);
+      const { token, user } = data;
 
-  const login = (credentials) => {
-    // This will be replaced with actual API call
-    console.log('Logging in with:', credentials);
-    setIsAuthenticated(true);
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("userData", JSON.stringify(user));
+      setUser(user);
+      setIsAuthenticated(true);
+      return user;
+    } catch (error) {
+      console.error("Login failed:", error);
+      throw new Error("Invalid email or password. Please try again.");
+    }
   };
 
-  const logout = () => {
-    setUser(null);
-    setIsAuthenticated(false);
+  const handleLogout = async () => {
+    try {
+      await logout();
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("userData");
+      setUser(null);
+      setIsAuthenticated(false);
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
+  const handleRegister = async (userData) => {
+    try {
+      const { token, user } = await register(userData);
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("userData", JSON.stringify(user));
+      setUser(user);
+      setIsAuthenticated(true);
+      return user;
+    } catch (error) {
+      console.error("Registration failed:", error);
+      throw new Error("Registration failed. Please try again.");
+    }
   };
 
   const switchClub = (clubId) => {
-    setUser(prev => ({
+    setUser((prev) => ({
       ...prev,
-      selectedClubId: clubId
+      selectedClubId: clubId,
     }));
   };
 
-  // Get current club details
-  const currentClub = user?.clubs?.find(club => club.id === user?.selectedClubId);
+  const currentClub = user?.clubs?.find(
+    (club) => club.id === user?.selectedClubId,
+  );
 
   return (
-    <AuthContext.Provider value={{
-      user,
-      setUser,
-      isAuthenticated,
-      login,
-      logout,
-      switchClub,
-      currentClub
-    }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        setUser,
+        isAuthenticated,
+        register: handleRegister,
+        login: handleLogin,
+        logout: handleLogout,
+        switchClub,
+        currentClub,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -71,7 +84,7 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
-}; 
+};

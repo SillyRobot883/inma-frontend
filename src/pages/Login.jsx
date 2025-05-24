@@ -1,17 +1,32 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
+  const { login } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
-    password: '',
+    nationalId: '',
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Dummy login - will be replaced with real API call
-    navigate('/clubs-selection');
+    try {
+      const user = await login(formData);
+
+      // Redirect based on role
+      if (user.globalRole === 'admin') {
+        navigate('/admin-dashboard');
+      } else if (user.globalRole === 'user') {
+        navigate('/clubs-selection');
+      } else {
+        navigate('/');
+      }
+    } catch (error) {
+      console.error('Login failed:', error);
+      alert(error.message);
+    }
   };
 
   return (
@@ -21,7 +36,7 @@ const Login = () => {
           <img
             className="mx-auto h-48 w-auto"
             src="/src/assets/1-01.png"
-            alt="إنماء الإندية"
+            alt="إنماء الأندية"
           />
           <h2 className="mt-6 text-center text-3xl font-kaff text-trust">
             تسجيل الدخول
@@ -45,18 +60,18 @@ const Login = () => {
               />
             </div>
             <div>
-              <label htmlFor="password" className="sr-only">
-                كلمة المرور
+              <label htmlFor="nationalId" className="sr-only">
+                رقم الهوية الوطنية
               </label>
               <input
-                id="password"
-                name="password"
-                type="password"
+                id="nationalId"
+                name="nationalId"
+                type="text"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-growth focus:border-growth focus:z-10 sm:text-sm"
-                placeholder="كلمة المرور"
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                placeholder="رقم الهوية الوطنية"
+                value={formData.nationalId}
+                onChange={(e) => setFormData({ ...formData, nationalId: e.target.value })}
               />
             </div>
           </div>
@@ -75,4 +90,4 @@ const Login = () => {
   );
 };
 
-export default Login; 
+export default Login;
