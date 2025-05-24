@@ -1,30 +1,32 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: '',
-    nationalId: '',
+    email: "",
+    nationalId: "",
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Dummy login - will be replaced with real API call
+    navigate("/clubs-selection");
     try {
       const user = await login(formData);
 
       // Redirect based on role
-      if (user.globalRole === 'admin') {
-        navigate('/admin-dashboard');
-      } else if (user.globalRole === 'user') {
-        navigate('/clubs-selection');
+      if (user.globalRole === "admin") {
+        navigate("/admin-dashboard");
+      } else if (user.globalRole === "user") {
+        navigate("/clubs-selection");
       } else {
-        navigate('/');
+        navigate("/");
       }
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error("Login failed:", error);
       alert(error.message);
     }
   };
@@ -56,7 +58,9 @@ const Login = () => {
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-growth focus:border-growth focus:z-10 sm:text-sm"
                 placeholder="البريد الإلكتروني"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
               />
             </div>
             <div>
@@ -71,7 +75,9 @@ const Login = () => {
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-growth focus:border-growth focus:z-10 sm:text-sm"
                 placeholder="رقم الهوية الوطنية"
                 value={formData.nationalId}
-                onChange={(e) => setFormData({ ...formData, nationalId: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, nationalId: e.target.value })
+                }
               />
             </div>
           </div>

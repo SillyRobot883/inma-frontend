@@ -4,10 +4,39 @@ import { login, logout, register } from "../api/auth";
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
-    const savedUser = localStorage.getItem("userData");
-    return savedUser ? JSON.parse(savedUser) : null;
+
+  // For testing different roles, change this initial state
+  const [user, setUser] = useState({
+    id: 1,
+    name: 'عبدالعزيز الكثيري',
+    role: 'user',
+    studentId: '441234567',
+    committee: 'لجنة التطوير',
+    clubs: [
+      {
+        id: 1,
+        name: 'نادي تيكنيشن',
+        role: 'hr'
+      },
+      {
+        id: 2,
+        name: 'نادي الابتكار',
+        role: 'member'
+      },
+      {
+        id: 3,
+        name: 'نادي التصميم',
+        role: 'member'
+      }
+    ],
+    selectedClubId: 1 // Default selected club
   });
+  // For actual login
+  // const [user, setUser] = useState(() => {
+  //   const savedUser = localStorage.getItem("userData");
+  //   return savedUser ? JSON.parse(savedUser) : null;
+  // });
+
   const [isAuthenticated, setIsAuthenticated] = useState(!!user);
 
   const handleLogin = async (credentials) => {
