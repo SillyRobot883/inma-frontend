@@ -1,19 +1,24 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { Toaster } from './components/ui/toaster';
-import Login from './pages/Login';
-import Clubs from './pages/Clubs';
-import ClubsSelection from './pages/ClubsSelection';
-import Dashboard from './pages/Dashboard';
-import HRDashboard from './pages/HRDashboard';
-import CollegeAdminDashboard from './pages/CollegeAdminDashboard';
-import InmaAdminDashboard from './pages/InmaAdminDashboard';
-import TaskSubmission from './pages/TaskSubmission';
-import ClubDetails from './pages/ClubDetails';
-import VolunteerHoursLog from './pages/VolunteerHoursLog';
-import MemberManagement from './pages/MemberManagement';
-import AdminMemberManagement from './pages/AdminMemberManagement';
-import { useAuth } from './context/AuthContext';
-import TestOverlay from './components/TestOverlay';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { Toaster } from "./components/ui/toaster";
+import Login from "./pages/Login";
+import Clubs from "./pages/Clubs";
+import ClubsSelection from "./pages/ClubsSelection";
+import Dashboard from "./pages/Dashboard";
+import HRDashboard from "./pages/HRDashboard";
+import CollegeAdminDashboard from "./pages/CollegeAdminDashboard";
+import InmaAdminDashboard from "./pages/InmaAdminDashboard";
+import TaskSubmission from "./pages/TaskSubmission";
+import ClubDetails from "./pages/ClubDetails";
+import VolunteerHoursLog from "./pages/VolunteerHoursLog";
+import MemberManagement from "./pages/MemberManagement";
+import AdminMemberManagement from "./pages/AdminMemberManagement";
+import { useAuth } from "./context/AuthContext";
+import TestOverlay from "./components/TestOverlay";
 
 const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   const { user, isAuthenticated, currentClub } = useAuth();
@@ -23,12 +28,14 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   }
 
   // For college and inma admins
-  if (user.role === 'college_admin' || user.role === 'inma_admin') {
+  if (user.globalRole === "college_admin" || user.globalRole === "inma_admin") {
     return children;
   }
 
   // For club members, check if they have access to the current club
-  const hasClubAccess = user.clubs.some(club => club.id.toString() === currentClub?.id?.toString());
+  const hasClubAccess = user.clubs.some(
+    (club) => club.id.toString() === currentClub?.id?.toString(),
+  );
   if (!hasClubAccess) {
     return <Navigate to="/clubs-selection" replace />;
   }
@@ -49,23 +56,32 @@ function App() {
     <Router>
       <div className="min-h-screen bg-gray-50 font-sst">
         <Routes>
-          <Route path="/" element={
-            <Navigate to={user ? (
-              user.role === 'inma_admin' 
-                ? '/inma-dashboard'
-                : user.role === 'college_admin'
-                ? '/college-dashboard'
-                : '/clubs-selection'
-            ) : '/login'} replace />
-          } />
+          <Route
+            path="/"
+            element={
+              <Navigate
+                to={
+                  user
+                    ? user.globalRole === "inma_admin"
+                      ? "/inma-dashboard"
+                      : user.globalRole === "college_admin"
+                      ? "/college-dashboard"
+                      : "/clubs-selection"
+                    : "/login"
+                }
+                replace
+              />
+            }
+          />
+          <Route />
           <Route path="/login" element={<Login />} />
           <Route path="/clubs-selection" element={<ClubsSelection />} />
-          
+
           {/* College Admin Routes */}
           <Route
             path="/college-dashboard"
             element={
-              <ProtectedRoute allowedRoles={['college_admin']}>
+              <ProtectedRoute allowedRoles={["college_admin"]}>
                 <CollegeAdminDashboard />
               </ProtectedRoute>
             }
@@ -73,7 +89,7 @@ function App() {
           <Route
             path="/college-dashboard/clubs"
             element={
-              <ProtectedRoute allowedRoles={['college_admin']}>
+              <ProtectedRoute allowedRoles={["college_admin"]}>
                 <Clubs />
               </ProtectedRoute>
             }
@@ -81,7 +97,7 @@ function App() {
           <Route
             path="/college-dashboard/club/:clubId"
             element={
-              <ProtectedRoute allowedRoles={['college_admin']}>
+              <ProtectedRoute allowedRoles={["college_admin"]}>
                 <ClubDetails />
               </ProtectedRoute>
             }
@@ -89,7 +105,7 @@ function App() {
           <Route
             path="/college-dashboard/users"
             element={
-              <ProtectedRoute allowedRoles={['college_admin']}>
+              <ProtectedRoute allowedRoles={["college_admin"]}>
                 <AdminMemberManagement isInmaAdmin={false} />
               </ProtectedRoute>
             }
@@ -99,7 +115,7 @@ function App() {
           <Route
             path="/inma-dashboard"
             element={
-              <ProtectedRoute allowedRoles={['inma_admin']}>
+              <ProtectedRoute allowedRoles={["inma_admin"]}>
                 <InmaAdminDashboard />
               </ProtectedRoute>
             }
@@ -107,7 +123,7 @@ function App() {
           <Route
             path="/inma-dashboard/clubs"
             element={
-              <ProtectedRoute allowedRoles={['inma_admin']}>
+              <ProtectedRoute allowedRoles={["inma_admin"]}>
                 <Clubs />
               </ProtectedRoute>
             }
@@ -115,7 +131,7 @@ function App() {
           <Route
             path="/inma-dashboard/users"
             element={
-              <ProtectedRoute allowedRoles={['inma_admin']}>
+              <ProtectedRoute allowedRoles={["inma_admin"]}>
                 <AdminMemberManagement isInmaAdmin={true} />
               </ProtectedRoute>
             }
@@ -123,7 +139,7 @@ function App() {
           <Route
             path="/inma-dashboard/settings"
             element={
-              <ProtectedRoute allowedRoles={['inma_admin']}>
+              <ProtectedRoute allowedRoles={["inma_admin"]}>
                 <div>System Settings</div>
               </ProtectedRoute>
             }
@@ -131,7 +147,7 @@ function App() {
           <Route
             path="/inma-dashboard/club/:clubId"
             element={
-              <ProtectedRoute allowedRoles={['inma_admin']}>
+              <ProtectedRoute allowedRoles={["inma_admin"]}>
                 <ClubDetails />
               </ProtectedRoute>
             }
@@ -157,7 +173,7 @@ function App() {
           <Route
             path="/hr-dashboard/:clubId"
             element={
-              <ProtectedRoute allowedRoles={['hr', 'leader']}>
+              <ProtectedRoute allowedRoles={["hr", "leader"]}>
                 <HRDashboard />
               </ProtectedRoute>
             }
@@ -165,7 +181,7 @@ function App() {
           <Route
             path="/task-submission/:clubId"
             element={
-              <ProtectedRoute allowedRoles={['member', 'hr', 'leader']}>
+              <ProtectedRoute allowedRoles={["member", "hr", "leader"]}>
                 <TaskSubmission />
               </ProtectedRoute>
             }
@@ -181,7 +197,7 @@ function App() {
           <Route
             path="/member-management/:clubId"
             element={
-              <ProtectedRoute allowedRoles={['hr', 'leader']}>
+              <ProtectedRoute allowedRoles={["hr", "leader"]}>
                 <MemberManagement />
               </ProtectedRoute>
             }
@@ -194,4 +210,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;
