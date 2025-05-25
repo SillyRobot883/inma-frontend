@@ -1,10 +1,53 @@
-# إنماء الإندية - Frontend
+# Inmaa-Wasl Monorepo
 
-Frontend application for the Inma Clubs Management System, a comprehensive platform for managing student clubs and their activities.
+This monorepo contains two frontend applications and shared packages for clubs and events management, built with React, Vite, and pnpm workspaces.
 
-## Overview
+## Project Structure
 
-إنماء الإندية (Inma Clubs) is a web application designed to streamline the management of student clubs and their activities. The platform provides tools for club administrators, members, and INMA administrators to efficiently manage club operations, track volunteer hours, and monitor member engagement.
+```
+apps/
+  inmaa/             - Clubs management application (React + Vite + Tailwind)
+  wasl/              - Events management application (React + Vite)
+packages/
+  api-client/        - Shared API services and HTTP client
+```
+
+## Quick Start
+
+### Prerequisites
+- Node.js 18+ 
+- pnpm 9+
+
+### Installation
+```bash
+# Install all dependencies
+pnpm install
+
+# Start both applications in development mode
+pnpm dev
+
+# Or start applications individually
+pnpm dev:inmaa  # Starts Inmaa on http://localhost:3000
+pnpm dev:wasl   # Starts Wasl on http://localhost:3001
+```
+
+### Building
+```bash
+# Build all applications
+pnpm build
+
+# Build specific application
+pnpm build:inmaa
+pnpm build:wasl
+```
+
+## Applications
+
+### 1. **إنماء الإندية (Inmaa)** - Clubs Management
+A comprehensive web application designed to streamline the management of student clubs and their activities. The platform provides tools for club administrators, members, and INMA administrators to efficiently manage club operations, track volunteer hours, and monitor member engagement.
+
+### 2. **وصل (Wasl)** - Events Management  
+A companion application focused on event management, allowing clubs to create, promote, and track participation in events.
 
 ## Features
 
@@ -69,12 +112,12 @@ src/
 └── App.jsx             # Main application component
 ```
 
-## Getting Started
+## Setup
 
 ### Prerequisites
 
-- Node.js (v16 or higher recommended)
-- npm (v7 or higher) or yarn (v1.22 or higher)
+- Node.js (v18 or higher recommended)
+- pnpm (v8 or higher)
 - Git for version control
 
 ### Installation
@@ -82,82 +125,99 @@ src/
 1. Clone the repository
 ```bash
 git clone https://github.com/SillyRobot883/inma-frontend.git
-cd inma-frontend
+cd inmaa-wasl-monorepo
 ```
 
 2. Install dependencies
 ```bash
-npm install
-# or
-yarn install
+pnpm setup
 ```
 
-3. Create a `.env` file in the root directory with the following variables:
+3. Create `.env` files in each app's directory with the appropriate variables:
+
+For Inmaa (apps/inmaa/.env):
 ```env
 VITE_API_URL=your_api_url_here
-VITE_APP_NAME=Inma Clubs
+VITE_APP_NAME=Inmaa
 ```
 
-4. Start the development server
+For Wasl (apps/wasl/.env):
+```env
+VITE_API_URL=your_api_url_here
+VITE_APP_NAME=Wasl
+```
+
+4. Start the development servers
+
+For Inmaa (clubs management):
 ```bash
-npm run dev
-# or
-yarn dev
+pnpm dev:inmaa
 ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser
-
-### Building for Production
-
-1. Build the application
+For Wasl (events management):
 ```bash
-npm run build
-# or
-yarn build
+pnpm dev:wasl
 ```
 
-2. Preview the production build
+Or to start both apps simultaneously:
 ```bash
-npm run preview
-# or
-yarn preview
+pnpm dev
 ```
 
-## Development Guidelines
+## Building for Production
 
-### Code Style
-- Follow ESLint and Prettier configurations
-- Use functional components with hooks
-- Implement proper error handling
-- Write meaningful comments for complex logic
+To build the Inmaa app:
+```bash
+pnpm build:inmaa
+```
 
-### Component Structure
-- Keep components small and focused
-- Use proper prop types
-- Implement error boundaries
-- Follow accessibility guidelines
+To build the Wasl app:
+```bash
+pnpm build:wasl
+```
 
-### State Management
-- Use Context API for global state
-- Implement proper loading states
-- Handle errors gracefully
-- Cache data appropriately
+To build all apps:
+```bash
+pnpm build
+```
 
-## Contributing
+## Development Guide
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+### Adding Dependencies
 
-### Pull Request Guidelines
-- Provide clear description of changes
-- Include relevant screenshots for UI changes
-- Update documentation as needed
-- Ensure all tests pass
+To add a dependency to a specific app:
 
-## License
+```bash
+pnpm --filter inmaa add <package>
+```
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+To add a dependency to a specific shared package:
+
+```bash
+pnpm --filter @inmaa-wasl/api-client add <package>
+```
+
+To add a development dependency to the root:
+
+```bash
+pnpm add -Dw <package>
+```
+
+### Working with Shared Packages
+
+- **API Client**: Contains all API service calls. Import from `@inmaa-wasl/api-client`.
+- **Configurations**: Contains shared configurations for ESLint, Tailwind, and Vite. Import from `@inmaa-wasl/config/*`.
+
+### Cleaning Node Modules
+
+If you need to clean all node_modules directories:
+
+```bash
+pnpm clean
+```
+
+### URLs for Local Development
+
+- Inmaa runs on port 3000: http://localhost:3000
+- Wasl runs on port 3001: http://localhost:3001
 

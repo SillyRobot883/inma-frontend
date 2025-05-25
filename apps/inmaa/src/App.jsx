@@ -28,7 +28,7 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   }
 
   // For college and inma admins
-  if (user.globalRole === "college_admin" || user.globalRole === "inma_admin") {
+  if (user.role === "college_admin" || user.role === "inma_admin") {
     return children;
   }
 
@@ -62,9 +62,9 @@ function App() {
               <Navigate
                 to={
                   user
-                    ? user.globalRole === "inma_admin"
+                    ? user.role === "inma_admin"
                       ? "/inma-dashboard"
-                      : user.globalRole === "college_admin"
+                      : user.role === "college_admin"
                       ? "/college-dashboard"
                       : "/clubs-selection"
                     : "/login"
