@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { login, logout, register } from "../api/auth";
+import { auth } from "@inmaa-wasl/api-client";
 
 const AuthContext = createContext(null);
 
@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
 
   const handleLogin = async (credentials) => {
     try {
-      const { data } = await login(credentials);
+      const { data } = await auth.login(credentials);
       const { token, user } = data;
 
       localStorage.setItem("authToken", token);
@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) => {
 
   const handleLogout = async () => {
     try {
-      await logout();
+      await auth.logout();
       localStorage.removeItem("authToken");
       localStorage.removeItem("userData");
       setUser(null);
@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }) => {
 
   const handleRegister = async (userData) => {
     try {
-      const { token, user } = await register(userData);
+      const { token, user } = await auth.register(userData);
       localStorage.setItem("authToken", token);
       localStorage.setItem("userData", JSON.stringify(user));
       setUser(user);
