@@ -215,9 +215,3 @@ If you need to clean all node_modules directories:
 ```bash
 pnpm clean
 ```
-
-### URLs for Local Development
-
-- Inmaa runs on port 3000: http://localhost:3000
-- Wasl runs on port 3001: http://localhost:3001
-

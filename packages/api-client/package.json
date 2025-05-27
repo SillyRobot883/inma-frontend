@@ -1,16 +1,21 @@
 {
   "name": "@inmaa-wasl/api-client",
   "version": "1.0.0",
-  "description": "Shared API client for clubs and events management",
-  "main": "src/index.js",
+  "private": true,
   "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc --build",
+    "lint": "eslint ."
   },
   "dependencies": {
-    "axios": "^1.9.0"
+    "axios": "^1.6.7"
   },
-  "keywords": ["api", "clubs", "events"],
-  "author": "",
-  "license": "ISC"
+  "devDependencies": {
+    "typescript": "~5.8.3"
+  }
 }
