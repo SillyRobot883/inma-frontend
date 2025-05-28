@@ -172,11 +172,11 @@ const Dashboard = () => {
     <Layout>
       <div className="space-y-8">
         {/* Club Header */}
-        <div className="bg-gradient-to-r from-trust/5 to-trust/10 rounded-xl shadow-sm p-8 transition-all duration-300 hover:shadow-md">
+        <div className="from-trust/5 to-trust/10 rounded-xl bg-gradient-to-r p-8 shadow-sm transition-all duration-300 hover:shadow-md">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6 space-x-reverse">
               <div className="relative">
-                <div className="h-20 w-20 rounded-xl shadow-md ring-2 ring-trust/20 overflow-hidden">
+                <div className="ring-trust/20 h-20 w-20 overflow-hidden rounded-xl shadow-md ring-2">
                   <img
                     className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
                     src={`/src/assets/club-${clubId}.png`}
@@ -187,15 +187,15 @@ const Dashboard = () => {
                     }}
                   />
                 </div>
-                <div className="absolute -bottom-2 -right-2 bg-trust/10 rounded-full p-1.5">
-                  <Building2 className="h-4 w-4 text-trust" />
+                <div className="bg-trust/10 absolute -bottom-2 -right-2 rounded-full p-1.5">
+                  <Building2 className="text-trust h-4 w-4" />
                 </div>
               </div>
               <div>
-                <h2 className="text-3xl font-kaff font-bold text-trust mb-1">
+                <h2 className="font-kaff text-trust mb-1 text-3xl font-bold">
                   {currentClub?.name}
                 </h2>
-                <p className="text-gray-600 text-sm font-medium">مرحباً بك في لوحة التحكم</p>
+                <p className="text-sm font-medium text-gray-600">مرحباً بك في لوحة التحكم</p>
               </div>
             </div>
             <div className="flex items-center space-x-3 space-x-reverse">
@@ -204,7 +204,7 @@ const Dashboard = () => {
                   onClick={handleLeaderChange}
                   className="btn-primary transform transition-transform duration-300 hover:scale-105"
                 >
-                  <Crown className="h-5 w-5 ml-2" />
+                  <Crown className="ml-2 h-5 w-5" />
                   تغيير قائد النادي
                 </button>
               )}
@@ -216,49 +216,49 @@ const Dashboard = () => {
         <div className="space-y-6">
           <div className="flex items-center space-x-3 space-x-reverse">
             <div className="bg-trust/10 rounded-full p-2">
-              <UserCircle className="h-6 w-6 text-trust" />
+              <UserCircle className="text-trust h-6 w-6" />
             </div>
-            <h2 className="text-2xl font-kaff text-trust">معلوماتي الشخصية</h2>
+            <h2 className="font-kaff text-trust text-2xl">معلوماتي الشخصية</h2>
           </div>
 
           {/* Personal Stats */}
-          <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-trust/5 rounded-xl p-6 transition-all duration-300 hover:bg-trust/10 group">
+          <div className="rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              <div className="bg-trust/5 hover:bg-trust/10 group rounded-xl p-6 transition-all duration-300">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-500 mb-2">الساعات المكتملة</p>
-                    <p className="text-3xl font-bold text-trust transition-all duration-300 group-hover:scale-105">
+                    <p className="mb-2 text-sm font-medium text-gray-500">الساعات المكتملة</p>
+                    <p className="text-trust text-3xl font-bold transition-all duration-300 group-hover:scale-105">
                       {memberStats.completedTasks}
                     </p>
                   </div>
-                  <div className="bg-trust/10 rounded-full p-4 transition-all duration-300 group-hover:bg-trust/20">
-                    <CheckCircle2 className="h-7 w-7 text-trust" />
+                  <div className="bg-trust/10 group-hover:bg-trust/20 rounded-full p-4 transition-all duration-300">
+                    <CheckCircle2 className="text-trust h-7 w-7" />
                   </div>
                 </div>
               </div>
-              <div className="bg-growth/5 rounded-xl p-6 transition-all duration-300 hover:bg-growth/10 group">
+              <div className="bg-growth/5 hover:bg-growth/10 group rounded-xl p-6 transition-all duration-300">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-gray-500 mb-2">إجمالي الساعات</p>
-                    <p className="text-3xl font-medium text-growth transition-all duration-300 group-hover:scale-105">
+                    <p className="mb-2 text-sm text-gray-500">إجمالي الساعات</p>
+                    <p className="text-growth text-3xl font-medium transition-all duration-300 group-hover:scale-105">
                       {formatTime(memberStats.totalHours)}
                     </p>
                   </div>
-                  <div className="bg-growth/10 rounded-full p-4 transition-all duration-300 group-hover:bg-growth/20">
-                    <Clock className="h-7 w-7 text-growth" />
+                  <div className="bg-growth/10 group-hover:bg-growth/20 rounded-full p-4 transition-all duration-300">
+                    <Clock className="text-growth h-7 w-7" />
                   </div>
                 </div>
               </div>
-              <div className="bg-yellow-50 rounded-xl p-6 transition-all duration-300 hover:bg-yellow-100/50 group">
+              <div className="group rounded-xl bg-yellow-50 p-6 transition-all duration-300 hover:bg-yellow-100/50">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-gray-500 mb-2">الساعات المعلقة</p>
+                    <p className="mb-2 text-sm text-gray-500">الساعات المعلقة</p>
                     <p className="text-3xl font-medium text-yellow-600 transition-all duration-300 group-hover:scale-105">
                       {memberStats.pendingTasks}
                     </p>
                   </div>
-                  <div className="bg-yellow-100 rounded-full p-4 transition-all duration-300 group-hover:bg-yellow-200">
+                  <div className="rounded-full bg-yellow-100 p-4 transition-all duration-300 group-hover:bg-yellow-200">
                     <AlertCircle className="h-7 w-7 text-yellow-600" />
                   </div>
                 </div>
@@ -267,46 +267,46 @@ const Dashboard = () => {
           </div>
 
           {/* Personal Recent Activity */}
-          <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-kaff text-trust">طلبات اعتماد الساعات الأخيرة</h3>
+          <div className="rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md">
+            <div className="mb-6 flex items-center justify-between">
+              <h3 className="font-kaff text-trust text-xl">طلبات اعتماد الساعات الأخيرة</h3>
               <a
                 href={`/volunteer-hours/${clubId}`}
-                className="text-sm text-trust hover:text-trust-dark font-medium flex items-center"
+                className="text-trust hover:text-trust-dark flex items-center text-sm font-medium"
               >
                 عرض الكل
-                <ChevronLeft className="h-4 w-4 ml-1" />
+                <ChevronLeft className="ml-1 h-4 w-4" />
               </a>
             </div>
             <div className="space-y-4">
               {memberStats.recentActivity.map((activity) => (
                 <div
                   key={activity.id}
-                  className="flex items-center justify-between p-5 bg-gray-50 rounded-xl transition-all duration-300 hover:bg-gray-100 group"
+                  className="group flex items-center justify-between rounded-xl bg-gray-50 p-5 transition-all duration-300 hover:bg-gray-100"
                 >
                   <div className="flex items-center space-x-4 space-x-reverse">
-                    <div className="flex-shrink-0 bg-white p-2 rounded-full shadow-sm transition-all duration-300 group-hover:shadow-md">
-                      <Clock className="h-5 w-5 text-trust" />
+                    <div className="flex-shrink-0 rounded-full bg-white p-2 shadow-sm transition-all duration-300 group-hover:shadow-md">
+                      <Clock className="text-trust h-5 w-5" />
                     </div>
                     <div>
-                      <h3 className="text-base font-medium text-gray-900 group-hover:text-trust transition-colors duration-300">
+                      <h3 className="group-hover:text-trust text-base font-medium text-gray-900 transition-colors duration-300">
                         {activity.title}
                       </h3>
-                      <div className="flex items-center space-x-3 space-x-reverse mt-1 text-sm text-gray-500">
-                        <span className="flex items-center bg-trust/5 px-3 py-1 rounded-full font-medium text-trust">
-                          <Timer className="h-4 w-4 ml-1" />
+                      <div className="mt-1 flex items-center space-x-3 space-x-reverse text-sm text-gray-500">
+                        <span className="bg-trust/5 text-trust flex items-center rounded-full px-3 py-1 font-medium">
+                          <Timer className="ml-1 h-4 w-4" />
                           {formatTime(activity.hours)}
                         </span>
                         <span>•</span>
                         <span className="flex items-center">
-                          <Calendar className="h-4 w-4 ml-1" />
+                          <Calendar className="ml-1 h-4 w-4" />
                           {activity.date}
                         </span>
                       </div>
                     </div>
                   </div>
                   <span
-                    className={`inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${getStatusColor(activity.status)}`}
+                    className={`inline-flex items-center rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-300 ${getStatusColor(activity.status)}`}
                   >
                     {activity.status === 'approved' ? 'تمت الموافقة' : 'قيد المراجعة'}
                   </span>
@@ -321,62 +321,62 @@ const Dashboard = () => {
           <div className="space-y-6">
             <div className="flex items-center space-x-3 space-x-reverse">
               <div className="bg-trust/10 rounded-full p-2">
-                <Building2 className="h-6 w-6 text-trust" />
+                <Building2 className="text-trust h-6 w-6" />
               </div>
-              <h2 className="text-2xl font-kaff text-trust">معلومات النادي</h2>
+              <h2 className="font-kaff text-trust text-2xl">معلومات النادي</h2>
             </div>
 
             {/* Club Stats */}
-            <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-trust/5 rounded-xl p-6 transition-all duration-300 hover:bg-trust/10 group">
+            <div className="rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                <div className="bg-trust/5 hover:bg-trust/10 group rounded-xl p-6 transition-all duration-300">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-gray-500 mb-2">عدد الأعضاء</p>
-                      <p className="text-3xl font-medium text-trust transition-all duration-300 group-hover:scale-105">
+                      <p className="mb-2 text-sm text-gray-500">عدد الأعضاء</p>
+                      <p className="text-trust text-3xl font-medium transition-all duration-300 group-hover:scale-105">
                         {clubStats.totalMembers}
                       </p>
-                      <p className="text-sm text-growth mt-2 flex items-center">
-                        <TrendingUp className="h-4 w-4 ml-1" />
+                      <p className="text-growth mt-2 flex items-center text-sm">
+                        <TrendingUp className="ml-1 h-4 w-4" />
                         {clubStats.activeMembers} نشط
                       </p>
                     </div>
-                    <div className="bg-trust/10 rounded-full p-4 transition-all duration-300 group-hover:bg-trust/20">
-                      <Users className="h-7 w-7 text-trust" />
+                    <div className="bg-trust/10 group-hover:bg-trust/20 rounded-full p-4 transition-all duration-300">
+                      <Users className="text-trust h-7 w-7" />
                     </div>
                   </div>
                 </div>
-                <div className="bg-growth/5 rounded-xl p-6 transition-all duration-300 hover:bg-growth/10 group">
+                <div className="bg-growth/5 hover:bg-growth/10 group rounded-xl p-6 transition-all duration-300">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-gray-500 mb-2">إجمالي ساعات النادي</p>
-                      <p className="text-3xl font-medium text-growth transition-all duration-300 group-hover:scale-105">
+                      <p className="mb-2 text-sm text-gray-500">إجمالي ساعات النادي</p>
+                      <p className="text-growth text-3xl font-medium transition-all duration-300 group-hover:scale-105">
                         {formatTime(clubStats.totalClubHours)}
                       </p>
-                      <p className="text-sm text-gray-500 mt-2 flex items-center">
-                        <BarChart3 className="h-4 w-4 ml-1" />
+                      <p className="mt-2 flex items-center text-sm text-gray-500">
+                        <BarChart3 className="ml-1 h-4 w-4" />
                         معدل {formatTime(clubStats.averageHoursPerMember)} لكل عضو
                       </p>
                     </div>
-                    <div className="bg-growth/10 rounded-full p-4 transition-all duration-300 group-hover:bg-growth/20">
-                      <Activity className="h-7 w-7 text-growth" />
+                    <div className="bg-growth/10 group-hover:bg-growth/20 rounded-full p-4 transition-all duration-300">
+                      <Activity className="text-growth h-7 w-7" />
                     </div>
                   </div>
                 </div>
-                <div className="bg-excellence/5 rounded-xl p-6 transition-all duration-300 hover:bg-excellence/10 group">
+                <div className="bg-excellence/5 hover:bg-excellence/10 group rounded-xl p-6 transition-all duration-300">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-gray-500 mb-2">الساعات المكتملة</p>
-                      <p className="text-3xl font-medium text-excellence transition-all duration-300 group-hover:scale-105">
+                      <p className="mb-2 text-sm text-gray-500">الساعات المكتملة</p>
+                      <p className="text-excellence text-3xl font-medium transition-all duration-300 group-hover:scale-105">
                         {clubStats.completedTasks}
                       </p>
-                      <p className="text-sm text-gray-500 mt-2 flex items-center">
-                        <Target className="h-4 w-4 ml-1" />
+                      <p className="mt-2 flex items-center text-sm text-gray-500">
+                        <Target className="ml-1 h-4 w-4" />
                         {clubStats.pendingTasks} ساعة معلقة
                       </p>
                     </div>
-                    <div className="bg-excellence/10 rounded-full p-4 transition-all duration-300 group-hover:bg-excellence/20">
-                      <Target className="h-7 w-7 text-excellence" />
+                    <div className="bg-excellence/10 group-hover:bg-excellence/20 rounded-full p-4 transition-all duration-300">
+                      <Target className="text-excellence h-7 w-7" />
                     </div>
                   </div>
                 </div>
@@ -384,48 +384,48 @@ const Dashboard = () => {
             </div>
 
             {/* Club Recent Submissions */}
-            <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-kaff text-trust">آخر طلبات اعتماد الساعات للنادي</h3>
+            <div className="rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md">
+              <div className="mb-6 flex items-center justify-between">
+                <h3 className="font-kaff text-trust text-xl">آخر طلبات اعتماد الساعات للنادي</h3>
                 <a
                   href={`/hr-dashboard/${clubId}`}
-                  className="text-sm text-trust hover:text-trust-dark font-medium flex items-center"
+                  className="text-trust hover:text-trust-dark flex items-center text-sm font-medium"
                 >
                   عرض الكل
-                  <ChevronLeft className="h-4 w-4 ml-1" />
+                  <ChevronLeft className="ml-1 h-4 w-4" />
                 </a>
               </div>
               <div className="space-y-4">
                 {clubStats.recentSubmissions.map((activity) => (
                   <div
                     key={activity.id}
-                    className="flex items-center justify-between p-5 bg-gray-50 rounded-xl transition-all duration-300 hover:bg-gray-100 group"
+                    className="group flex items-center justify-between rounded-xl bg-gray-50 p-5 transition-all duration-300 hover:bg-gray-100"
                   >
                     <div className="flex items-center space-x-4 space-x-reverse">
-                      <div className="flex-shrink-0 bg-white p-2 rounded-full shadow-sm transition-all duration-300 group-hover:shadow-md">
-                        <Clock className="h-5 w-5 text-trust" />
+                      <div className="flex-shrink-0 rounded-full bg-white p-2 shadow-sm transition-all duration-300 group-hover:shadow-md">
+                        <Clock className="text-trust h-5 w-5" />
                       </div>
                       <div>
-                        <h3 className="text-base font-medium text-gray-900 group-hover:text-trust transition-colors duration-300">
+                        <h3 className="group-hover:text-trust text-base font-medium text-gray-900 transition-colors duration-300">
                           {activity.title}
                         </h3>
-                        <div className="flex items-center space-x-3 space-x-reverse mt-1 text-sm text-gray-500">
-                          <span className="font-medium text-trust">{activity.member}</span>
+                        <div className="mt-1 flex items-center space-x-3 space-x-reverse text-sm text-gray-500">
+                          <span className="text-trust font-medium">{activity.member}</span>
                           <span>•</span>
-                          <span className="flex items-center bg-trust/5 px-3 py-1 rounded-full font-medium text-trust">
-                            <Timer className="h-4 w-4 ml-1" />
+                          <span className="bg-trust/5 text-trust flex items-center rounded-full px-3 py-1 font-medium">
+                            <Timer className="ml-1 h-4 w-4" />
                             {formatTime(activity.hours)}
                           </span>
                           <span>•</span>
                           <span className="flex items-center">
-                            <Calendar className="h-4 w-4 ml-1" />
+                            <Calendar className="ml-1 h-4 w-4" />
                             {activity.date}
                           </span>
                         </div>
                       </div>
                     </div>
                     <span
-                      className={`inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${getStatusColor(activity.status)}`}
+                      className={`inline-flex items-center rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-300 ${getStatusColor(activity.status)}`}
                     >
                       {activity.status === 'approved' ? 'تمت الموافقة' : 'قيد المراجعة'}
                     </span>
@@ -440,20 +440,20 @@ const Dashboard = () => {
         <div className="space-y-6">
           <div className="flex items-center space-x-3 space-x-reverse">
             <div className="bg-trust/10 rounded-full p-2">
-              <Trophy className="h-6 w-6 text-trust" />
+              <Trophy className="text-trust h-6 w-6" />
             </div>
-            <h2 className="text-2xl font-kaff text-trust">قائمة المتصدرين</h2>
+            <h2 className="font-kaff text-trust text-2xl">قائمة المتصدرين</h2>
           </div>
           <Leaderboard data={clubStats.topPerformers} maxItems={5} />
         </div>
 
         {/* Leader Change Modal */}
         {showLeaderChangeModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-            <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-              <div className="p-6 border-b border-gray-100">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl bg-white shadow-xl">
+              <div className="border-b border-gray-100 p-6">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-kaff text-trust">
+                  <h2 className="font-kaff text-trust text-xl">
                     {currentStep === 1
                       ? 'تغيير قائد النادي'
                       : currentStep === 2
@@ -469,11 +469,11 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className="p-6">
-                {error && <div className="mb-4 p-4 bg-red-50 rounded-lg text-red-600">{error}</div>}
+                {error && <div className="mb-4 rounded-lg bg-red-50 p-4 text-red-600">{error}</div>}
                 {currentStep === 1 ? (
                   <div className="space-y-6">
                     <div>
-                      <h3 className="text-lg font-medium text-gray-900 mb-4">
+                      <h3 className="mb-4 text-lg font-medium text-gray-900">
                         اختر من الأعضاء الحاليين
                       </h3>
                       <div className="space-y-3">
@@ -481,10 +481,10 @@ const Dashboard = () => {
                           <button
                             key={member.name}
                             onClick={() => handleSelectExistingMember(member)}
-                            className={`w-full p-4 rounded-lg border transition-all duration-200 ${
+                            className={`w-full rounded-lg border p-4 transition-all duration-200 ${
                               newLeader.name === member.name
                                 ? 'border-trust bg-trust/5'
-                                : 'border-gray-200 hover:border-trust/50'
+                                : 'hover:border-trust/50 border-gray-200'
                             }`}
                           >
                             <div className="flex items-center justify-between">
@@ -502,55 +502,55 @@ const Dashboard = () => {
                       </div>
                     </div>
                     <div className="border-t border-gray-100 pt-6">
-                      <h3 className="text-lg font-medium text-gray-900 mb-4">
+                      <h3 className="mb-4 text-lg font-medium text-gray-900">
                         أو أدخل معلومات القائد الجديد
                       </h3>
                       <div className="space-y-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="mb-1 block text-sm font-medium text-gray-700">
                             الاسم الكامل
                           </label>
                           <input
                             type="text"
                             value={newLeader.name}
                             onChange={(e) => setNewLeader({ ...newLeader, name: e.target.value })}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            className="focus:ring-trust focus:border-trust w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2"
                             placeholder="أدخل الاسم الكامل"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="mb-1 block text-sm font-medium text-gray-700">
                             البريد الإلكتروني
                           </label>
                           <input
                             type="email"
                             value={newLeader.email}
                             onChange={(e) => setNewLeader({ ...newLeader, email: e.target.value })}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            className="focus:ring-trust focus:border-trust w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2"
                             placeholder="أدخل البريد الإلكتروني"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="mb-1 block text-sm font-medium text-gray-700">
                             رقم الجوال
                           </label>
                           <input
                             type="tel"
                             value={newLeader.phone}
                             onChange={(e) => setNewLeader({ ...newLeader, phone: e.target.value })}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            className="focus:ring-trust focus:border-trust w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2"
                             placeholder="أدخل رقم الجوال"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="mb-1 block text-sm font-medium text-gray-700">
                             رقم الهوية
                           </label>
                           <input
                             type="text"
                             value={newLeader.ssn}
                             onChange={(e) => setNewLeader({ ...newLeader, ssn: e.target.value })}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            className="focus:ring-trust focus:border-trust w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2"
                             placeholder="أدخل رقم الهوية"
                           />
                         </div>
@@ -559,7 +559,7 @@ const Dashboard = () => {
                   </div>
                 ) : currentStep === 2 ? (
                   <div className="space-y-6">
-                    <div className="bg-blue-50 rounded-lg p-4">
+                    <div className="rounded-lg bg-blue-50 p-4">
                       <div className="flex items-center space-x-3 space-x-reverse">
                         <Shield className="h-5 w-5 text-blue-500" />
                         <p className="text-blue-700">
@@ -568,7 +568,7 @@ const Dashboard = () => {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         رقم هويتك
                       </label>
                       <input
@@ -577,14 +577,14 @@ const Dashboard = () => {
                         onChange={(e) =>
                           setNewLeader({ ...newLeader, currentLeaderSSN: e.target.value })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                        className="focus:ring-trust focus:border-trust w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2"
                         placeholder="أدخل رقم هويتك للتأكيد"
                       />
                     </div>
                   </div>
                 ) : (
                   <div className="space-y-6">
-                    <div className="bg-blue-50 rounded-lg p-4">
+                    <div className="rounded-lg bg-blue-50 p-4">
                       <div className="flex items-center space-x-3 space-x-reverse">
                         <CheckCircle2 className="h-5 w-5 text-blue-500" />
                         <p className="text-blue-700">
@@ -593,7 +593,7 @@ const Dashboard = () => {
                       </div>
                     </div>
 
-                    <div className="bg-white rounded-lg border border-gray-200 p-6">
+                    <div className="rounded-lg border border-gray-200 bg-white p-6">
                       <div className="space-y-4">
                         <div className="flex items-center justify-between">
                           <span className="text-gray-600">الاسم الكامل</span>
@@ -614,7 +614,7 @@ const Dashboard = () => {
                       </div>
                     </div>
 
-                    <div className="bg-red-50 rounded-lg p-4">
+                    <div className="rounded-lg bg-red-50 p-4">
                       <div className="flex items-center space-x-3 space-x-reverse">
                         <AlertCircle className="h-5 w-5 text-red-500" />
                         <p className="text-red-700">
@@ -625,7 +625,7 @@ const Dashboard = () => {
                     </div>
                   </div>
                 )}
-                <div className="flex justify-end space-x-3 space-x-reverse mt-6">
+                <div className="mt-6 flex justify-end space-x-3 space-x-reverse">
                   {currentStep > 1 && (
                     <button type="button" onClick={handlePreviousStep} className="btn-secondary">
                       رجوع
@@ -641,10 +641,10 @@ const Dashboard = () => {
                   <button
                     type="button"
                     onClick={handleNextStep}
-                    className={`px-4 py-2 rounded-lg font-medium text-white transition-colors duration-200 ${
+                    className={`rounded-lg px-4 py-2 font-medium text-white transition-colors duration-200 ${
                       currentStep === 3
                         ? 'bg-red-600 hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2'
-                        : 'bg-trust hover:bg-trust-dark focus:ring-2 focus:ring-trust focus:ring-offset-2'
+                        : 'bg-trust hover:bg-trust-dark focus:ring-trust focus:ring-2 focus:ring-offset-2'
                     }`}
                   >
                     {currentStep === 1

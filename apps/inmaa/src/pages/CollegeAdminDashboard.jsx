@@ -95,10 +95,10 @@ const CollegeAdminDashboard = () => {
     <AdminLayout isInmaAdmin={false}>
       <div className="space-y-8">
         {/* Header Section */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="rounded-xl bg-white p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-kaff text-trust">لوحة تحكم العمادة</h2>
+              <h2 className="font-kaff text-trust text-2xl">لوحة تحكم العمادة</h2>
             </div>
             <div className="flex items-center space-x-4 space-x-reverse">
               {/* Removed the "Add New Club" button as it should only be available for INMA admins */}
@@ -107,49 +107,49 @@ const CollegeAdminDashboard = () => {
         </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+          <div className="rounded-xl bg-white p-6 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500">إجمالي الأندية</p>
-                <p className="text-2xl font-medium text-trust mt-1">{clubs.length}</p>
+                <p className="text-trust mt-1 text-2xl font-medium">{clubs.length}</p>
               </div>
               <div className="bg-trust/10 rounded-full p-3">
-                <Building2 className="h-6 w-6 text-trust" />
+                <Building2 className="text-trust h-6 w-6" />
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm p-6">
+          <div className="rounded-xl bg-white p-6 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500">إجمالي الأعضاء</p>
-                <p className="text-2xl font-medium text-trust mt-1">
+                <p className="text-trust mt-1 text-2xl font-medium">
                   {clubs.reduce((acc, club) => acc + club.members, 0)}
                 </p>
               </div>
               <div className="bg-trust/10 rounded-full p-3">
-                <Users className="h-6 w-6 text-trust" />
+                <Users className="text-trust h-6 w-6" />
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm p-6">
+          <div className="rounded-xl bg-white p-6 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500">إجمالي الساعات</p>
-                <p className="text-2xl font-medium text-trust mt-1">
+                <p className="text-trust mt-1 text-2xl font-medium">
                   {formatHours(clubs.reduce((acc, club) => acc + club.totalHours, 0))}
                 </p>
               </div>
               <div className="bg-trust/10 rounded-full p-3">
-                <Clock className="h-6 w-6 text-trust" />
+                <Clock className="text-trust h-6 w-6" />
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm p-6">
+          <div className="rounded-xl bg-white p-6 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500">الأندية المتعثرة</p>
-                <p className="text-2xl font-medium text-yellow-600 mt-1">
+                <p className="mt-1 text-2xl font-medium text-yellow-600">
                   {
                     clubs.filter((club) => {
                       const memberEngagement =
@@ -172,7 +172,7 @@ const CollegeAdminDashboard = () => {
                   }
                 </p>
               </div>
-              <div className="bg-yellow-100 rounded-full p-3">
+              <div className="rounded-full bg-yellow-100 p-3">
                 <AlertTriangle className="h-6 w-6 text-yellow-600" />
               </div>
             </div>
@@ -180,18 +180,18 @@ const CollegeAdminDashboard = () => {
         </div>
 
         {/* Clubs Grid */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-kaff text-trust">الأندية</h2>
+        <div className="rounded-xl bg-white p-6 shadow-sm">
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="font-kaff text-trust text-xl">الأندية</h2>
             <div className="flex items-center space-x-4 space-x-reverse">
               <div className="relative">
-                <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Search className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-gray-400" />
                 <input
                   type="text"
                   placeholder="بحث عن نادي..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 pr-12 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust w-64"
+                  className="focus:ring-trust/20 focus:border-trust w-64 rounded-lg border border-gray-200 py-2 pl-10 pr-12 focus:outline-none focus:ring-2"
                 />
               </div>
               <button
@@ -200,12 +200,12 @@ const CollegeAdminDashboard = () => {
                   showStrugglingOnly ? 'bg-yellow-100 text-yellow-800' : ''
                 }`}
               >
-                <AlertTriangle className="h-5 w-5 ml-2" />
+                <AlertTriangle className="ml-2 h-5 w-5" />
                 {showStrugglingOnly ? 'عرض الكل' : 'عرض المتعثرة فقط'}
               </button>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filteredClubs.map((club) => (
               <ClubCard
                 key={club.id}

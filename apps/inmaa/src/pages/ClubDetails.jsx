@@ -363,8 +363,8 @@ const ClubDetails = () => {
 
     if (isStruggling) {
       return (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-          <h3 className="text-red-800 font-semibold mb-2">Club Needs Attention</h3>
+        <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4">
+          <h3 className="mb-2 font-semibold text-red-800">Club Needs Attention</h3>
           <ul className="space-y-2">
             {memberEngagement < 0.6 && (
               <li className="text-red-700">
@@ -390,8 +390,8 @@ const ClubDetails = () => {
   if (isLoading) {
     return (
       <AdminLayout isInmaAdmin={isInmaAdmin}>
-        <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-trust"></div>
+        <div className="flex h-64 items-center justify-center">
+          <div className="border-trust h-12 w-12 animate-spin rounded-full border-b-2 border-t-2"></div>
         </div>
       </AdminLayout>
     );
@@ -400,7 +400,7 @@ const ClubDetails = () => {
   if (error) {
     return (
       <AdminLayout isInmaAdmin={isInmaAdmin}>
-        <div className="flex flex-col items-center justify-center h-64 space-y-4">
+        <div className="flex h-64 flex-col items-center justify-center space-y-4">
           <AlertCircle className="h-12 w-12 text-red-500" />
           <p className="text-lg text-gray-700">{error}</p>
           <button onClick={() => navigate(-1)} className="btn-primary">
@@ -417,22 +417,22 @@ const ClubDetails = () => {
         {/* Back Button */}
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center text-gray-600 hover:text-trust transition-colors"
+          className="hover:text-trust flex items-center text-gray-600 transition-colors"
         >
-          <ArrowRightToLine className="h-5 w-5 ml-2" />
+          <ArrowRightToLine className="ml-2 h-5 w-5" />
           <span>رجوع</span>
         </button>
 
         {/* Club Header */}
         <div
-          className={`bg-gradient-to-r from-trust/5 to-trust/10 rounded-xl shadow-sm p-8 transition-all duration-300 hover:shadow-md ${isEditing ? 'ring-2 ring-trust ring-opacity-50' : ''}`}
+          className={`from-trust/5 to-trust/10 rounded-xl bg-gradient-to-r p-8 shadow-sm transition-all duration-300 hover:shadow-md ${isEditing ? 'ring-trust ring-2 ring-opacity-50' : ''}`}
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6 space-x-reverse">
               <div className="relative">
                 {isEditing ? (
                   <div className="relative">
-                    <div className="h-20 w-20 rounded-xl shadow-md ring-2 ring-trust overflow-hidden relative group">
+                    <div className="ring-trust group relative h-20 w-20 overflow-hidden rounded-xl shadow-md ring-2">
                       <img
                         className="h-full w-full object-cover transition-transform duration-300 group-hover:opacity-50"
                         src={editedClub.logo || club.logo}
@@ -442,7 +442,7 @@ const ClubDetails = () => {
                           e.target.src = '/src/assets/1-06.png';
                         }}
                       />
-                      <label className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                      <label className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity group-hover:opacity-100">
                         <Upload className="h-6 w-6 text-white" />
                         <input
                           type="file"
@@ -461,12 +461,12 @@ const ClubDetails = () => {
                         />
                       </label>
                     </div>
-                    <div className="absolute top-0 right-0 bg-trust text-white text-xs px-2 py-1 rounded-bl-lg">
+                    <div className="bg-trust absolute right-0 top-0 rounded-bl-lg px-2 py-1 text-xs text-white">
                       تعديل
                     </div>
                   </div>
                 ) : (
-                  <div className="h-20 w-20 rounded-xl shadow-md ring-2 ring-trust/20 overflow-hidden">
+                  <div className="ring-trust/20 h-20 w-20 overflow-hidden rounded-xl shadow-md ring-2">
                     <img
                       className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
                       src={club.logo}
@@ -486,24 +486,24 @@ const ClubDetails = () => {
                       type="text"
                       value={editedClub.name}
                       onChange={(e) => setEditedClub((prev) => ({ ...prev, name: e.target.value }))}
-                      className="text-3xl font-kaff font-bold text-trust mb-1 w-full bg-transparent border-b-2 border-trust focus:outline-none focus:border-trust pr-16"
+                      className="font-kaff text-trust border-trust focus:border-trust mb-1 w-full border-b-2 bg-transparent pr-16 text-3xl font-bold focus:outline-none"
                     />
-                    <div className="absolute top-0 right-0 bg-trust text-white text-xs px-2 py-1 rounded-bl-lg">
+                    <div className="bg-trust absolute right-0 top-0 rounded-bl-lg px-2 py-1 text-xs text-white">
                       تعديل
                     </div>
                   </div>
                 ) : (
-                  <h2 className="text-3xl font-kaff font-bold text-trust mb-1">{club.name}</h2>
+                  <h2 className="font-kaff text-trust mb-1 text-3xl font-bold">{club.name}</h2>
                 )}
-                <div className="flex items-center space-x-2 space-x-reverse mt-2">
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-trust/10 text-trust">
+                <div className="mt-2 flex items-center space-x-2 space-x-reverse">
+                  <span className="bg-trust/10 text-trust inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium">
                     {club.activeMembers} عضو نشط
                   </span>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-growth/10 text-growth">
+                  <span className="bg-growth/10 text-growth inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium">
                     {club.totalHours} ساعة مكتملة
                   </span>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-600">
-                    <Clock4 className="h-3 w-3 ml-1" />
+                  <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-600">
+                    <Clock4 className="ml-1 h-3 w-3" />
                     آخر نشاط: {formatHijriDate(club.recentActivity[0]?.date || '')}
                   </span>
                 </div>
@@ -514,20 +514,20 @@ const ClubDetails = () => {
                 <>
                   <button
                     onClick={handleEditClub}
-                    className={`flex items-center justify-center px-4 py-2 rounded-lg transition-colors duration-200 ${
+                    className={`flex items-center justify-center rounded-lg px-4 py-2 transition-colors duration-200 ${
                       isEditing
                         ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                         : 'bg-trust/10 text-trust hover:bg-trust/20'
                     }`}
                   >
-                    <Edit2 className="h-5 w-5 ml-2" />
+                    <Edit2 className="ml-2 h-5 w-5" />
                     {isEditing ? 'إلغاء التعديل' : 'تعديل'}
                   </button>
                   <button
                     onClick={() => setShowDeleteConfirmation(true)}
-                    className="flex items-center justify-center px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors duration-200"
+                    className="flex items-center justify-center rounded-lg bg-red-50 px-4 py-2 text-red-600 transition-colors duration-200 hover:bg-red-100"
                   >
-                    <Trash2 className="h-5 w-5 ml-2" />
+                    <Trash2 className="ml-2 h-5 w-5" />
                     حذف النادي
                   </button>
                 </>
@@ -537,35 +537,35 @@ const ClubDetails = () => {
         </div>
 
         {/* Tabs */}
-        <div className="bg-white rounded-xl shadow-sm">
+        <div className="rounded-xl bg-white shadow-sm">
           <div className="border-b border-gray-200">
             <nav className="flex space-x-8 space-x-reverse px-6" aria-label="Tabs">
               <button
                 onClick={() => setActiveTab('overview')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                className={`border-b-2 px-1 py-4 text-sm font-medium ${
                   activeTab === 'overview'
                     ? 'border-trust text-trust'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
                 }`}
               >
                 نظرة عامة
               </button>
               <button
                 onClick={() => setActiveTab('tasks')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                className={`border-b-2 px-1 py-4 text-sm font-medium ${
                   activeTab === 'tasks'
                     ? 'border-trust text-trust'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
                 }`}
               >
                 طلبات اعتماد الساعات
               </button>
               <button
                 onClick={() => setActiveTab('members')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                className={`border-b-2 px-1 py-4 text-sm font-medium ${
                   activeTab === 'members'
                     ? 'border-trust text-trust'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
                 }`}
               >
                 الأعضاء
@@ -578,18 +578,18 @@ const ClubDetails = () => {
               <div className="space-y-8">
                 {/* Combined Edit Box */}
                 <div
-                  className={`bg-white rounded-xl p-6 shadow-sm ${isEditing ? 'ring-2 ring-trust ring-opacity-50' : ''}`}
+                  className={`rounded-xl bg-white p-6 shadow-sm ${isEditing ? 'ring-trust ring-2 ring-opacity-50' : ''}`}
                 >
-                  <div className="flex items-center justify-between mb-6">
+                  <div className="mb-6 flex items-center justify-between">
                     <div className="flex items-center space-x-3 space-x-reverse">
                       <div className="bg-trust/10 rounded-full p-2">
-                        <Building2 className="h-5 w-5 text-trust" />
+                        <Building2 className="text-trust h-5 w-5" />
                       </div>
                       <h4 className="text-lg font-medium text-gray-900">معلومات النادي</h4>
                     </div>
                     {isEditing && (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-trust text-white">
-                        <Edit2 className="h-3 w-3 ml-1" />
+                      <span className="bg-trust inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium text-white">
+                        <Edit2 className="ml-1 h-3 w-3" />
                         وضع التعديل
                       </span>
                     )}
@@ -597,17 +597,17 @@ const ClubDetails = () => {
 
                   {/* Basic Information */}
                   <div className="mb-8">
-                    <h5 className="text-md font-medium text-gray-700 mb-4">المعلومات الأساسية</h5>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <h5 className="text-md mb-4 font-medium text-gray-700">المعلومات الأساسية</h5>
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                       <div>
-                        <p className="text-sm text-gray-500 mb-2">الوصف</p>
+                        <p className="mb-2 text-sm text-gray-500">الوصف</p>
                         {isEditing ? (
                           <textarea
                             value={editedClub.description}
                             onChange={(e) =>
                               setEditedClub((prev) => ({ ...prev, description: e.target.value }))
                             }
-                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            className="border-trust focus:ring-trust focus:border-trust w-full rounded-lg border-2 px-3 py-2 focus:ring-2"
                             rows={3}
                           />
                         ) : (
@@ -615,7 +615,7 @@ const ClubDetails = () => {
                         )}
                       </div>
                       <div>
-                        <p className="text-sm text-gray-500 mb-2">تاريخ التأسيس</p>
+                        <p className="mb-2 text-sm text-gray-500">تاريخ التأسيس</p>
                         {isEditing ? (
                           <input
                             type="date"
@@ -626,27 +626,27 @@ const ClubDetails = () => {
                                 establishmentDate: e.target.value,
                               }))
                             }
-                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            className="border-trust focus:ring-trust focus:border-trust w-full rounded-lg border-2 px-3 py-2 focus:ring-2"
                           />
                         ) : (
                           <p className="text-gray-700">{club.establishmentDate}</p>
                         )}
                       </div>
                       <div>
-                        <p className="text-sm text-gray-500 mb-2">التصنيف</p>
+                        <p className="mb-2 text-sm text-gray-500">التصنيف</p>
                         {isEditing ? (
                           <select
                             value={editedClub.category}
                             onChange={(e) =>
                               setEditedClub((prev) => ({ ...prev, category: e.target.value }))
                             }
-                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            className="border-trust focus:ring-trust focus:border-trust w-full rounded-lg border-2 px-3 py-2 focus:ring-2"
                           >
                             <option value="عام">عام</option>
                             <option value="تخصصي">تخصصي</option>
                           </select>
                         ) : (
-                          <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-trust/10 text-trust">
+                          <span className="bg-trust/10 text-trust inline-flex items-center rounded-full px-3 py-1 text-sm font-medium">
                             {club.category}
                           </span>
                         )}
@@ -656,10 +656,10 @@ const ClubDetails = () => {
 
                   {/* Supervisor Information */}
                   <div className="mb-8">
-                    <h5 className="text-md font-medium text-gray-700 mb-4">معلومات المشرف</h5>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <h5 className="text-md mb-4 font-medium text-gray-700">معلومات المشرف</h5>
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                       <div>
-                        <p className="text-sm text-gray-500 mb-2">اسم المشرف</p>
+                        <p className="mb-2 text-sm text-gray-500">اسم المشرف</p>
                         {isEditing ? (
                           <input
                             type="text"
@@ -667,14 +667,14 @@ const ClubDetails = () => {
                             onChange={(e) =>
                               setEditedClub((prev) => ({ ...prev, supervisor: e.target.value }))
                             }
-                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            className="border-trust focus:ring-trust focus:border-trust w-full rounded-lg border-2 px-3 py-2 focus:ring-2"
                           />
                         ) : (
                           <p className="text-gray-700">{club.supervisor}</p>
                         )}
                       </div>
                       <div>
-                        <p className="text-sm text-gray-500 mb-2">رقم الهاتف</p>
+                        <p className="mb-2 text-sm text-gray-500">رقم الهاتف</p>
                         {isEditing ? (
                           <input
                             type="tel"
@@ -685,7 +685,7 @@ const ClubDetails = () => {
                                 supervisorPhone: e.target.value,
                               }))
                             }
-                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            className="border-trust focus:ring-trust focus:border-trust w-full rounded-lg border-2 px-3 py-2 focus:ring-2"
                             placeholder="05xxxxxxxx"
                             pattern="[0-9]{10}"
                           />
@@ -701,10 +701,10 @@ const ClubDetails = () => {
 
                   {/* Club Leader Information */}
                   <div className="mb-8">
-                    <h5 className="text-md font-medium text-gray-700 mb-4">معلومات قائد النادي</h5>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <h5 className="text-md mb-4 font-medium text-gray-700">معلومات قائد النادي</h5>
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                       <div>
-                        <p className="text-sm text-gray-500 mb-2">اسم قائد النادي</p>
+                        <p className="mb-2 text-sm text-gray-500">اسم قائد النادي</p>
                         {isEditing ? (
                           <input
                             type="text"
@@ -712,14 +712,14 @@ const ClubDetails = () => {
                             onChange={(e) =>
                               setEditedClub((prev) => ({ ...prev, currentLeader: e.target.value }))
                             }
-                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            className="border-trust focus:ring-trust focus:border-trust w-full rounded-lg border-2 px-3 py-2 focus:ring-2"
                           />
                         ) : (
                           <p className="text-gray-700">{club.currentLeader}</p>
                         )}
                       </div>
                       <div>
-                        <p className="text-sm text-gray-500 mb-2">رقم الهاتف</p>
+                        <p className="mb-2 text-sm text-gray-500">رقم الهاتف</p>
                         {isEditing ? (
                           <input
                             type="tel"
@@ -727,7 +727,7 @@ const ClubDetails = () => {
                             onChange={(e) =>
                               setEditedClub((prev) => ({ ...prev, leaderPhone: e.target.value }))
                             }
-                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            className="border-trust focus:ring-trust focus:border-trust w-full rounded-lg border-2 px-3 py-2 focus:ring-2"
                             placeholder="05xxxxxxxx"
                             pattern="[0-9]{10}"
                           />
@@ -739,7 +739,7 @@ const ClubDetails = () => {
                         )}
                       </div>
                       <div className="md:col-span-2">
-                        <p className="text-sm text-gray-500 mb-2">البريد الإلكتروني</p>
+                        <p className="mb-2 text-sm text-gray-500">البريد الإلكتروني</p>
                         {isEditing ? (
                           <input
                             type="email"
@@ -747,7 +747,7 @@ const ClubDetails = () => {
                             onChange={(e) =>
                               setEditedClub((prev) => ({ ...prev, leaderEmail: e.target.value }))
                             }
-                            className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                            className="border-trust focus:ring-trust focus:border-trust w-full rounded-lg border-2 px-3 py-2 focus:ring-2"
                             placeholder="example@sm.imamu.edu.sa"
                           />
                         ) : (
@@ -762,16 +762,16 @@ const ClubDetails = () => {
 
                   {/* Edit Actions */}
                   {isEditing && (
-                    <div className="flex justify-end space-x-3 space-x-reverse mt-6 pt-6 border-t border-gray-100">
+                    <div className="mt-6 flex justify-end space-x-3 space-x-reverse border-t border-gray-100 pt-6">
                       <button
                         onClick={handleCancelEdit}
-                        className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                        className="rounded-lg bg-gray-100 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-200"
                       >
                         إلغاء
                       </button>
                       <button
                         onClick={handleSaveEdit}
-                        className="px-4 py-2 bg-trust text-white rounded-lg hover:bg-trust-dark transition-colors"
+                        className="bg-trust hover:bg-trust-dark rounded-lg px-4 py-2 text-white transition-colors"
                       >
                         حفظ التغييرات
                       </button>
@@ -780,80 +780,80 @@ const ClubDetails = () => {
                 </div>
 
                 {/* Quick Stats */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                  <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+                  <div className="rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-500">إجمالي الأعضاء</p>
-                        <p className="text-2xl font-bold text-trust mt-1">{club.members}</p>
-                        <p className="text-sm font-medium text-gray-500 mt-1">
+                        <p className="text-trust mt-1 text-2xl font-bold">{club.members}</p>
+                        <p className="mt-1 text-sm font-medium text-gray-500">
                           {club.activeMembers} نشط
                         </p>
                       </div>
-                      <div className="bg-trust/10 rounded-full p-3 transition-all duration-300 group-hover:bg-trust/20">
-                        <Users className="h-6 w-6 text-trust" />
+                      <div className="bg-trust/10 group-hover:bg-trust/20 rounded-full p-3 transition-all duration-300">
+                        <Users className="text-trust h-6 w-6" />
                       </div>
                     </div>
                   </div>
-                  <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
+                  <div className="rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-500">الساعات التطوعية</p>
-                        <p className="text-2xl font-bold text-trust mt-1">{club.totalHours}</p>
-                        <p className="text-sm font-medium text-gray-500 mt-1">
+                        <p className="text-trust mt-1 text-2xl font-bold">{club.totalHours}</p>
+                        <p className="mt-1 text-sm font-medium text-gray-500">
                           {club.averageHoursPerMember} لكل عضو
                         </p>
                       </div>
-                      <div className="bg-trust/10 rounded-full p-3 transition-all duration-300 group-hover:bg-trust/20">
-                        <Clock className="h-6 w-6 text-trust" />
+                      <div className="bg-trust/10 group-hover:bg-trust/20 rounded-full p-3 transition-all duration-300">
+                        <Clock className="text-trust h-6 w-6" />
                       </div>
                     </div>
                   </div>
-                  <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
+                  <div className="rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-500">الساعات المعلقة</p>
-                        <p className="text-2xl font-bold text-yellow-600 mt-1">
+                        <p className="mt-1 text-2xl font-bold text-yellow-600">
                           {club.pendingTasks}
                         </p>
-                        <p className="text-sm font-medium text-gray-500 mt-1">تحتاج مراجعة</p>
+                        <p className="mt-1 text-sm font-medium text-gray-500">تحتاج مراجعة</p>
                       </div>
-                      <div className="bg-yellow-100 rounded-full p-3 transition-all duration-300 group-hover:bg-yellow-200">
+                      <div className="rounded-full bg-yellow-100 p-3 transition-all duration-300 group-hover:bg-yellow-200">
                         <AlertCircle className="h-6 w-6 text-yellow-600" />
                       </div>
                     </div>
                   </div>
-                  <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
+                  <div className="rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-500">المهام المكتملة</p>
-                        <p className="text-2xl font-bold text-growth mt-1">{club.approvedTasks}</p>
-                        <p className="text-sm font-medium text-gray-500 mt-1">مهمة منجزة</p>
+                        <p className="text-growth mt-1 text-2xl font-bold">{club.approvedTasks}</p>
+                        <p className="mt-1 text-sm font-medium text-gray-500">مهمة منجزة</p>
                       </div>
-                      <div className="bg-growth/10 rounded-full p-3 transition-all duration-300 group-hover:bg-growth/20">
-                        <CheckCircle2 className="h-6 w-6 text-growth" />
+                      <div className="bg-growth/10 group-hover:bg-growth/20 rounded-full p-3 transition-all duration-300">
+                        <CheckCircle2 className="text-growth h-6 w-6" />
                       </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Leaderboard */}
-                <div className="bg-white rounded-xl shadow-sm p-6">
-                  <div className="flex items-center space-x-3 space-x-reverse mb-4">
+                <div className="rounded-xl bg-white p-6 shadow-sm">
+                  <div className="mb-4 flex items-center space-x-3 space-x-reverse">
                     <div className="bg-trust/10 rounded-full p-2">
-                      <Trophy className="h-6 w-6 text-trust" />
+                      <Trophy className="text-trust h-6 w-6" />
                     </div>
-                    <h3 className="text-lg font-kaff text-trust">قائمة المتصدرين</h3>
+                    <h3 className="font-kaff text-trust text-lg">قائمة المتصدرين</h3>
                   </div>
                   <div className="space-y-4">
                     {club.topPerformers.map((performer, index) => (
                       <div
                         key={index}
-                        className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                        className="flex items-center justify-between rounded-lg bg-gray-50 p-4"
                       >
                         <div className="flex items-center space-x-3 space-x-reverse">
-                          <div className="h-10 w-10 rounded-full bg-trust/10 flex items-center justify-center">
-                            <span className="text-lg font-medium text-trust">
+                          <div className="bg-trust/10 flex h-10 w-10 items-center justify-center rounded-full">
+                            <span className="text-trust text-lg font-medium">
                               {performer.name.charAt(0)}
                             </span>
                           </div>
@@ -864,7 +864,7 @@ const ClubDetails = () => {
                         </div>
                         <div className="flex items-center space-x-2 space-x-reverse">
                           <Clock className="h-5 w-5 text-gray-400" />
-                          <span className="font-medium text-trust">{performer.hours}</span>
+                          <span className="text-trust font-medium">{performer.hours}</span>
                         </div>
                       </div>
                     ))}
@@ -878,55 +878,55 @@ const ClubDetails = () => {
             {activeTab === 'tasks' && (
               <div className="space-y-8">
                 {/* Quick Stats */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                  <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+                  <div className="rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-500">الساعات المعلقة</p>
-                        <p className="text-2xl font-bold text-yellow-600 mt-1">
+                        <p className="mt-1 text-2xl font-bold text-yellow-600">
                           {club.pendingTasks}
                         </p>
-                        <p className="text-sm font-medium text-gray-500 mt-1">تحتاج مراجعة</p>
+                        <p className="mt-1 text-sm font-medium text-gray-500">تحتاج مراجعة</p>
                       </div>
-                      <div className="bg-yellow-100 rounded-full p-3 transition-all duration-300 group-hover:bg-yellow-200">
+                      <div className="rounded-full bg-yellow-100 p-3 transition-all duration-300 group-hover:bg-yellow-200">
                         <AlertCircle className="h-6 w-6 text-yellow-600" />
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
+                  <div className="rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-500">تحتاج معلومات</p>
-                        <p className="text-2xl font-bold text-blue-600 mt-1">{club.needsInfo}</p>
-                        <p className="text-sm font-medium text-gray-500 mt-1">
+                        <p className="mt-1 text-2xl font-bold text-blue-600">{club.needsInfo}</p>
+                        <p className="mt-1 text-sm font-medium text-gray-500">
                           معلومات إضافية مطلوبة
                         </p>
                       </div>
-                      <div className="bg-blue-100 rounded-full p-3 transition-all duration-300 group-hover:bg-blue-200">
+                      <div className="rounded-full bg-blue-100 p-3 transition-all duration-300 group-hover:bg-blue-200">
                         <Info className="h-6 w-6 text-blue-600" />
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
+                  <div className="rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-500">تمت الموافقة</p>
-                        <p className="text-2xl font-bold text-growth mt-1">{club.approvedTasks}</p>
-                        <p className="text-sm font-medium text-gray-500 mt-1">مهمة منجزة</p>
+                        <p className="text-growth mt-1 text-2xl font-bold">{club.approvedTasks}</p>
+                        <p className="mt-1 text-sm font-medium text-gray-500">مهمة منجزة</p>
                       </div>
-                      <div className="bg-growth/10 rounded-full p-3 transition-all duration-300 group-hover:bg-growth/20">
-                        <CheckCircle2 className="h-6 w-6 text-growth" />
+                      <div className="bg-growth/10 group-hover:bg-growth/20 rounded-full p-3 transition-all duration-300">
+                        <CheckCircle2 className="text-growth h-6 w-6" />
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
+                  <div className="rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-500">إجمالي الساعات</p>
-                        <p className="text-2xl font-bold text-trust mt-1">
+                        <p className="text-trust mt-1 text-2xl font-bold">
                           {(() => {
                             const totalSeconds = club.recentActivity.reduce((acc, curr) => {
                               const [hours, minutes, seconds] = curr.hours.split(':').map(Number);
@@ -940,35 +940,35 @@ const ClubDetails = () => {
                             return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                           })()}
                         </p>
-                        <p className="text-sm font-medium text-gray-500 mt-1">ساعة عمل</p>
+                        <p className="mt-1 text-sm font-medium text-gray-500">ساعة عمل</p>
                       </div>
-                      <div className="bg-trust/10 rounded-full p-3 transition-all duration-300 group-hover:bg-trust/20">
-                        <Clock className="h-6 w-6 text-trust" />
+                      <div className="bg-trust/10 group-hover:bg-trust/20 rounded-full p-3 transition-all duration-300">
+                        <Clock className="text-trust h-6 w-6" />
                       </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Recent Activity */}
-                <div className="bg-white rounded-xl shadow-sm">
-                  <div className="p-6 border-b border-gray-100">
+                <div className="rounded-xl bg-white shadow-sm">
+                  <div className="border-b border-gray-100 p-6">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-kaff text-trust">طلبات اعتماد الساعات</h3>
+                      <h3 className="font-kaff text-trust text-lg">طلبات اعتماد الساعات</h3>
                       <div className="flex items-center space-x-4 space-x-reverse">
                         <div className="relative">
-                          <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                          <Search className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-gray-400" />
                           <input
                             type="text"
                             placeholder="بحث..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-10 pr-12 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust w-64"
+                            className="focus:ring-trust/20 focus:border-trust w-64 rounded-lg border border-gray-200 py-2 pl-10 pr-12 focus:outline-none focus:ring-2"
                           />
                         </div>
                         <select
                           value={taskFilterStatus}
                           onChange={(e) => setTaskFilterStatus(e.target.value)}
-                          className="border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust text-sm font-medium text-gray-700"
+                          className="focus:ring-trust/20 focus:border-trust rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 focus:outline-none focus:ring-2"
                         >
                           <option value="all">جميع الحالات</option>
                           <option value="pending">قيد المراجعة</option>
@@ -982,9 +982,9 @@ const ClubDetails = () => {
                     {filteredActivity.map((activity) => (
                       <div
                         key={activity.id}
-                        className={`p-6 hover:bg-gray-50 transition-colors duration-200 ${
+                        className={`p-6 transition-colors duration-200 hover:bg-gray-50 ${
                           activity.status === 'approved'
-                            ? 'bg-growth/5 border-r-4 border-r-growth'
+                            ? 'bg-growth/5 border-r-growth border-r-4'
                             : ''
                         }`}
                       >
@@ -1009,24 +1009,24 @@ const ClubDetails = () => {
                                   {activity.title}
                                 </h3>
                                 <span
-                                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getCategoryColor(activity.category)}`}
+                                  className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getCategoryColor(activity.category)}`}
                                 >
                                   {activity.category}
                                 </span>
                               </div>
                               <div className="mt-1 flex items-center space-x-3 space-x-reverse text-sm text-gray-500">
                                 <span className="flex items-center">
-                                  <UserCircle className="h-4 w-4 ml-1" />
+                                  <UserCircle className="ml-1 h-4 w-4" />
                                   {activity.member}
                                 </span>
                                 <span>•</span>
-                                <span className="flex items-center bg-trust/5 px-3 py-1 rounded-full font-medium text-trust">
-                                  <Clock4 className="h-4 w-4 ml-1" />
+                                <span className="bg-trust/5 text-trust flex items-center rounded-full px-3 py-1 font-medium">
+                                  <Clock4 className="ml-1 h-4 w-4" />
                                   {activity.hours}
                                 </span>
                                 <span>•</span>
                                 <span className="flex items-center">
-                                  <CalendarDays className="h-4 w-4 ml-1" />
+                                  <CalendarDays className="ml-1 h-4 w-4" />
                                   {activity.date}
                                 </span>
                               </div>
@@ -1038,7 +1038,7 @@ const ClubDetails = () => {
                                     {activity.attachments.map((attachment, index) => (
                                       <span
                                         key={index}
-                                        className="text-xs text-trust hover:text-trust-dark cursor-pointer"
+                                        className="text-trust hover:text-trust-dark cursor-pointer text-xs"
                                       >
                                         {attachment}
                                       </span>
@@ -1051,9 +1051,9 @@ const ClubDetails = () => {
                                   {activity.comments.map((comment) => (
                                     <div
                                       key={comment.id}
-                                      className="flex items-start space-x-2 space-x-reverse bg-gray-50 rounded-lg p-3"
+                                      className="flex items-start space-x-2 space-x-reverse rounded-lg bg-gray-50 p-3"
                                     >
-                                      <MessageCircle className="h-4 w-4 text-gray-400 mt-0.5" />
+                                      <MessageCircle className="mt-0.5 h-4 w-4 text-gray-400" />
                                       <div className="flex-1">
                                         <div className="flex items-center justify-between">
                                           <span className="text-sm font-medium text-gray-900">
@@ -1063,7 +1063,7 @@ const ClubDetails = () => {
                                             {comment.date}
                                           </span>
                                         </div>
-                                        <p className="text-sm text-gray-600 mt-1">{comment.text}</p>
+                                        <p className="mt-1 text-sm text-gray-600">{comment.text}</p>
                                       </div>
                                     </div>
                                   ))}
@@ -1073,7 +1073,7 @@ const ClubDetails = () => {
                           </div>
                           <div className="flex items-start space-x-3 space-x-reverse">
                             <span
-                              className={`inline-flex items-center px-3 py-1 rounded-full text-sm ${
+                              className={`inline-flex items-center rounded-full px-3 py-1 text-sm ${
                                 activity.status === 'approved'
                                   ? 'bg-growth text-white'
                                   : getStatusColor(activity.status)
@@ -1097,19 +1097,19 @@ const ClubDetails = () => {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4 space-x-reverse">
                     <div className="relative">
-                      <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                      <Search className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-gray-400" />
                       <input
                         type="text"
                         placeholder="بحث عن عضو..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-10 pr-12 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust w-64"
+                        className="focus:ring-trust/20 focus:border-trust w-64 rounded-lg border border-gray-200 py-2 pl-10 pr-12 focus:outline-none focus:ring-2"
                       />
                     </div>
                     <select
                       value={filterStatus}
                       onChange={(e) => setFilterStatus(e.target.value)}
-                      className="border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust text-sm font-medium text-gray-700"
+                      className="focus:ring-trust/20 focus:border-trust rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 focus:outline-none focus:ring-2"
                     >
                       <option value="all">جميع الحالات</option>
                       <option value="active">نشط</option>
@@ -1119,7 +1119,7 @@ const ClubDetails = () => {
                 </div>
 
                 {/* Members Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                   {[
                     {
                       id: 1,
@@ -1322,13 +1322,13 @@ const ClubDetails = () => {
                   ].map((member) => (
                     <div
                       key={member.id}
-                      className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300"
+                      className="rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md"
                     >
                       {/* Member Header */}
-                      <div className="flex items-center justify-between mb-4">
+                      <div className="mb-4 flex items-center justify-between">
                         <div className="flex items-center space-x-3 space-x-reverse">
-                          <div className="h-12 w-12 rounded-full bg-trust/10 flex items-center justify-center">
-                            <span className="text-lg font-medium text-trust">
+                          <div className="bg-trust/10 flex h-12 w-12 items-center justify-center rounded-full">
+                            <span className="text-trust text-lg font-medium">
                               {member.name.charAt(0)}
                             </span>
                           </div>
@@ -1340,14 +1340,14 @@ const ClubDetails = () => {
                           </div>
                         </div>
                         <span
-                          className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${getEngagementColor(member.engagement)} ${getEngagementBg(member.engagement)}`}
+                          className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${getEngagementColor(member.engagement)} ${getEngagementBg(member.engagement)}`}
                         >
                           {member.engagement}%
                         </span>
                       </div>
 
                       {/* Member Details */}
-                      <div className="space-y-3 mb-4">
+                      <div className="mb-4 space-y-3">
                         <div className="flex items-center space-x-2 space-x-reverse text-sm">
                           <User className="h-4 w-4 text-gray-400" />
                           <span className="text-gray-600">{member.studentId}</span>
@@ -1367,30 +1367,30 @@ const ClubDetails = () => {
                       </div>
 
                       {/* Stats */}
-                      <div className="grid grid-cols-2 gap-4 mb-4">
+                      <div className="mb-4 grid grid-cols-2 gap-4">
                         <div className="bg-trust/5 rounded-lg p-3">
                           <div className="flex items-center space-x-2 space-x-reverse">
-                            <Clock className="h-4 w-4 text-trust" />
-                            <span className="text-sm font-medium text-trust">
+                            <Clock className="text-trust h-4 w-4" />
+                            <span className="text-trust text-sm font-medium">
                               {formatTimeFromDecimal(member.totalHours)}
                             </span>
                           </div>
-                          <p className="text-xs text-gray-500 mt-1">إجمالي الساعات</p>
+                          <p className="mt-1 text-xs text-gray-500">إجمالي الساعات</p>
                         </div>
                         <div className="bg-growth/5 rounded-lg p-3">
                           <div className="flex items-center space-x-2 space-x-reverse">
-                            <CheckCircle2 className="h-4 w-4 text-growth" />
-                            <span className="text-sm font-medium text-growth">
+                            <CheckCircle2 className="text-growth h-4 w-4" />
+                            <span className="text-growth text-sm font-medium">
                               {member.completedTasks}
                             </span>
                           </div>
-                          <p className="text-xs text-gray-500 mt-1">المهام المكتملة</p>
+                          <p className="mt-1 text-xs text-gray-500">المهام المكتملة</p>
                         </div>
                       </div>
 
                       {/* Recent Activity */}
                       <div className="border-t border-gray-100 pt-4">
-                        <h5 className="text-sm font-medium text-gray-700 mb-2">آخر النشاطات</h5>
+                        <h5 className="mb-2 text-sm font-medium text-gray-700">آخر النشاطات</h5>
                         <div className="space-y-2">
                           {member.recentActivity.slice(0, 2).map((activity) => (
                             <div
@@ -1405,11 +1405,11 @@ const ClubDetails = () => {
                       </div>
 
                       {/* Actions */}
-                      <div className="flex items-center justify-end space-x-2 space-x-reverse mt-4 pt-4 border-t border-gray-100">
-                        <button className="text-trust hover:text-trust-dark transition-colors duration-150 p-2 hover:bg-trust/10 rounded-full">
+                      <div className="mt-4 flex items-center justify-end space-x-2 space-x-reverse border-t border-gray-100 pt-4">
+                        <button className="text-trust hover:text-trust-dark hover:bg-trust/10 rounded-full p-2 transition-colors duration-150">
                           <UserCog className="h-5 w-5" />
                         </button>
-                        <button className="text-red-500 hover:text-red-700 transition-colors duration-150 p-2 hover:bg-red-50 rounded-full">
+                        <button className="rounded-full p-2 text-red-500 transition-colors duration-150 hover:bg-red-50 hover:text-red-700">
                           <UserX className="h-5 w-5" />
                         </button>
                       </div>
@@ -1423,14 +1423,14 @@ const ClubDetails = () => {
 
         {/* Delete Confirmation Modal */}
         {showDeleteConfirmation && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
-              <div className="p-6 border-b border-gray-100">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+            <div className="w-full max-w-md rounded-xl bg-white shadow-xl">
+              <div className="border-b border-gray-100 p-6">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-kaff text-trust">تأكيد حذف النادي</h2>
+                  <h2 className="font-kaff text-trust text-xl">تأكيد حذف النادي</h2>
                   <button
                     onClick={resetDeleteProcess}
-                    className="text-gray-400 hover:text-gray-500 transition-colors"
+                    className="text-gray-400 transition-colors hover:text-gray-500"
                   >
                     <X className="h-6 w-6" />
                   </button>
@@ -1439,22 +1439,22 @@ const ClubDetails = () => {
               <div className="p-6">
                 {deleteStep === 1 && (
                   <>
-                    <div className="flex items-center justify-center mb-6">
-                      <div className="h-16 w-16 rounded-full bg-red-100 flex items-center justify-center">
+                    <div className="mb-6 flex items-center justify-center">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
                         <AlertTriangle className="h-8 w-8 text-red-500" />
                       </div>
                     </div>
                     <div className="space-y-4">
                       <p className="text-center text-gray-700">
                         هل أنت متأكد من رغبتك في حذف النادي{' '}
-                        <span className="font-bold text-trust">{club.name}</span>؟
+                        <span className="text-trust font-bold">{club.name}</span>؟
                       </p>
-                      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                      <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4">
                         <div className="flex items-start">
-                          <AlertTriangle className="h-5 w-5 text-yellow-600 mt-0.5 ml-2 flex-shrink-0" />
+                          <AlertTriangle className="ml-2 mt-0.5 h-5 w-5 flex-shrink-0 text-yellow-600" />
                           <div>
                             <h4 className="text-sm font-medium text-yellow-800">تنبيه هام</h4>
-                            <p className="text-sm text-yellow-700 mt-1">
+                            <p className="mt-1 text-sm text-yellow-700">
                               لا يمكن التراجع عن هذا الإجراء. سيتم حذف جميع بيانات النادي نهائياً.
                             </p>
                           </div>
@@ -1463,15 +1463,15 @@ const ClubDetails = () => {
                       <div className="flex justify-center space-x-3 space-x-reverse pt-2">
                         <button
                           onClick={resetDeleteProcess}
-                          className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                          className="rounded-lg bg-gray-100 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-200"
                         >
                           إلغاء
                         </button>
                         <button
                           onClick={() => setDeleteStep(2)}
-                          className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                          className="rounded-lg bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700"
                         >
-                          <Trash2 className="h-5 w-5 ml-2" />
+                          <Trash2 className="ml-2 h-5 w-5" />
                           متابعة
                         </button>
                       </div>
@@ -1481,38 +1481,38 @@ const ClubDetails = () => {
 
                 {deleteStep === 2 && (
                   <>
-                    <div className="flex items-center justify-center mb-6">
-                      <div className="h-16 w-16 rounded-full bg-red-100 flex items-center justify-center">
+                    <div className="mb-6 flex items-center justify-center">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
                         <AlertTriangle className="h-8 w-8 text-red-500" />
                       </div>
                     </div>
                     <div className="space-y-4">
                       <p className="text-center text-gray-700">
                         يرجى كتابة اسم النادي{' '}
-                        <span className="font-bold text-trust">{club.name}</span> للتأكيد
+                        <span className="text-trust font-bold">{club.name}</span> للتأكيد
                       </p>
                       <div>
                         <input
                           type="text"
                           value={deleteConfirmation}
                           onChange={(e) => setDeleteConfirmation(e.target.value)}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-red-500 focus:ring-2 focus:ring-red-500"
                           placeholder="اكتب اسم النادي هنا"
                         />
                       </div>
                       <div className="flex justify-center space-x-3 space-x-reverse pt-2">
                         <button
                           onClick={() => setDeleteStep(1)}
-                          className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                          className="rounded-lg bg-gray-100 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-200"
                         >
                           رجوع
                         </button>
                         <button
                           onClick={() => setDeleteStep(3)}
-                          className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="rounded-lg bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
                           disabled={deleteConfirmation !== club.name}
                         >
-                          <Trash2 className="h-5 w-5 ml-2" />
+                          <Trash2 className="ml-2 h-5 w-5" />
                           تأكيد الحذف
                         </button>
                       </div>
@@ -1522,8 +1522,8 @@ const ClubDetails = () => {
 
                 {deleteStep === 3 && (
                   <>
-                    <div className="flex items-center justify-center mb-6">
-                      <div className="h-16 w-16 rounded-full bg-red-100 flex items-center justify-center">
+                    <div className="mb-6 flex items-center justify-center">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
                         <AlertTriangle className="h-8 w-8 text-red-500" />
                       </div>
                     </div>
@@ -1533,7 +1533,7 @@ const ClubDetails = () => {
                         <textarea
                           value={deleteReason}
                           onChange={(e) => setDeleteReason(e.target.value)}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 min-h-[100px] resize-y"
+                          className="min-h-[100px] w-full resize-y rounded-lg border border-gray-300 px-4 py-2 focus:border-red-500 focus:ring-2 focus:ring-red-500"
                           placeholder="اكتب سبب الحذف هنا..."
                           rows={3}
                         />
@@ -1541,16 +1541,16 @@ const ClubDetails = () => {
                       <div className="flex justify-center space-x-3 space-x-reverse pt-2">
                         <button
                           onClick={() => setDeleteStep(2)}
-                          className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                          className="rounded-lg bg-gray-100 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-200"
                         >
                           رجوع
                         </button>
                         <button
                           onClick={handleDeleteClub}
-                          className="flex items-center justify-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="flex items-center justify-center rounded-lg bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
                           disabled={!deleteReason.trim()}
                         >
-                          <Trash2 className="h-5 w-5 ml-2" />
+                          <Trash2 className="ml-2 h-5 w-5" />
                           تأكيد الحذف
                         </button>
                       </div>

@@ -45,30 +45,30 @@ const ClubsSelection = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gray-50/50 px-4 py-12 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-3xl font-kaff text-trust mb-4">مرحباً {user.name}</h1>
+        <div className="mb-12 text-center">
+          <h1 className="font-kaff text-trust mb-4 text-3xl">مرحباً {user.name}</h1>
           <p className="text-gray-600">اختر النادي الذي تريد الوصول إليه</p>
         </div>
 
         {/* Clubs Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {user.clubs.map((club) => (
             <button
               key={club.id}
               onClick={() => navigate(`/dashboard/${club.id}`)}
-              className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6 text-right group"
+              className="group rounded-xl bg-white p-6 text-right shadow-sm transition-all duration-300 hover:shadow-md"
             >
               <div className="flex items-start space-x-4 space-x-reverse">
-                <div className="h-16 w-16 rounded-xl bg-trust/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <Building2 className="h-8 w-8 text-trust" />
+                <div className="bg-trust/10 flex h-16 w-16 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110">
+                  <Building2 className="text-trust h-8 w-8" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg font-kaff text-trust mb-2">{club.name}</h3>
+                  <h3 className="font-kaff text-trust mb-2 text-lg">{club.name}</h3>
                   <span
-                    className={`inline-block px-3 py-1 rounded-full text-xs ${getRoleColor(club.role)}`}
+                    className={`inline-block rounded-full px-3 py-1 text-xs ${getRoleColor(club.role)}`}
                   >
                     {getRoleText(club.role)}
                   </span>

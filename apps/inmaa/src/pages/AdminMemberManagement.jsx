@@ -229,17 +229,17 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
     <AdminLayout isInmaAdmin={isInmaAdmin}>
       <div className="space-y-8">
         {/* Header Section */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="rounded-xl bg-white p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-kaff text-trust">إدارة المستخدمين</h2>
-              <p className="text-sm text-gray-500 mt-1">
+              <h2 className="font-kaff text-trust text-2xl">إدارة المستخدمين</h2>
+              <p className="mt-1 text-sm text-gray-500">
                 {isInmaAdmin ? 'عرض وإدارة جميع الأعضاء في الأندية' : 'عرض جميع الأعضاء في الأندية'}
               </p>
             </div>
             {isInmaAdmin && (
               <button onClick={() => setShowAddMemberModal(true)} className="btn-primary">
-                <Plus className="h-5 w-5 ml-2" />
+                <Plus className="ml-2 h-5 w-5" />
                 إضافة عضو جديد
               </button>
             )}
@@ -247,28 +247,28 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
         </div>
 
         {/* Search and Filter */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="rounded-xl bg-white p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div className="relative w-96">
-              <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <Search className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-gray-400" />
               <input
                 type="text"
                 placeholder="بحث عن عضو..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-12 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust"
+                className="focus:ring-trust/20 focus:border-trust w-full rounded-lg border border-gray-200 py-2 pl-10 pr-12 focus:outline-none focus:ring-2"
               />
             </div>
           </div>
         </div>
 
         {/* Members List */}
-        <div className="bg-white rounded-xl shadow-sm">
+        <div className="rounded-xl bg-white shadow-sm">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">
                     <button
                       onClick={() => handleSort('name')}
                       className="flex items-center space-x-1 space-x-reverse"
@@ -282,16 +282,16 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                         ))}
                     </button>
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">
                     رقم الطالب
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">
                     رقم الهوية
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">
                     البريد الإلكتروني
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">
                     <button
                       onClick={() => handleSort('totalHours')}
                       className="flex items-center space-x-1 space-x-reverse"
@@ -305,42 +305,42 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                         ))}
                     </button>
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">
                     الأندية
                   </th>
                   {isInmaAdmin && (
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">
                       الإجراءات
                     </th>
                   )}
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="divide-y divide-gray-200 bg-white">
                 {filteredMembers.map((member) => (
                   <>
                     <tr key={member.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="whitespace-nowrap px-6 py-4">
                         <div className="flex items-center">
-                          <div className="h-10 w-10 rounded-full bg-trust/10 flex items-center justify-center">
-                            <User className="h-6 w-6 text-trust" />
+                          <div className="bg-trust/10 flex h-10 w-10 items-center justify-center rounded-full">
+                            <User className="text-trust h-6 w-6" />
                           </div>
                           <div className="mr-4">
                             <div className="text-sm font-medium text-gray-900">{member.name}</div>
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                         {member.studentId}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                         {member.idNumber}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                         {member.email}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                         <div className="flex items-center">
-                          <Clock className="h-4 w-4 text-gray-400 ml-1" />
+                          <Clock className="ml-1 h-4 w-4 text-gray-400" />
                           {formatHours(member.totalHours)}
                         </div>
                       </td>
@@ -349,25 +349,25 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                           onClick={() =>
                             setExpandedMember(expandedMember === member.id ? null : member.id)
                           }
-                          className="flex items-center text-sm text-trust hover:text-trust-dark"
+                          className="text-trust hover:text-trust-dark flex items-center text-sm"
                         >
                           <span>{member.clubs.length} نادي</span>
                           {expandedMember === member.id ? (
-                            <ChevronUp className="h-4 w-4 mr-1" />
+                            <ChevronUp className="mr-1 h-4 w-4" />
                           ) : (
-                            <ChevronDown className="h-4 w-4 mr-1" />
+                            <ChevronDown className="mr-1 h-4 w-4" />
                           )}
                         </button>
                       </td>
                       {isInmaAdmin && (
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                           <div className="flex items-center space-x-3 space-x-reverse">
                             <button
                               onClick={() => {
                                 setEditMember(member);
                                 setShowEditMemberModal(member);
                               }}
-                              className="text-gray-400 hover:text-trust"
+                              className="hover:text-trust text-gray-400"
                             >
                               <Edit2 className="h-5 w-5" />
                             </button>
@@ -383,25 +383,25 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                     </tr>
                     {expandedMember === member.id && (
                       <tr>
-                        <td colSpan={isInmaAdmin ? 6 : 5} className="px-6 py-4 bg-gray-50">
-                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <td colSpan={isInmaAdmin ? 6 : 5} className="bg-gray-50 px-6 py-4">
+                          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                             {member.clubs.map((club) => (
-                              <div key={club.id} className="bg-white rounded-lg p-4 shadow-sm">
+                              <div key={club.id} className="rounded-lg bg-white p-4 shadow-sm">
                                 <div className="flex items-center justify-between">
                                   <div className="flex items-center">
-                                    <Building2 className="h-5 w-5 text-gray-400 ml-2" />
+                                    <Building2 className="ml-2 h-5 w-5 text-gray-400" />
                                     <span className="text-sm font-medium text-gray-900">
                                       {club.name}
                                     </span>
                                   </div>
                                   <span
-                                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRoleColor(club.role)}`}
+                                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getRoleColor(club.role)}`}
                                   >
                                     {getRoleText(club.role)}
                                   </span>
                                 </div>
                                 <div className="mt-2 flex items-center text-sm text-gray-500">
-                                  <Clock className="h-4 w-4 text-gray-400 ml-1" />
+                                  <Clock className="ml-1 h-4 w-4 text-gray-400" />
                                   <span>{formatHours(club.hours)}</span>
                                 </div>
                               </div>
@@ -419,11 +419,11 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
 
         {/* Add Member Modal */}
         {showAddMemberModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-            <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-              <div className="p-6 border-b border-gray-100">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl bg-white shadow-xl">
+              <div className="border-b border-gray-100 p-6">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-kaff text-trust">إضافة عضو جديد</h2>
+                  <h2 className="font-kaff text-trust text-xl">إضافة عضو جديد</h2>
                   <button
                     onClick={() => setShowAddMemberModal(false)}
                     className="text-gray-400 hover:text-gray-500"
@@ -434,9 +434,9 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
               </div>
               <div className="p-6">
                 <form onSubmit={handleAddMember} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         اسم العضو
                       </label>
                       <input
@@ -449,7 +449,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         الرقم الجامعي
                       </label>
                       <input
@@ -462,7 +462,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         رقم الهوية
                       </label>
                       <input
@@ -475,7 +475,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         البريد الإلكتروني
                       </label>
                       <input
@@ -488,7 +488,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         رقم الهاتف
                       </label>
                       <input
@@ -501,7 +501,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">الدور</label>
+                      <label className="mb-1 block text-sm font-medium text-gray-700">الدور</label>
                       <select
                         value={newMember.role}
                         onChange={(e) => setNewMember({ ...newMember, role: e.target.value })}
@@ -514,7 +514,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">اللجنة</label>
+                      <label className="mb-1 block text-sm font-medium text-gray-700">اللجنة</label>
                       <select
                         value={newMember.committee}
                         onChange={(e) => setNewMember({ ...newMember, committee: e.target.value })}
@@ -529,7 +529,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">التخصص</label>
+                      <label className="mb-1 block text-sm font-medium text-gray-700">التخصص</label>
                       <input
                         type="text"
                         placeholder="التخصص"
@@ -540,7 +540,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         المستوى الدراسي
                       </label>
                       <select
@@ -561,20 +561,20 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       </select>
                     </div>
                     <div className="col-span-2">
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         الأندية
                       </label>
                       <div className="grid grid-cols-2 gap-2">
                         {clubs.map((club) => (
                           <label
                             key={club.id}
-                            className="flex items-center space-x-2 space-x-reverse p-2 border rounded-lg hover:bg-gray-50 cursor-pointer"
+                            className="flex cursor-pointer items-center space-x-2 space-x-reverse rounded-lg border p-2 hover:bg-gray-50"
                           >
                             <input
                               type="checkbox"
                               checked={newMember.clubs.includes(club.id)}
                               onChange={() => handleClubSelection(club.id)}
-                              className="rounded text-trust focus:ring-trust"
+                              className="text-trust focus:ring-trust rounded"
                             />
                             <span className="text-sm text-gray-700">{club.name}</span>
                           </label>
@@ -591,7 +591,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       إلغاء
                     </button>
                     <button type="submit" className="btn-primary">
-                      <UserPlus className="h-5 w-5 ml-2" />
+                      <UserPlus className="ml-2 h-5 w-5" />
                       إضافة العضو
                     </button>
                   </div>
@@ -603,11 +603,11 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
 
         {/* Edit Member Modal */}
         {showEditMemberModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-            <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-              <div className="p-6 border-b border-gray-100">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl bg-white shadow-xl">
+              <div className="border-b border-gray-100 p-6">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-kaff text-trust">تعديل بيانات العضو</h2>
+                  <h2 className="font-kaff text-trust text-xl">تعديل بيانات العضو</h2>
                   <button
                     onClick={() => setShowEditMemberModal(null)}
                     className="text-gray-400 hover:text-gray-500"
@@ -618,9 +618,9 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
               </div>
               <div className="p-6">
                 <form onSubmit={handleEditMember} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         اسم العضو
                       </label>
                       <input
@@ -632,7 +632,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         الرقم الجامعي
                       </label>
                       <input
@@ -646,7 +646,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         البريد الإلكتروني
                       </label>
                       <input
@@ -658,7 +658,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         رقم الهاتف
                       </label>
                       <input
@@ -670,7 +670,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">الدور</label>
+                      <label className="mb-1 block text-sm font-medium text-gray-700">الدور</label>
                       <select
                         value={editMember.role}
                         onChange={(e) => setEditMember({ ...editMember, role: e.target.value })}
@@ -683,7 +683,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">اللجنة</label>
+                      <label className="mb-1 block text-sm font-medium text-gray-700">اللجنة</label>
                       <select
                         value={editMember.committee}
                         onChange={(e) =>
@@ -700,7 +700,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">التخصص</label>
+                      <label className="mb-1 block text-sm font-medium text-gray-700">التخصص</label>
                       <input
                         type="text"
                         value={editMember.major}
@@ -710,7 +710,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         المستوى الدراسي
                       </label>
                       <select
@@ -740,7 +740,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       إلغاء
                     </button>
                     <button type="submit" className="btn-primary">
-                      <Edit2 className="h-5 w-5 ml-2" />
+                      <Edit2 className="ml-2 h-5 w-5" />
                       حفظ التغييرات
                     </button>
                   </div>
@@ -752,11 +752,11 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
 
         {/* Delete Confirmation Modal */}
         {showDeleteConfirmation && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-            <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-md">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
               <div className="text-center">
-                <h2 className="text-xl font-kaff text-trust mb-4">تأكيد الحذف</h2>
-                <p className="text-gray-600 mb-6">
+                <h2 className="font-kaff text-trust mb-4 text-xl">تأكيد الحذف</h2>
+                <p className="mb-6 text-gray-600">
                   هل أنت متأكد من حذف العضو {showDeleteConfirmation.name}؟
                 </p>
                 <div className="flex justify-center space-x-3 space-x-reverse">
@@ -767,7 +767,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                     onClick={() => handleDeleteMember(showDeleteConfirmation.id)}
                     className="btn-danger"
                   >
-                    <Trash2 className="h-5 w-5 ml-2" />
+                    <Trash2 className="ml-2 h-5 w-5" />
                     حذف
                   </button>
                 </div>

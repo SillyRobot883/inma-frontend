@@ -410,48 +410,48 @@ const MemberManagement = () => {
     <Layout>
       <div className="space-y-8">
         {/* Header with stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+          <div className="rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-500">إجمالي الأعضاء</p>
-                <p className="text-2xl font-bold text-trust mt-1">{members.length}</p>
-                <p className="text-sm font-medium text-gray-500 mt-1">عضو</p>
+                <p className="text-trust mt-1 text-2xl font-bold">{members.length}</p>
+                <p className="mt-1 text-sm font-medium text-gray-500">عضو</p>
               </div>
-              <div className="bg-trust/10 rounded-full p-3 transition-all duration-300 group-hover:bg-trust/20">
-                <Users className="h-6 w-6 text-trust" />
+              <div className="bg-trust/10 group-hover:bg-trust/20 rounded-full p-3 transition-all duration-300">
+                <Users className="text-trust h-6 w-6" />
               </div>
             </div>
           </div>
 
           {/* تحسين عرض الساعات في البطاقات الإحصائية */}
-          <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md hover:bg-gray-50 group">
+          <div className="group rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:bg-gray-50 hover:shadow-md">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-500">متوسط الساعات</p>
-                <p className="text-2xl font-bold text-growth mt-1 group-hover:scale-105 transition-transform duration-300">
+                <p className="text-growth mt-1 text-2xl font-bold transition-transform duration-300 group-hover:scale-105">
                   {formatTimeFromDecimal(
                     members.reduce((acc, member) => acc + member.totalHours, 0) / members.length
                   )}
                 </p>
-                <p className="text-sm font-medium text-gray-500 mt-1">ساعة لكل عضو</p>
+                <p className="mt-1 text-sm font-medium text-gray-500">ساعة لكل عضو</p>
               </div>
-              <div className="bg-growth/10 rounded-full p-3 transition-all duration-300 group-hover:bg-growth/30 group-hover:scale-110">
-                <Clock className="h-6 w-6 text-growth" />
+              <div className="bg-growth/10 group-hover:bg-growth/30 rounded-full p-3 transition-all duration-300 group-hover:scale-110">
+                <Clock className="text-growth h-6 w-6" />
               </div>
             </div>
           </div>
 
           {/* تحسين عرض أفضل أداء */}
-          <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md hover:bg-gray-50 group">
+          <div className="group rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:bg-gray-50 hover:shadow-md">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-500">أفضل أداء</p>
-                <p className="text-2xl font-bold text-excellence mt-1 group-hover:scale-105 transition-transform duration-300">
+                <p className="text-excellence mt-1 text-2xl font-bold transition-transform duration-300 group-hover:scale-105">
                   {members.sort((a, b) => b.totalHours - a.totalHours)[0].name.split(' ')[0]}
                 </p>
-                <p className="text-sm font-medium text-gray-500 mt-1 flex items-center">
-                  <Clock className="h-4 w-4 mr-1 text-excellence" />
+                <p className="mt-1 flex items-center text-sm font-medium text-gray-500">
+                  <Clock className="text-excellence mr-1 h-4 w-4" />
                   <span className="font-mono">
                     {formatTimeFromDecimal(
                       members.sort((a, b) => b.totalHours - a.totalHours)[0].totalHours
@@ -459,33 +459,33 @@ const MemberManagement = () => {
                   </span>
                 </p>
               </div>
-              <div className="bg-excellence/10 rounded-full p-3 transition-all duration-300 group-hover:bg-excellence/30 group-hover:scale-110">
-                <Award className="h-6 w-6 text-excellence" />
+              <div className="bg-excellence/10 group-hover:bg-excellence/30 rounded-full p-3 transition-all duration-300 group-hover:scale-110">
+                <Award className="text-excellence h-6 w-6" />
               </div>
             </div>
           </div>
         </div>
 
         {/* Members List */}
-        <div className="bg-white rounded-xl shadow-sm">
-          <div className="p-6 border-b border-gray-100">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <h2 className="text-xl font-kaff font-bold text-trust">إدارة أعضاء النادي</h2>
-              <div className="flex flex-col md:flex-row items-center gap-4">
+        <div className="rounded-xl bg-white shadow-sm">
+          <div className="border-b border-gray-100 p-6">
+            <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+              <h2 className="font-kaff text-trust text-xl font-bold">إدارة أعضاء النادي</h2>
+              <div className="flex flex-col items-center gap-4 md:flex-row">
                 <div className="relative w-full md:w-auto">
-                  <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                  <Search className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-gray-400" />
                   <input
                     type="text"
                     placeholder="بحث عن عضو..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10 pr-12 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust w-full md:w-64 transition-all duration-300"
+                    className="focus:ring-trust/20 focus:border-trust w-full rounded-lg border border-gray-200 py-2 pl-10 pr-12 transition-all duration-300 focus:outline-none focus:ring-2 md:w-64"
                   />
                 </div>
                 <select
                   value={filterRole}
                   onChange={(e) => setFilterRole(e.target.value)}
-                  className="border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust text-sm font-medium text-gray-700 transition-all duration-300 w-full md:w-auto"
+                  className="focus:ring-trust/20 focus:border-trust w-full rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-300 focus:outline-none focus:ring-2 md:w-auto"
                 >
                   <option value="all">جميع الأدوار</option>
                   <option value="leader">قائد النادي</option>
@@ -495,9 +495,9 @@ const MemberManagement = () => {
                 {/* تحسين زر إضافة عضو جديد */}
                 <button
                   onClick={() => setShowAddMemberModal(true)}
-                  className="btn-primary w-full md:w-auto hover:scale-105 transition-transform duration-300 shadow-sm hover:shadow-md"
+                  className="btn-primary w-full shadow-sm transition-transform duration-300 hover:scale-105 hover:shadow-md md:w-auto"
                 >
-                  <UserPlus className="h-5 w-5 ml-2" />
+                  <UserPlus className="ml-2 h-5 w-5" />
                   إضافة عضو جديد
                 </button>
               </div>
@@ -511,101 +511,101 @@ const MemberManagement = () => {
                 <tr>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                    className="cursor-pointer px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500"
                     onClick={() => handleSort('name')}
                   >
                     <div className="flex items-center">
                       <span>اسم العضو</span>
                       {sortBy === 'name' &&
                         (sortOrder === 'asc' ? (
-                          <ChevronUp className="h-4 w-4 mr-1" />
+                          <ChevronUp className="mr-1 h-4 w-4" />
                         ) : (
-                          <ChevronDown className="h-4 w-4 mr-1" />
+                          <ChevronDown className="mr-1 h-4 w-4" />
                         ))}
                     </div>
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500"
                   >
                     الرقم الجامعي
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500"
                   >
                     الدور
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500"
                   >
                     اللجنة
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                    className="cursor-pointer px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500"
                     onClick={() => handleSort('hours')}
                   >
                     <div className="flex items-center">
                       <span>الساعات</span>
                       {sortBy === 'hours' &&
                         (sortOrder === 'asc' ? (
-                          <ChevronUp className="h-4 w-4 mr-1" />
+                          <ChevronUp className="mr-1 h-4 w-4" />
                         ) : (
-                          <ChevronDown className="h-4 w-4 mr-1" />
+                          <ChevronDown className="mr-1 h-4 w-4" />
                         ))}
                     </div>
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                    className="cursor-pointer px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500"
                     onClick={() => handleSort('engagement')}
                   >
                     <div className="flex items-center">
                       <span>نسبة التفاعل</span>
                       {sortBy === 'engagement' &&
                         (sortOrder === 'asc' ? (
-                          <ChevronUp className="h-4 w-4 mr-1" />
+                          <ChevronUp className="mr-1 h-4 w-4" />
                         ) : (
-                          <ChevronDown className="h-4 w-4 mr-1" />
+                          <ChevronDown className="mr-1 h-4 w-4" />
                         ))}
                     </div>
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                    className="cursor-pointer px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500"
                     onClick={() => handleSort('joinDate')}
                   >
                     <div className="flex items-center">
                       <span>تاريخ الانضمام</span>
                       {sortBy === 'joinDate' &&
                         (sortOrder === 'asc' ? (
-                          <ChevronUp className="h-4 w-4 mr-1" />
+                          <ChevronUp className="mr-1 h-4 w-4" />
                         ) : (
-                          <ChevronDown className="h-4 w-4 mr-1" />
+                          <ChevronDown className="mr-1 h-4 w-4" />
                         ))}
                     </div>
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500"
                   >
                     الإجراءات
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="divide-y divide-gray-200 bg-white">
                 {sortedAndFilteredMembers.map((member) => (
                   // تحسين صف الجدول بأكمله
                   <tr
                     key={member.id}
-                    className="hover:bg-gray-50 transition-colors duration-150 hover:shadow-sm"
+                    className="transition-colors duration-150 hover:bg-gray-50 hover:shadow-sm"
                   >
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="whitespace-nowrap px-6 py-4">
                       <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-trust/10 flex items-center justify-center">
-                          <span className="text-lg font-medium text-trust">
+                        <div className="bg-trust/10 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full">
+                          <span className="text-trust text-lg font-medium">
                             {member.name.charAt(0)}
                           </span>
                         </div>
@@ -615,35 +615,35 @@ const MemberManagement = () => {
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="whitespace-nowrap px-6 py-4">
                       <div className="text-sm text-gray-900">{member.studentId}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="whitespace-nowrap px-6 py-4">
                       <span
-                        className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getRoleColor(member.role)}`}
+                        className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold leading-5 ${getRoleColor(member.role)}`}
                       >
                         {getRoleText(member.role)}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="whitespace-nowrap px-6 py-4">
                       <div className="text-sm text-gray-900">{member.committee}</div>
                     </td>
                     {/* تحسين عرض الساعات في جدول الأعضاء */}
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="whitespace-nowrap px-6 py-4">
                       <div className="flex items-center">
-                        <Clock className="h-4 w-4 text-gray-400 ml-1" />
-                        <span className="text-sm font-medium text-trust font-mono hover:text-growth transition-colors duration-200">
+                        <Clock className="ml-1 h-4 w-4 text-gray-400" />
+                        <span className="text-trust hover:text-growth font-mono text-sm font-medium transition-colors duration-200">
                           {formatTimeFromDecimal(member.totalHours)}
                         </span>
                       </div>
-                      <div className="text-xs text-gray-500 mt-1">
+                      <div className="mt-1 text-xs text-gray-500">
                         {member.completedTasks} مهمة مكتملة
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="whitespace-nowrap px-6 py-4">
                       {/* تحسين عرض نسبة التفاعل */}
                       <div className="flex items-center">
-                        <div className="w-full bg-gray-200 rounded-full h-2.5 mr-2 max-w-[100px] overflow-hidden">
+                        <div className="mr-2 h-2.5 w-full max-w-[100px] overflow-hidden rounded-full bg-gray-200">
                           <div
                             className={`h-2.5 rounded-full ${getEngagementBg(member.engagement)} transition-all duration-500 ease-out`}
                             style={{ width: `${member.engagement}%` }}
@@ -656,21 +656,21 @@ const MemberManagement = () => {
                         </span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                       {new Date(member.joinDate).toLocaleDateString('ar-SA')}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-left text-sm font-medium">
+                    <td className="whitespace-nowrap px-6 py-4 text-left text-sm font-medium">
                       <div className="flex items-center space-x-2 space-x-reverse">
                         {/* تحسين أزرار الإجراءات */}
                         <button
                           onClick={() => setShowMemberDetails(member)}
-                          className="text-trust hover:text-trust-dark transition-colors duration-150 p-2 hover:bg-trust/10 rounded-full"
+                          className="text-trust hover:text-trust-dark hover:bg-trust/10 rounded-full p-2 transition-colors duration-150"
                         >
                           <UserCog className="h-5 w-5" />
                         </button>
                         <button
                           onClick={() => setShowDeleteConfirmation(member)}
-                          className="text-red-500 hover:text-red-700 transition-colors duration-150 p-2 hover:bg-red-50 rounded-full"
+                          className="rounded-full p-2 text-red-500 transition-colors duration-150 hover:bg-red-50 hover:text-red-700"
                         >
                           <UserX className="h-5 w-5" />
                         </button>
@@ -686,11 +686,11 @@ const MemberManagement = () => {
 
       {/* Add Member Modal */}
       {showAddMemberModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-100">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl bg-white shadow-xl">
+            <div className="border-b border-gray-100 p-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-kaff text-trust">إضافة عضو جديد</h2>
+                <h2 className="font-kaff text-trust text-xl">إضافة عضو جديد</h2>
                 <button
                   onClick={() => setShowAddMemberModal(false)}
                   className="text-gray-400 hover:text-gray-500"
@@ -701,9 +701,9 @@ const MemberManagement = () => {
             </div>
             <div className="p-6">
               <form onSubmit={handleAddMember} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="mb-1 block text-sm font-medium text-gray-700">
                       اسم العضو
                     </label>
                     <input
@@ -715,7 +715,7 @@ const MemberManagement = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="mb-1 block text-sm font-medium text-gray-700">
                       رقم الهوية
                     </label>
                     <input
@@ -727,47 +727,47 @@ const MemberManagement = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="mb-1 block text-sm font-medium text-gray-700">
                       الرقم الجامعي
                     </label>
                     <input
                       type="text"
                       value={newMember.studentId}
                       onChange={(e) => setNewMember({ ...newMember, studentId: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-trust focus:border-trust"
+                      className="focus:ring-trust focus:border-trust w-full rounded-md border border-gray-300 px-4 py-2"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="mb-1 block text-sm font-medium text-gray-700">
                       البريد الإلكتروني
                     </label>
                     <input
                       type="email"
                       value={newMember.email}
                       onChange={(e) => setNewMember({ ...newMember, email: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-trust focus:border-trust"
+                      className="focus:ring-trust focus:border-trust w-full rounded-md border border-gray-300 px-4 py-2"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="mb-1 block text-sm font-medium text-gray-700">
                       رقم الهاتف
                     </label>
                     <input
                       type="tel"
                       value={newMember.phone}
                       onChange={(e) => setNewMember({ ...newMember, phone: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-trust focus:border-trust"
+                      className="focus:ring-trust focus:border-trust w-full rounded-md border border-gray-300 px-4 py-2"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">الدور</label>
+                    <label className="mb-1 block text-sm font-medium text-gray-700">الدور</label>
                     <select
                       value={newMember.role}
                       onChange={(e) => setNewMember({ ...newMember, role: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-trust focus:border-trust"
+                      className="focus:ring-trust focus:border-trust w-full rounded-md border border-gray-300 px-4 py-2"
                       required
                     >
                       <option value="member">عضو</option>
@@ -776,11 +776,11 @@ const MemberManagement = () => {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">اللجنة</label>
+                    <label className="mb-1 block text-sm font-medium text-gray-700">اللجنة</label>
                     <select
                       value={newMember.committee}
                       onChange={(e) => setNewMember({ ...newMember, committee: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-trust focus:border-trust"
+                      className="focus:ring-trust focus:border-trust w-full rounded-md border border-gray-300 px-4 py-2"
                       required
                     >
                       <option value="">اختر اللجنة</option>
@@ -791,7 +791,7 @@ const MemberManagement = () => {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="mb-1 block text-sm font-medium text-gray-700">
                       عدد الساعات (ساعة:دقيقة:ثانية)
                     </label>
                     <div className="grid grid-cols-3 gap-2">
@@ -800,49 +800,49 @@ const MemberManagement = () => {
                           type="number"
                           value={newMember.hours}
                           onChange={(e) => handleTimeChange('hours', e.target.value)}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-trust focus:border-trust text-center"
+                          className="focus:ring-trust focus:border-trust w-full rounded-md border border-gray-300 px-4 py-2 text-center"
                           placeholder="00"
                           min="0"
                           required
                         />
-                        <span className="absolute top-2 left-2 text-gray-400">س</span>
+                        <span className="absolute left-2 top-2 text-gray-400">س</span>
                       </div>
                       <div className="relative">
                         <input
                           type="number"
                           value={newMember.minutes}
                           onChange={(e) => handleTimeChange('minutes', e.target.value)}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-trust focus:border-trust text-center"
+                          className="focus:ring-trust focus:border-trust w-full rounded-md border border-gray-300 px-4 py-2 text-center"
                           placeholder="00"
                           min="0"
                           max="59"
                           required
                         />
-                        <span className="absolute top-2 left-2 text-gray-400">د</span>
+                        <span className="absolute left-2 top-2 text-gray-400">د</span>
                       </div>
                       <div className="relative">
                         <input
                           type="number"
                           value={newMember.seconds}
                           onChange={(e) => handleTimeChange('seconds', e.target.value)}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-trust focus:border-trust text-center"
+                          className="focus:ring-trust focus:border-trust w-full rounded-md border border-gray-300 px-4 py-2 text-center"
                           placeholder="00"
                           min="0"
                           max="59"
                           required
                         />
-                        <span className="absolute top-2 left-2 text-gray-400">ث</span>
+                        <span className="absolute left-2 top-2 text-gray-400">ث</span>
                       </div>
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="mb-1 block text-sm font-medium text-gray-700">
                       المستوى الدراسي
                     </label>
                     <select
                       value={newMember.level}
                       onChange={(e) => setNewMember({ ...newMember, level: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-trust focus:border-trust"
+                      className="focus:ring-trust focus:border-trust w-full rounded-md border border-gray-300 px-4 py-2"
                       required
                     >
                       <option value="">اختر المستوى</option>
@@ -866,7 +866,7 @@ const MemberManagement = () => {
                     إلغاء
                   </button>
                   <button type="submit" className="btn-primary">
-                    <UserPlus className="h-5 w-5 ml-2" />
+                    <UserPlus className="ml-2 h-5 w-5" />
                     إضافة العضو
                   </button>
                 </div>
@@ -878,11 +878,11 @@ const MemberManagement = () => {
 
       {/* Delete Confirmation Modal */}
       {showDeleteConfirmation && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
-            <div className="p-6 border-b border-gray-100">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="w-full max-w-md rounded-xl bg-white shadow-xl">
+            <div className="border-b border-gray-100 p-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-kaff text-trust">تأكيد حذف العضو</h2>
+                <h2 className="font-kaff text-trust text-xl">تأكيد حذف العضو</h2>
                 <button
                   onClick={() => setShowDeleteConfirmation(null)}
                   className="text-gray-400 hover:text-gray-500"
@@ -892,14 +892,14 @@ const MemberManagement = () => {
               </div>
             </div>
             <div className="p-6">
-              <div className="flex items-center justify-center mb-6">
-                <div className="h-16 w-16 rounded-full bg-red-100 flex items-center justify-center">
+              <div className="mb-6 flex items-center justify-center">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
                   <AlertTriangle className="h-8 w-8 text-red-500" />
                 </div>
               </div>
-              <p className="text-center text-gray-700 mb-6">
+              <p className="mb-6 text-center text-gray-700">
                 هل أنت متأكد من رغبتك في حذف العضو{' '}
-                <span className="font-bold text-trust">{showDeleteConfirmation.name}</span>؟ لا يمكن
+                <span className="text-trust font-bold">{showDeleteConfirmation.name}</span>؟ لا يمكن
                 التراجع عن هذا الإجراء.
               </p>
               <div className="flex justify-center space-x-3 space-x-reverse">
@@ -908,9 +908,9 @@ const MemberManagement = () => {
                 </button>
                 <button
                   onClick={() => handleDeleteMember(showDeleteConfirmation.id)}
-                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition-colors"
+                  className="rounded-md bg-red-500 px-4 py-2 text-white transition-colors hover:bg-red-600"
                 >
-                  <Trash2 className="h-5 w-5 ml-2 inline-block" />
+                  <Trash2 className="ml-2 inline-block h-5 w-5" />
                   تأكيد الحذف
                 </button>
               </div>
@@ -921,11 +921,11 @@ const MemberManagement = () => {
 
       {/* Member Details Modal */}
       {showMemberDetails && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-100">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-xl bg-white shadow-xl">
+            <div className="border-b border-gray-100 p-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-kaff text-trust">تفاصيل العضو</h2>
+                <h2 className="font-kaff text-trust text-xl">تفاصيل العضو</h2>
                 <button
                   onClick={() => setShowMemberDetails(null)}
                   className="text-gray-400 hover:text-gray-500"
@@ -935,20 +935,20 @@ const MemberManagement = () => {
               </div>
             </div>
             <div className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
                 {/* Member Info */}
-                <div className="md:col-span-1 bg-gray-50 p-6 rounded-xl">
-                  <div className="flex flex-col items-center mb-6">
-                    <div className="h-24 w-24 rounded-full bg-trust/10 flex items-center justify-center mb-4">
-                      <span className="text-3xl font-medium text-trust">
+                <div className="rounded-xl bg-gray-50 p-6 md:col-span-1">
+                  <div className="mb-6 flex flex-col items-center">
+                    <div className="bg-trust/10 mb-4 flex h-24 w-24 items-center justify-center rounded-full">
+                      <span className="text-trust text-3xl font-medium">
                         {showMemberDetails.name.charAt(0)}
                       </span>
                     </div>
-                    <h3 className="text-xl font-medium text-gray-900 text-center">
+                    <h3 className="text-center text-xl font-medium text-gray-900">
                       {showMemberDetails.name}
                     </h3>
                     <span
-                      className={`mt-2 px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getRoleColor(showMemberDetails.role)}`}
+                      className={`mt-2 inline-flex rounded-full px-3 py-1 text-xs font-semibold leading-5 ${getRoleColor(showMemberDetails.role)}`}
                     >
                       {getRoleText(showMemberDetails.role)}
                     </span>
@@ -956,8 +956,8 @@ const MemberManagement = () => {
 
                   <div className="space-y-4">
                     <div className="flex items-center space-x-3 space-x-reverse">
-                      <div className="bg-trust/10 p-2 rounded-full">
-                        <User className="h-5 w-5 text-trust" />
+                      <div className="bg-trust/10 rounded-full p-2">
+                        <User className="text-trust h-5 w-5" />
                       </div>
                       <div>
                         <p className="text-sm text-gray-500">الرقم الجامعي</p>
@@ -965,8 +965,8 @@ const MemberManagement = () => {
                       </div>
                     </div>
                     <div className="flex items-center space-x-3 space-x-reverse">
-                      <div className="bg-trust/10 p-2 rounded-full">
-                        <Mail className="h-5 w-5 text-trust" />
+                      <div className="bg-trust/10 rounded-full p-2">
+                        <Mail className="text-trust h-5 w-5" />
                       </div>
                       <div>
                         <p className="text-sm text-gray-500">البريد الإلكتروني</p>
@@ -974,8 +974,8 @@ const MemberManagement = () => {
                       </div>
                     </div>
                     <div className="flex items-center space-x-3 space-x-reverse">
-                      <div className="bg-trust/10 p-2 rounded-full">
-                        <Phone className="h-5 w-5 text-trust" />
+                      <div className="bg-trust/10 rounded-full p-2">
+                        <Phone className="text-trust h-5 w-5" />
                       </div>
                       <div>
                         <p className="text-sm text-gray-500">رقم الهاتف</p>
@@ -983,8 +983,8 @@ const MemberManagement = () => {
                       </div>
                     </div>
                     <div className="flex items-center space-x-3 space-x-reverse">
-                      <div className="bg-trust/10 p-2 rounded-full">
-                        <Calendar className="h-5 w-5 text-trust" />
+                      <div className="bg-trust/10 rounded-full p-2">
+                        <Calendar className="text-trust h-5 w-5" />
                       </div>
                       <div>
                         <p className="text-sm text-gray-500">تاريخ الانضمام</p>
@@ -994,8 +994,8 @@ const MemberManagement = () => {
                       </div>
                     </div>
                     <div className="flex items-center space-x-3 space-x-reverse">
-                      <div className="bg-trust/10 p-2 rounded-full">
-                        <Users className="h-5 w-5 text-trust" />
+                      <div className="bg-trust/10 rounded-full p-2">
+                        <Users className="text-trust h-5 w-5" />
                       </div>
                       <div>
                         <p className="text-sm text-gray-500">اللجنة</p>
@@ -1003,8 +1003,8 @@ const MemberManagement = () => {
                       </div>
                     </div>
                     <div className="flex items-center space-x-3 space-x-reverse">
-                      <div className="bg-trust/10 p-2 rounded-full">
-                        <FileText className="h-5 w-5 text-trust" />
+                      <div className="bg-trust/10 rounded-full p-2">
+                        <FileText className="text-trust h-5 w-5" />
                       </div>
                       <div>
                         <p className="text-sm text-gray-500">التخصص</p>
@@ -1015,19 +1015,19 @@ const MemberManagement = () => {
                 </div>
 
                 {/* Member Stats and Activity */}
-                <div className="md:col-span-2 space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="space-y-6 md:col-span-2">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                     {/* تحسين عرض الساعات في تفاصيل العضو */}
-                    <div className="bg-trust/5 rounded-xl p-4 hover:bg-trust/10 transition-all duration-300 group">
+                    <div className="bg-trust/5 hover:bg-trust/10 group rounded-xl p-4 transition-all duration-300">
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="text-sm text-gray-500">إجمالي الساعات</p>
-                          <p className="text-2xl font-bold text-trust mt-1 font-mono group-hover:scale-105 transition-transform duration-300">
+                          <p className="text-trust mt-1 font-mono text-2xl font-bold transition-transform duration-300 group-hover:scale-105">
                             {formatTimeFromDecimal(showMemberDetails.totalHours)}
                           </p>
                         </div>
-                        <div className="bg-trust/10 p-3 rounded-full group-hover:bg-trust/30 transition-all duration-300 group-hover:scale-110">
-                          <Clock className="h-6 w-6 text-trust" />
+                        <div className="bg-trust/10 group-hover:bg-trust/30 rounded-full p-3 transition-all duration-300 group-hover:scale-110">
+                          <Clock className="text-trust h-6 w-6" />
                         </div>
                       </div>
                     </div>
@@ -1035,34 +1035,34 @@ const MemberManagement = () => {
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="text-sm text-gray-500">المهام المكتملة</p>
-                          <p className="text-2xl font-bold text-growth mt-1">
+                          <p className="text-growth mt-1 text-2xl font-bold">
                             {showMemberDetails.completedTasks}
                           </p>
                         </div>
-                        <div className="bg-growth/10 p-3 rounded-full">
-                          <CheckCircle2 className="h-6 w-6 text-growth" />
+                        <div className="bg-growth/10 rounded-full p-3">
+                          <CheckCircle2 className="text-growth h-6 w-6" />
                         </div>
                       </div>
                     </div>
-                    <div className="bg-yellow-50 rounded-xl p-4">
+                    <div className="rounded-xl bg-yellow-50 p-4">
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="text-sm text-gray-500">المهام المعلقة</p>
-                          <p className="text-2xl font-bold text-yellow-600 mt-1">
+                          <p className="mt-1 text-2xl font-bold text-yellow-600">
                             {showMemberDetails.pendingTasks}
                           </p>
                         </div>
-                        <div className="bg-yellow-100 p-3 rounded-full">
+                        <div className="rounded-full bg-yellow-100 p-3">
                           <AlertCircle className="h-6 w-6 text-yellow-600" />
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-white border border-gray-100 rounded-xl p-4">
-                    <h3 className="text-lg font-medium text-trust mb-4">نسبة التفاعل</h3>
-                    <div className="flex items-center mb-4">
-                      <div className="w-full bg-gray-200 rounded-full h-4">
+                  <div className="rounded-xl border border-gray-100 bg-white p-4">
+                    <h3 className="text-trust mb-4 text-lg font-medium">نسبة التفاعل</h3>
+                    <div className="mb-4 flex items-center">
+                      <div className="h-4 w-full rounded-full bg-gray-200">
                         <div
                           className={`h-4 rounded-full ${getEngagementBg(showMemberDetails.engagement)}`}
                           style={{ width: `${showMemberDetails.engagement}%` }}
@@ -1079,22 +1079,22 @@ const MemberManagement = () => {
                     </p>
                   </div>
 
-                  <div className="bg-white border border-gray-100 rounded-xl p-4">
-                    <h3 className="text-lg font-medium text-trust mb-4">آخر الأنشطة</h3>
+                  <div className="rounded-xl border border-gray-100 bg-white p-4">
+                    <h3 className="text-trust mb-4 text-lg font-medium">آخر الأنشطة</h3>
                     <div className="space-y-4">
                       {showMemberDetails.recentActivity.map((activity) => (
                         <div
                           key={activity.id}
-                          className="flex items-start space-x-3 space-x-reverse bg-gray-50 rounded-lg p-4"
+                          className="flex items-start space-x-3 space-x-reverse rounded-lg bg-gray-50 p-4"
                         >
-                          <div className="bg-trust/10 p-2 rounded-full">
-                            <Activity className="h-5 w-5 text-trust" />
+                          <div className="bg-trust/10 rounded-full p-2">
+                            <Activity className="text-trust h-5 w-5" />
                           </div>
                           <div className="flex-1">
                             <div className="flex items-center justify-between">
                               <h4 className="font-medium text-gray-900">{activity.title}</h4>
                               <span
-                                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
                                   activity.status === 'approved'
                                     ? 'bg-growth/10 text-growth'
                                     : activity.status === 'pending'
@@ -1111,14 +1111,14 @@ const MemberManagement = () => {
                             </div>
                             <div className="mt-1 text-sm text-gray-500">
                               {/* تحسين عرض الساعات في الأنشطة الأخيرة */}
-                              <span className="inline-flex items-center ml-4 bg-trust/5 px-2 py-1 rounded-full hover:bg-trust/10 transition-all duration-200">
-                                <Clock className="h-4 w-4 ml-1" />
+                              <span className="bg-trust/5 hover:bg-trust/10 ml-4 inline-flex items-center rounded-full px-2 py-1 transition-all duration-200">
+                                <Clock className="ml-1 h-4 w-4" />
                                 <span className="font-mono">
                                   {formatTimeFromDecimal(activity.hours)}
                                 </span>
                               </span>
                               <span className="inline-flex items-center">
-                                <Calendar className="h-4 w-4 ml-1" />
+                                <Calendar className="ml-1 h-4 w-4" />
                                 {activity.date}
                               </span>
                             </div>
@@ -1130,12 +1130,12 @@ const MemberManagement = () => {
                 </div>
               </div>
 
-              <div className="flex justify-end space-x-3 space-x-reverse mt-6">
+              <div className="mt-6 flex justify-end space-x-3 space-x-reverse">
                 <button onClick={() => setShowMemberDetails(null)} className="btn-secondary">
                   إغلاق
                 </button>
                 <button className="btn-primary">
-                  <Edit2 className="h-5 w-5 ml-2" />
+                  <Edit2 className="ml-2 h-5 w-5" />
                   تعديل بيانات العضو
                 </button>
               </div>

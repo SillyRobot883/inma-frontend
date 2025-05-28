@@ -8,9 +8,9 @@ const useAuth = () => {
       id: 1,
       name: 'John Doe',
       role: 'inma_admin',
-      clubId: 1
+      clubId: 1,
     },
-    isAuthenticated: true
+    isAuthenticated: true,
   };
 };
 
@@ -28,4 +28,4 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   return children;
 };
 
-export default ProtectedRoute; 
+export default ProtectedRoute;

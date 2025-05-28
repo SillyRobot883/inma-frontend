@@ -328,57 +328,57 @@ const HRDashboard = () => {
     <Layout>
       <div className="space-y-8">
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+          <div className="rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-500">الساعات المعلقة</p>
-                <p className="text-2xl font-bold text-yellow-600 mt-1">
+                <p className="mt-1 text-2xl font-bold text-yellow-600">
                   {submissions.filter((s) => s.status === 'pending').length}
                 </p>
-                <p className="text-sm font-medium text-gray-500 mt-1">تحتاج مراجعة</p>
+                <p className="mt-1 text-sm font-medium text-gray-500">تحتاج مراجعة</p>
               </div>
-              <div className="bg-yellow-100 rounded-full p-3 transition-all duration-300 group-hover:bg-yellow-200">
+              <div className="rounded-full bg-yellow-100 p-3 transition-all duration-300 group-hover:bg-yellow-200">
                 <AlertCircle className="h-6 w-6 text-yellow-600" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
+          <div className="rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-500">تحتاج معلومات</p>
-                <p className="text-2xl font-bold text-blue-600 mt-1">
+                <p className="mt-1 text-2xl font-bold text-blue-600">
                   {submissions.filter((s) => s.status === 'needs_info').length}
                 </p>
-                <p className="text-sm font-medium text-gray-500 mt-1">معلومات إضافية مطلوبة</p>
+                <p className="mt-1 text-sm font-medium text-gray-500">معلومات إضافية مطلوبة</p>
               </div>
-              <div className="bg-blue-100 rounded-full p-3 transition-all duration-300 group-hover:bg-blue-200">
+              <div className="rounded-full bg-blue-100 p-3 transition-all duration-300 group-hover:bg-blue-200">
                 <Info className="h-6 w-6 text-blue-600" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
+          <div className="rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-500">تمت الموافقة</p>
-                <p className="text-2xl font-bold text-growth mt-1">
+                <p className="text-growth mt-1 text-2xl font-bold">
                   {submissions.filter((s) => s.status === 'approved').length}
                 </p>
-                <p className="text-sm font-medium text-gray-500 mt-1">مهام مكتملة</p>
+                <p className="mt-1 text-sm font-medium text-gray-500">مهام مكتملة</p>
               </div>
-              <div className="bg-growth/10 rounded-full p-3 transition-all duration-300 group-hover:bg-growth/20">
-                <CheckCircle2 className="h-6 w-6 text-growth" />
+              <div className="bg-growth/10 group-hover:bg-growth/20 rounded-full p-3 transition-all duration-300">
+                <CheckCircle2 className="text-growth h-6 w-6" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
+          <div className="rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-500">إجمالي الساعات</p>
-                <p className="text-2xl font-bold text-trust mt-1">
+                <p className="text-trust mt-1 text-2xl font-bold">
                   {(() => {
                     const totalSeconds = submissions.reduce((acc, curr) => {
                       const [hours, minutes, seconds] = curr.hours.split(':').map(Number);
@@ -392,35 +392,35 @@ const HRDashboard = () => {
                     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                   })()}
                 </p>
-                <p className="text-sm font-medium text-gray-500 mt-1">ساعة عمل</p>
+                <p className="mt-1 text-sm font-medium text-gray-500">ساعة عمل</p>
               </div>
-              <div className="bg-trust/10 rounded-full p-3 transition-all duration-300 group-hover:bg-trust/20">
-                <Clock className="h-6 w-6 text-trust" />
+              <div className="bg-trust/10 group-hover:bg-trust/20 rounded-full p-3 transition-all duration-300">
+                <Clock className="text-trust h-6 w-6" />
               </div>
             </div>
           </div>
         </div>
 
         {/* Submissions List */}
-        <div className="bg-white rounded-xl shadow-sm">
-          <div className="p-6 border-b border-gray-100">
+        <div className="rounded-xl bg-white shadow-sm">
+          <div className="border-b border-gray-100 p-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-kaff font-bold text-trust">طلبات اعتماد الساعات</h2>
+              <h2 className="font-kaff text-trust text-xl font-bold">طلبات اعتماد الساعات</h2>
               <div className="flex items-center space-x-4 space-x-reverse">
                 <div className="relative">
-                  <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                  <Search className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-gray-400" />
                   <input
                     type="text"
                     placeholder="بحث..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10 pr-12 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust w-64 transition-all duration-300"
+                    className="focus:ring-trust/20 focus:border-trust w-64 rounded-lg border border-gray-200 py-2 pl-10 pr-12 transition-all duration-300 focus:outline-none focus:ring-2"
                   />
                 </div>
                 <select
                   value={filterStatus}
                   onChange={(e) => setFilterStatus(e.target.value)}
-                  className="border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust text-sm font-medium text-gray-700 transition-all duration-300"
+                  className="focus:ring-trust/20 focus:border-trust rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-300 focus:outline-none focus:ring-2"
                 >
                   <option value="all" className="text-sm font-medium text-gray-700">
                     جميع الحالات
@@ -442,8 +442,8 @@ const HRDashboard = () => {
             {filteredSubmissions.map((submission) => (
               <div
                 key={submission.id}
-                className={`p-6 hover:bg-gray-50 transition-colors duration-200 ${
-                  submission.status === 'approved' ? 'bg-growth/5 border-r-4 border-r-growth' : ''
+                className={`p-6 transition-colors duration-200 hover:bg-gray-50 ${
+                  submission.status === 'approved' ? 'bg-growth/5 border-r-growth border-r-4' : ''
                 }`}
               >
                 <div className="flex items-start justify-between">
@@ -465,24 +465,24 @@ const HRDashboard = () => {
                       <div className="flex items-center space-x-2 space-x-reverse">
                         <h3 className="text-lg font-medium text-gray-900">{submission.title}</h3>
                         <span
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getCategoryColor(submission.category)}`}
+                          className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getCategoryColor(submission.category)}`}
                         >
                           {submission.category}
                         </span>
                       </div>
                       <div className="mt-1 flex items-center space-x-3 space-x-reverse text-sm text-gray-500">
                         <span className="flex items-center">
-                          <UserCircle className="h-4 w-4 ml-1" />
+                          <UserCircle className="ml-1 h-4 w-4" />
                           {submission.member}
                         </span>
                         <span>•</span>
-                        <span className="flex items-center bg-trust/5 px-3 py-1 rounded-full font-medium text-trust">
-                          <Clock4 className="h-4 w-4 ml-1" />
+                        <span className="bg-trust/5 text-trust flex items-center rounded-full px-3 py-1 font-medium">
+                          <Clock4 className="ml-1 h-4 w-4" />
                           {submission.hours}
                         </span>
                         <span>•</span>
                         <span className="flex items-center">
-                          <CalendarDays className="h-4 w-4 ml-1" />
+                          <CalendarDays className="ml-1 h-4 w-4" />
                           {submission.date}
                         </span>
                       </div>
@@ -494,7 +494,7 @@ const HRDashboard = () => {
                             {submission.attachments.map((attachment, index) => (
                               <span
                                 key={index}
-                                className="text-xs text-trust hover:text-trust-dark cursor-pointer"
+                                className="text-trust hover:text-trust-dark cursor-pointer text-xs"
                               >
                                 {attachment}
                               </span>
@@ -507,9 +507,9 @@ const HRDashboard = () => {
                           {submission.comments.map((comment) => (
                             <div
                               key={comment.id}
-                              className="flex items-start space-x-2 space-x-reverse bg-gray-50 rounded-lg p-3"
+                              className="flex items-start space-x-2 space-x-reverse rounded-lg bg-gray-50 p-3"
                             >
-                              <MessageCircle className="h-4 w-4 text-gray-400 mt-0.5" />
+                              <MessageCircle className="mt-0.5 h-4 w-4 text-gray-400" />
                               <div className="flex-1">
                                 <div className="flex items-center justify-between">
                                   <span className="text-sm font-medium text-gray-900">
@@ -517,7 +517,7 @@ const HRDashboard = () => {
                                   </span>
                                   <span className="text-xs text-gray-500">{comment.date}</span>
                                 </div>
-                                <p className="text-sm text-gray-600 mt-1">{comment.text}</p>
+                                <p className="mt-1 text-sm text-gray-600">{comment.text}</p>
                               </div>
                             </div>
                           ))}
@@ -527,7 +527,7 @@ const HRDashboard = () => {
                   </div>
                   <div className="flex items-start space-x-3 space-x-reverse">
                     <span
-                      className={`inline-flex items-center px-3 py-1 rounded-full text-sm ${
+                      className={`inline-flex items-center rounded-full px-3 py-1 text-sm ${
                         submission.status === 'approved'
                           ? 'bg-growth text-white'
                           : getStatusColor(submission.status)
@@ -538,10 +538,10 @@ const HRDashboard = () => {
                     </span>
                     <div className="flex items-center space-x-2 space-x-reverse">
                       <button
-                        className={`p-2 rounded-lg transition-colors duration-200 ${
+                        className={`rounded-lg p-2 transition-colors duration-200 ${
                           submission.status === 'approved'
-                            ? 'text-gray-300 cursor-not-allowed'
-                            : 'text-gray-400 hover:text-trust hover:bg-gray-50'
+                            ? 'cursor-not-allowed text-gray-300'
+                            : 'hover:text-trust text-gray-400 hover:bg-gray-50'
                         }`}
                         onClick={() =>
                           submission.status !== 'approved' && handleEditHours(submission)
@@ -551,10 +551,10 @@ const HRDashboard = () => {
                         <Pencil className="h-5 w-5" />
                       </button>
                       <button
-                        className={`p-2 rounded-lg transition-colors duration-200 ${
+                        className={`rounded-lg p-2 transition-colors duration-200 ${
                           submission.status === 'approved'
                             ? 'text-growth/50 cursor-not-allowed'
-                            : 'text-gray-400 hover:text-trust hover:bg-gray-50'
+                            : 'hover:text-trust text-gray-400 hover:bg-gray-50'
                         }`}
                         onClick={() =>
                           submission.status !== 'approved' && handleAction('approve', submission)
@@ -564,10 +564,10 @@ const HRDashboard = () => {
                         <CheckCircle className="h-5 w-5" />
                       </button>
                       <button
-                        className={`p-2 rounded-lg transition-colors duration-200 ${
+                        className={`rounded-lg p-2 transition-colors duration-200 ${
                           submission.status === 'approved'
-                            ? 'text-gray-300 cursor-not-allowed'
-                            : 'text-gray-400 hover:text-yellow-600 hover:bg-gray-50'
+                            ? 'cursor-not-allowed text-gray-300'
+                            : 'text-gray-400 hover:bg-gray-50 hover:text-yellow-600'
                         }`}
                         onClick={() =>
                           submission.status !== 'approved' && handleAction('needs_info', submission)
@@ -577,10 +577,10 @@ const HRDashboard = () => {
                         <AlertTriangle className="h-5 w-5" />
                       </button>
                       <button
-                        className={`p-2 rounded-lg transition-colors duration-200 ${
+                        className={`rounded-lg p-2 transition-colors duration-200 ${
                           submission.status === 'approved'
-                            ? 'text-gray-300 cursor-not-allowed'
-                            : 'text-gray-400 hover:text-red-600 hover:bg-gray-50'
+                            ? 'cursor-not-allowed text-gray-300'
+                            : 'text-gray-400 hover:bg-gray-50 hover:text-red-600'
                         }`}
                         onClick={() =>
                           submission.status !== 'approved' && handleAction('deny', submission)
@@ -600,11 +600,11 @@ const HRDashboard = () => {
 
       {/* Task Details Modal */}
       {selectedTask && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-3xl max-h-[80vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-100">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="max-h-[80vh] w-full max-w-3xl overflow-y-auto rounded-xl bg-white shadow-xl">
+            <div className="border-b border-gray-100 p-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-kaff text-trust">تفاصيل النشاط التطوعي</h2>
+                <h2 className="font-kaff text-trust text-xl">تفاصيل النشاط التطوعي</h2>
                 <button
                   onClick={() => setSelectedTask(null)}
                   className="text-gray-400 hover:text-gray-500"
@@ -619,7 +619,7 @@ const HRDashboard = () => {
                   <div className="flex items-center justify-between">
                     <h3 className="text-xl font-medium text-gray-900">{selectedTask.title}</h3>
                     <span
-                      className={`inline-flex items-center px-3 py-1 rounded-full text-sm ${getStatusColor(
+                      className={`inline-flex items-center rounded-full px-3 py-1 text-sm ${getStatusColor(
                         selectedTask.status
                       )}`}
                     >
@@ -629,11 +629,11 @@ const HRDashboard = () => {
                   </div>
                   <div className="mt-2 flex items-center space-x-4 space-x-reverse text-sm text-gray-500">
                     <span className="flex items-center">
-                      <UserCircle className="h-4 w-4 ml-1" />
+                      <UserCircle className="ml-1 h-4 w-4" />
                       {selectedTask.member}
                     </span>
                     <span
-                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getCategoryColor(
+                      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getCategoryColor(
                         selectedTask.category
                       )}`}
                     >
@@ -643,25 +643,25 @@ const HRDashboard = () => {
                 </div>
 
                 <div>
-                  <h4 className="text-sm font-medium text-gray-900 mb-2">الوصف</h4>
+                  <h4 className="mb-2 text-sm font-medium text-gray-900">الوصف</h4>
                   <p className="text-gray-600">{selectedTask.description}</p>
                 </div>
 
                 <div>
-                  <h4 className="text-sm font-medium text-gray-900 mb-2">معلومات إضافية</h4>
+                  <h4 className="mb-2 text-sm font-medium text-gray-900">معلومات إضافية</h4>
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-gray-50 rounded-lg p-4">
+                    <div className="rounded-lg bg-gray-50 p-4">
                       <div className="flex items-center text-sm">
-                        <Clock4 className="h-4 w-4 text-gray-400 ml-2" />
+                        <Clock4 className="ml-2 h-4 w-4 text-gray-400" />
                         <div>
                           <p className="text-gray-500">عدد الساعات</p>
                           <p className="font-medium text-gray-900">{selectedTask.hours}</p>
                         </div>
                       </div>
                     </div>
-                    <div className="bg-gray-50 rounded-lg p-4">
+                    <div className="rounded-lg bg-gray-50 p-4">
                       <div className="flex items-center text-sm">
-                        <CalendarDays className="h-4 w-4 text-gray-400 ml-2" />
+                        <CalendarDays className="ml-2 h-4 w-4 text-gray-400" />
                         <div>
                           <p className="text-gray-500">تاريخ التقديم</p>
                           <p className="font-medium text-gray-900">{selectedTask.date}</p>
@@ -673,15 +673,15 @@ const HRDashboard = () => {
 
                 {selectedTask.attachments.length > 0 && (
                   <div>
-                    <h4 className="text-sm font-medium text-gray-900 mb-2">المرفقات</h4>
+                    <h4 className="mb-2 text-sm font-medium text-gray-900">المرفقات</h4>
                     <div className="grid grid-cols-2 gap-4">
                       {selectedTask.attachments.map((attachment, index) => (
                         <div
                           key={index}
-                          className="flex items-center space-x-2 space-x-reverse bg-gray-50 rounded-lg p-3"
+                          className="flex items-center space-x-2 space-x-reverse rounded-lg bg-gray-50 p-3"
                         >
                           <FileText className="h-5 w-5 text-gray-400" />
-                          <span className="text-sm text-trust hover:text-trust-dark cursor-pointer">
+                          <span className="text-trust hover:text-trust-dark cursor-pointer text-sm">
                             {attachment}
                           </span>
                         </div>
@@ -692,11 +692,11 @@ const HRDashboard = () => {
 
                 {selectedTask.comments.length > 0 && (
                   <div>
-                    <h4 className="text-sm font-medium text-gray-900 mb-2">التعليقات</h4>
+                    <h4 className="mb-2 text-sm font-medium text-gray-900">التعليقات</h4>
                     <div className="space-y-3">
                       {selectedTask.comments.map((comment) => (
-                        <div key={comment.id} className="bg-gray-50 rounded-lg p-4">
-                          <div className="flex items-center justify-between mb-2">
+                        <div key={comment.id} className="rounded-lg bg-gray-50 p-4">
+                          <div className="mb-2 flex items-center justify-between">
                             <span className="font-medium text-gray-900">{comment.user}</span>
                             <span className="text-sm text-gray-500">{comment.date}</span>
                           </div>
@@ -707,7 +707,7 @@ const HRDashboard = () => {
                   </div>
                 )}
 
-                <div className="flex items-center justify-end space-x-3 space-x-reverse pt-4 border-t border-gray-100">
+                <div className="flex items-center justify-end space-x-3 space-x-reverse border-t border-gray-100 pt-4">
                   <button className="btn-secondary">إضافة تعليق</button>
                   <button
                     className={`btn-primary ${
@@ -725,11 +725,11 @@ const HRDashboard = () => {
 
       {/* Edit Hours Modal */}
       {editingHours && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
-            <div className="p-6 border-b border-gray-100">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="w-full max-w-md rounded-xl bg-white shadow-xl">
+            <div className="border-b border-gray-100 p-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-kaff text-trust">تعديل الساعات</h2>
+                <h2 className="font-kaff text-trust text-xl">تعديل الساعات</h2>
                 <button
                   onClick={() => setEditingHours(null)}
                   className="text-gray-400 hover:text-gray-500"
@@ -741,12 +741,12 @@ const HRDashboard = () => {
             <div className="p-6">
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
                     عدد الساعات (HH:MM:SS)
                   </label>
-                  <div className="grid grid-cols-3 gap-4 items-end">
+                  <div className="grid grid-cols-3 items-end gap-4">
                     <div>
-                      <label className="block text-xs font-medium text-gray-500 mb-1">ثواني</label>
+                      <label className="mb-1 block text-xs font-medium text-gray-500">ثواني</label>
                       <input
                         type="number"
                         min="0"
@@ -755,12 +755,12 @@ const HRDashboard = () => {
                         onChange={(e) =>
                           setEditedHours({ ...editedHours, seconds: e.target.value })
                         }
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust text-center"
+                        className="focus:ring-trust focus:border-trust w-full rounded-lg border border-gray-300 px-3 py-2 text-center focus:ring-2"
                         placeholder="00"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-gray-500 mb-1">دقائق</label>
+                      <label className="mb-1 block text-xs font-medium text-gray-500">دقائق</label>
                       <input
                         type="number"
                         min="0"
@@ -769,31 +769,31 @@ const HRDashboard = () => {
                         onChange={(e) =>
                           setEditedHours({ ...editedHours, minutes: e.target.value })
                         }
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust text-center"
+                        className="focus:ring-trust focus:border-trust w-full rounded-lg border border-gray-300 px-3 py-2 text-center focus:ring-2"
                         placeholder="00"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-gray-500 mb-1">ساعات</label>
+                      <label className="mb-1 block text-xs font-medium text-gray-500">ساعات</label>
                       <input
                         type="number"
                         min="0"
                         value={editedHours.hours}
                         onChange={(e) => setEditedHours({ ...editedHours, hours: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust text-center"
+                        className="focus:ring-trust focus:border-trust w-full rounded-lg border border-gray-300 px-3 py-2 text-center focus:ring-2"
                         placeholder="00"
                       />
                     </div>
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
                     ما سبب تعديل الساعات؟
                   </label>
                   <textarea
                     value={editComment}
                     onChange={(e) => setEditComment(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust h-24 resize-none"
+                    className="focus:ring-trust focus:border-trust h-24 w-full resize-none rounded-lg border border-gray-300 px-4 py-2 focus:ring-2"
                     placeholder="أضف تعليقاً..."
                   />
                 </div>
@@ -813,11 +813,11 @@ const HRDashboard = () => {
 
       {/* Action Modal (Needs Info/Deny) */}
       {actionModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
-            <div className="p-6 border-b border-gray-100">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="w-full max-w-md rounded-xl bg-white shadow-xl">
+            <div className="border-b border-gray-100 p-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-kaff text-trust">
+                <h2 className="font-kaff text-trust text-xl">
                   {actionModal.type === 'needs_info'
                     ? 'طلب معلومات إضافية'
                     : actionModal.type === 'deny'
@@ -835,7 +835,7 @@ const HRDashboard = () => {
             <div className="p-6">
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
                     {actionModal.type === 'needs_info'
                       ? 'ما هي المعلومات المطلوبة؟'
                       : actionModal.type === 'deny'
@@ -845,7 +845,7 @@ const HRDashboard = () => {
                   <textarea
                     value={actionComment}
                     onChange={(e) => setActionComment(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust h-24 resize-none"
+                    className="focus:ring-trust focus:border-trust h-24 w-full resize-none rounded-lg border border-gray-300 px-4 py-2 focus:ring-2"
                     placeholder={
                       actionModal.type === 'approve'
                         ? 'أضف تعليقاً (اختياري)...'
@@ -862,7 +862,7 @@ const HRDashboard = () => {
                     onClick={handleSubmitAction}
                     className={`btn-primary ${
                       actionModal.type !== 'approve' && !actionComment.trim()
-                        ? 'opacity-50 cursor-not-allowed'
+                        ? 'cursor-not-allowed opacity-50'
                         : ''
                     }`}
                     disabled={actionModal.type !== 'approve' && !actionComment.trim()}

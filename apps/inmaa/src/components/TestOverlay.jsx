@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Settings, X, User, Shield, Building2 } from 'lucide-react';
+
+import { Building2, Settings, Shield, User, X } from 'lucide-react';
+
+import { useAuth } from '../context/AuthContext';
 
 const TestOverlay = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,23 +15,23 @@ const TestOverlay = () => {
     { id: 'college_admin', label: 'مشرف العمادة', icon: Shield },
     { id: 'leader', label: 'قائد النادي', icon: Building2 },
     { id: 'hr', label: 'موارد بشرية', icon: User },
-    { id: 'member', label: 'عضو', icon: User }
+    { id: 'member', label: 'عضو', icon: User },
   ];
 
   const clubs = [
     { id: 1, name: 'نادي تيكنيشن', role: 'hr' },
     { id: 2, name: 'نادي الابتكار', role: 'member' },
-    { id: 3, name: 'نادي التصميم', role: 'member' }
+    { id: 3, name: 'نادي التصميم', role: 'member' },
   ];
 
   const handleRoleChange = (role) => {
-    setUser(prev => ({
+    setUser((prev) => ({
       ...prev,
       role,
-      clubs: prev.clubs.map(club => ({
+      clubs: prev.clubs.map((club) => ({
         ...club,
-        role: role === 'inma_admin' || role === 'college_admin' ? club.role : role
-      }))
+        role: role === 'inma_admin' || role === 'college_admin' ? club.role : role,
+      })),
     }));
 
     // Navigate to appropriate dashboard based on role
@@ -47,11 +49,9 @@ const TestOverlay = () => {
   };
 
   const handleClubRoleChange = (clubId, role) => {
-    setUser(prev => ({
+    setUser((prev) => ({
       ...prev,
-      clubs: prev.clubs.map(club => 
-        club.id === clubId ? { ...club, role } : club
-      )
+      clubs: prev.clubs.map((club) => (club.id === clubId ? { ...club, role } : club)),
     }));
   };
 
@@ -60,17 +60,17 @@ const TestOverlay = () => {
       {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-4 left-4 z-50 p-2 bg-trust/80 hover:bg-trust text-white rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+        className="bg-trust/80 hover:bg-trust fixed bottom-4 left-4 z-50 rounded-full p-2 text-white shadow-lg transition-all duration-300 hover:scale-110"
       >
         <Settings className="h-6 w-6" />
       </button>
 
       {/* Overlay */}
       {isOpen && (
-        <div className="fixed inset-0 bg-black/50 z-40 flex items-center justify-center">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-kaff text-trust">إعدادات الاختبار</h2>
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50">
+          <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl bg-white p-6 shadow-xl">
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="font-kaff text-trust text-xl">إعدادات الاختبار</h2>
               <button
                 onClick={() => setIsOpen(false)}
                 className="text-gray-400 hover:text-gray-500"
@@ -81,16 +81,16 @@ const TestOverlay = () => {
 
             {/* Role Selection */}
             <div className="mb-8">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">الدور الرئيسي</h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <h3 className="mb-4 text-lg font-medium text-gray-900">الدور الرئيسي</h3>
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
                 {roles.map(({ id, label, icon: Icon }) => (
                   <button
                     key={id}
                     onClick={() => handleRoleChange(id)}
-                    className={`flex items-center space-x-2 space-x-reverse p-3 rounded-lg border transition-all duration-200 ${
+                    className={`flex items-center space-x-2 space-x-reverse rounded-lg border p-3 transition-all duration-200 ${
                       user.role === id
                         ? 'border-trust bg-trust/10 text-trust'
-                        : 'border-gray-200 hover:border-trust/50'
+                        : 'hover:border-trust/50 border-gray-200'
                     }`}
                   >
                     <Icon className="h-5 w-5" />
@@ -102,18 +102,18 @@ const TestOverlay = () => {
 
             {/* Club Roles */}
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-4">أدوار الأندية</h3>
+              <h3 className="mb-4 text-lg font-medium text-gray-900">أدوار الأندية</h3>
               <div className="space-y-4">
-                {clubs.map(club => (
+                {clubs.map((club) => (
                   <div
                     key={club.id}
-                    className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                    className="flex items-center justify-between rounded-lg bg-gray-50 p-4"
                   >
                     <span className="font-medium">{club.name}</span>
                     <select
-                      value={user.clubs.find(c => c.id === club.id)?.role || 'member'}
+                      value={user.clubs.find((c) => c.id === club.id)?.role || 'member'}
                       onChange={(e) => handleClubRoleChange(club.id, e.target.value)}
-                      className="border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust"
+                      className="focus:ring-trust/20 focus:border-trust rounded-lg border border-gray-200 px-3 py-1.5 focus:outline-none focus:ring-2"
                     >
                       <option value="leader">قائد النادي</option>
                       <option value="hr">موارد بشرية</option>
@@ -130,4 +130,4 @@ const TestOverlay = () => {
   );
 };
 
-export default TestOverlay; 
+export default TestOverlay;
