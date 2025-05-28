@@ -1,22 +1,10 @@
-import { useLocation, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { 
-  LogOut, 
-  Bell, 
-  Search,
-  Menu,
-  X,
-  ChevronDown,
-  Settings,
-  User,
-  LayoutDashboard,
-  Building2,
-  FileText,
-  Users,
-  Shield
-} from 'lucide-react';
 import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+
+import { LayoutDashboard, LogOut, Shield, Users } from 'lucide-react';
+
 import logo from '../assets/1-05.png';
+import { useAuth } from '../context/AuthContext';
 
 const AdminLayout = ({ children, isInmaAdmin = false }) => {
   const location = useLocation();
@@ -25,16 +13,16 @@ const AdminLayout = ({ children, isInmaAdmin = false }) => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const navigation = [
-    { 
-      name: 'لوحة التحكم', 
+    {
+      name: 'لوحة التحكم',
       href: isInmaAdmin ? '/inma-dashboard' : '/college-dashboard',
-      icon: LayoutDashboard 
+      icon: LayoutDashboard,
     },
-    { 
-      name: 'إدارة المستخدمين', 
+    {
+      name: 'إدارة المستخدمين',
       href: isInmaAdmin ? '/inma-dashboard/users' : '/college-dashboard/users',
-      icon: Users 
-    }
+      icon: Users,
+    },
   ];
 
   return (
@@ -56,17 +44,15 @@ const AdminLayout = ({ children, isInmaAdmin = false }) => {
               {/* User Avatar and Name */}
               <div className="flex items-center space-x-3 space-x-reverse">
                 <div className="h-12 w-12 rounded-full bg-growth/20 flex items-center justify-center ring-2 ring-white/20 transform transition-transform duration-300 hover:scale-105">
-                  <span className="text-base font-medium text-white">
-                    {user?.name?.charAt(0)}
-                  </span>
+                  <span className="text-base font-medium text-white">{user?.name?.charAt(0)}</span>
                 </div>
                 <div>
-                  <h3 className="text-sm font-medium text-white">
-                    {user?.name}
-                  </h3>
+                  <h3 className="text-sm font-medium text-white">{user?.name}</h3>
                   <div className="flex items-center mt-1 text-xs text-white/70">
                     <Shield className="h-4 w-4 ml-1" />
-                    <span className="font-medium">{isInmaAdmin ? 'مشرف إنماء' : 'مشرف العمادة'}</span>
+                    <span className="font-medium">
+                      {isInmaAdmin ? 'مشرف إنماء' : 'مشرف العمادة'}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -83,14 +69,14 @@ const AdminLayout = ({ children, isInmaAdmin = false }) => {
                   key={item.name}
                   to={item.href}
                   className={`flex items-center px-4 py-3 rounded-xl transition-all duration-300 ${
-                    isActive 
-                      ? 'bg-white/10 text-white' 
-                      : 'text-white/90 hover:bg-white/5'
+                    isActive ? 'bg-white/10 text-white' : 'text-white/90 hover:bg-white/5'
                   }`}
                 >
-                  <Icon className={`h-5 w-5 ml-3 transition-transform duration-300 ${
-                    isActive ? 'scale-110' : 'group-hover:scale-110'
-                  }`} />
+                  <Icon
+                    className={`h-5 w-5 ml-3 transition-transform duration-300 ${
+                      isActive ? 'scale-110' : 'group-hover:scale-110'
+                    }`}
+                  />
                   <span className={`font-medium ${isActive ? 'text-white' : 'text-white/90'}`}>
                     {item.name}
                   </span>
@@ -102,7 +88,9 @@ const AdminLayout = ({ children, isInmaAdmin = false }) => {
           {/* Footer */}
           <div className="px-2 py-4 border-t border-white/10">
             <button
-              onClick={() => {/* Implement logout */}}
+              onClick={() => {
+                /* Implement logout */
+              }}
               className="w-full flex items-center px-4 py-3 rounded-xl text-red-300 hover:bg-red-500/20 transition-all duration-300"
             >
               <LogOut className="h-5 w-5 ml-3 group-hover:-translate-x-1 transition-transform duration-300" />
@@ -115,13 +103,11 @@ const AdminLayout = ({ children, isInmaAdmin = false }) => {
       {/* Main content */}
       <div className="mr-64">
         <main className="py-8">
-          <div className="max-w-7xl mx-auto px-6">
-            {children}
-          </div>
+          <div className="max-w-7xl mx-auto px-6">{children}</div>
         </main>
       </div>
     </div>
   );
 };
 
-export default AdminLayout; 
+export default AdminLayout;

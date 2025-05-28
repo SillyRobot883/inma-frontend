@@ -17,7 +17,7 @@ export const clubs = [
         member: 'فهد السالم',
         status: 'pending',
         hours: '04:00',
-        date: '2025-04-05'
+        date: '2025-04-05',
       },
       {
         id: 2,
@@ -25,9 +25,9 @@ export const clubs = [
         member: 'نورة العتيبي',
         status: 'approved',
         hours: '02:30',
-        date: '2025-04-04'
-      }
-    ]
+        date: '2025-04-04',
+      },
+    ],
   },
   {
     id: 2,
@@ -46,9 +46,9 @@ export const clubs = [
         member: 'عبدالله محمد',
         status: 'needs_info',
         hours: '03:00',
-        date: '2025-04-03'
-      }
-    ]
+        date: '2025-04-03',
+      },
+    ],
   },
   {
     id: 3,
@@ -67,9 +67,9 @@ export const clubs = [
         member: 'سارة أحمد',
         status: 'approved',
         hours: '05:00',
-        date: '2025-04-02'
-      }
-    ]
+        date: '2025-04-02',
+      },
+    ],
   },
   {
     id: 4,
@@ -88,9 +88,9 @@ export const clubs = [
         member: 'محمد علي',
         status: 'pending',
         hours: '03:30',
-        date: '2025-04-01'
-      }
-    ]
+        date: '2025-04-01',
+      },
+    ],
   },
   {
     id: 5,
@@ -109,9 +109,9 @@ export const clubs = [
         member: 'ليلى محمد',
         status: 'approved',
         hours: '06:00',
-        date: '2025-03-31'
-      }
-    ]
+        date: '2025-03-31',
+      },
+    ],
   },
   {
     id: 6,
@@ -130,9 +130,9 @@ export const clubs = [
         member: 'أحمد خالد',
         status: 'approved',
         hours: '02:00',
-        date: '2025-03-30'
-      }
-    ]
+        date: '2025-03-30',
+      },
+    ],
   },
   {
     id: 7,
@@ -151,9 +151,9 @@ export const clubs = [
         member: 'عمر سعد',
         status: 'pending',
         hours: '04:30',
-        date: '2025-03-29'
-      }
-    ]
+        date: '2025-03-29',
+      },
+    ],
   },
   {
     id: 8,
@@ -172,9 +172,9 @@ export const clubs = [
         member: 'نور سارة',
         status: 'approved',
         hours: '05:00',
-        date: '2025-03-28'
-      }
-    ]
+        date: '2025-03-28',
+      },
+    ],
   },
   {
     id: 9,
@@ -193,9 +193,9 @@ export const clubs = [
         member: 'فاطمة أحمد',
         status: 'pending',
         hours: '03:00',
-        date: '2025-03-27'
-      }
-    ]
+        date: '2025-03-27',
+      },
+    ],
   },
   {
     id: 10,
@@ -214,9 +214,9 @@ export const clubs = [
         member: 'خالد محمد',
         status: 'approved',
         hours: '04:00',
-        date: '2025-03-26'
-      }
-    ]
+        date: '2025-03-26',
+      },
+    ],
   },
   {
     id: 11,
@@ -235,9 +235,9 @@ export const clubs = [
         member: 'سلمى أحمد',
         status: 'pending',
         hours: '03:30',
-        date: '2025-03-15' // Old activity (more than 7 days)
-      }
-    ]
+        date: '2025-03-15', // Old activity (more than 7 days)
+      },
+    ],
   },
   {
     id: 12,
@@ -256,8 +256,8 @@ export const clubs = [
         member: 'عبدالله سعد',
         status: 'approved',
         hours: '06:00',
-        date: '2025-03-10'
-      }
-    ]
-  }
-]; 
+        date: '2025-03-10',
+      },
+    ],
+  },
+];

@@ -1,280 +1,326 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { useParams } from "react-router-dom"
-import Layout from "../components/Layout"
-import { useAuth } from "../context/AuthContext"
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+
 import {
-  Users,
-  UserPlus,
-  Search,
-  Clock,
-  UserX,
+  Activity,
+  AlertCircle,
+  AlertTriangle,
+  Award,
+  Calendar,
+  CheckCircle2,
   ChevronDown,
   ChevronUp,
-  Activity,
-  Award,
-  CheckCircle2,
+  Clock,
+  Edit2,
+  FileText,
   Mail,
   Phone,
-  User,
-  Calendar,
+  Search,
   Trash2,
-  Edit2,
-  AlertTriangle,
-  X,
-  FileText,
+  User,
   UserCog,
-  AlertCircle,
-} from "lucide-react"
+  UserPlus,
+  UserX,
+  Users,
+  X,
+} from 'lucide-react';
+
+import Layout from '../components/Layout';
+import { useAuth } from '../context/AuthContext';
 
 const MemberManagement = () => {
-  const { clubId } = useParams()
-  const { user, currentClub } = useAuth()
-  const [searchQuery, setSearchQuery] = useState("")
-  const [filterRole, setFilterRole] = useState("all")
-  const [sortBy, setSortBy] = useState("name")
-  const [sortOrder, setSortOrder] = useState("asc")
-  const [showAddMemberModal, setShowAddMemberModal] = useState(false)
-  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(null)
-  const [showMemberDetails, setShowMemberDetails] = useState(null)
+  const { clubId } = useParams();
+  const { user, currentClub } = useAuth();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterRole, setFilterRole] = useState('all');
+  const [sortBy, setSortBy] = useState('name');
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [showAddMemberModal, setShowAddMemberModal] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(null);
+  const [showMemberDetails, setShowMemberDetails] = useState(null);
 
   // Dummy data for members
-  const members = [
+  const dummyMembers = [
     {
       id: 1,
-      name: "عبدالله محمد الغامدي",
-      studentId: "444001234",
-      email: "abdullah@example.com",
-      phone: "0501234567",
-      role: "leader",
-      joinDate: "2023-09-15",
+      name: 'عبدالله محمد الغامدي',
+      studentId: '444001234',
+      email: 'abdullah@example.com',
+      phone: '0501234567',
+      role: 'leader',
+      joinDate: '2023-09-15',
       totalHours: 65.5,
       completedTasks: 15,
       pendingTasks: 2,
       engagement: 92,
-      lastActive: "2024-03-20",
-      committee: "لجنة البرامج والفعاليات",
-      major: "علوم الحاسب",
-      level: "المستوى السادس",
+      lastActive: '2024-03-20',
+      committee: 'لجنة البرامج والفعاليات',
+      major: 'علوم الحاسب',
+      level: 'المستوى السادس',
       recentActivity: [
-        { id: 1, title: "تنظيم ورشة عمل Git", date: "2024-03-15", hours: 3, status: "approved" },
-        { id: 2, title: "إعداد محتوى تدريبي", date: "2024-03-10", hours: 4, status: "approved" },
+        { id: 1, title: 'تنظيم ورشة عمل Git', date: '2024-03-15', hours: 3, status: 'approved' },
+        { id: 2, title: 'إعداد محتوى تدريبي', date: '2024-03-10', hours: 4, status: 'approved' },
       ],
     },
     {
       id: 2,
-      name: "سارة أحمد العتيبي",
-      studentId: "444002345",
-      email: "sarah@example.com",
-      phone: "0502345678",
-      role: "hr",
-      joinDate: "2023-09-20",
+      name: 'سارة أحمد العتيبي',
+      studentId: '444002345',
+      email: 'sarah@example.com',
+      phone: '0502345678',
+      role: 'hr',
+      joinDate: '2023-09-20',
       totalHours: 58.75,
       completedTasks: 12,
       pendingTasks: 1,
       engagement: 88,
-      lastActive: "2024-03-19",
-      committee: "لجنة الموارد البشرية",
-      major: "نظم المعلومات",
-      level: "المستوى الخامس",
+      lastActive: '2024-03-19',
+      committee: 'لجنة الموارد البشرية',
+      major: 'نظم المعلومات',
+      level: 'المستوى الخامس',
       recentActivity: [
-        { id: 3, title: "تنظيم مقابلات الأعضاء الجدد", date: "2024-03-18", hours: 2, status: "approved" },
-        { id: 4, title: "إعداد تقرير أداء الأعضاء", date: "2024-03-12", hours: 3, status: "approved" },
+        {
+          id: 3,
+          title: 'تنظيم مقابلات الأعضاء الجدد',
+          date: '2024-03-18',
+          hours: 2,
+          status: 'approved',
+        },
+        {
+          id: 4,
+          title: 'إعداد تقرير أداء الأعضاء',
+          date: '2024-03-12',
+          hours: 3,
+          status: 'approved',
+        },
       ],
     },
     {
       id: 3,
-      name: "خالد عبدالرحمن العمري",
-      studentId: "444003456",
-      email: "khalid@example.com",
-      phone: "0503456789",
-      role: "member",
-      joinDate: "2023-10-05",
+      name: 'خالد عبدالرحمن العمري',
+      studentId: '444003456',
+      email: 'khalid@example.com',
+      phone: '0503456789',
+      role: 'member',
+      joinDate: '2023-10-05',
       totalHours: 52.25,
       completedTasks: 10,
       pendingTasks: 3,
       engagement: 78,
-      lastActive: "2024-03-18",
-      committee: "لجنة التسويق والإعلام",
-      major: "هندسة البرمجيات",
-      level: "المستوى السابع",
+      lastActive: '2024-03-18',
+      committee: 'لجنة التسويق والإعلام',
+      major: 'هندسة البرمجيات',
+      level: 'المستوى السابع',
       recentActivity: [
-        { id: 5, title: "تصميم منشورات للنادي", date: "2024-03-17", hours: 2.5, status: "approved" },
-        { id: 6, title: "إدارة حسابات التواصل الاجتماعي", date: "2024-03-14", hours: 1.5, status: "pending" },
+        {
+          id: 5,
+          title: 'تصميم منشورات للنادي',
+          date: '2024-03-17',
+          hours: 2.5,
+          status: 'approved',
+        },
+        {
+          id: 6,
+          title: 'إدارة حسابات التواصل الاجتماعي',
+          date: '2024-03-14',
+          hours: 1.5,
+          status: 'pending',
+        },
       ],
     },
     {
       id: 4,
-      name: "نورة محمد السالم",
-      studentId: "444004567",
-      email: "noura@example.com",
-      phone: "0504567890",
-      role: "member",
-      joinDate: "2023-10-10",
+      name: 'نورة محمد السالم',
+      studentId: '444004567',
+      email: 'noura@example.com',
+      phone: '0504567890',
+      role: 'member',
+      joinDate: '2023-10-10',
       totalHours: 45.0,
       completedTasks: 9,
       pendingTasks: 0,
       engagement: 85,
-      lastActive: "2024-03-17",
-      committee: "لجنة البرامج والفعاليات",
-      major: "علوم الحاسب",
-      level: "المستوى الرابع",
+      lastActive: '2024-03-17',
+      committee: 'لجنة البرامج والفعاليات',
+      major: 'علوم الحاسب',
+      level: 'المستوى الرابع',
       recentActivity: [
-        { id: 7, title: "تنسيق فعالية النادي", date: "2024-03-16", hours: 4, status: "approved" },
-        { id: 8, title: "إعداد التقرير الشهري", date: "2024-03-10", hours: 2.5, status: "approved" },
+        { id: 7, title: 'تنسيق فعالية النادي', date: '2024-03-16', hours: 4, status: 'approved' },
+        {
+          id: 8,
+          title: 'إعداد التقرير الشهري',
+          date: '2024-03-10',
+          hours: 2.5,
+          status: 'approved',
+        },
       ],
     },
     {
       id: 5,
-      name: "فهد سعد الدوسري",
-      studentId: "444005678",
-      email: "fahad@example.com",
-      phone: "0505678901",
-      role: "member",
-      joinDate: "2023-10-15",
+      name: 'فهد سعد الدوسري',
+      studentId: '444005678',
+      email: 'fahad@example.com',
+      phone: '0505678901',
+      role: 'member',
+      joinDate: '2023-10-15',
       totalHours: 38.5,
       completedTasks: 8,
       pendingTasks: 1,
       engagement: 72,
-      lastActive: "2024-03-15",
-      committee: "لجنة التطوير التقني",
-      major: "هندسة البرمجيات",
-      level: "المستوى الثامن",
+      lastActive: '2024-03-15',
+      committee: 'لجنة التطوير التقني',
+      major: 'هندسة البرمجيات',
+      level: 'المستوى الثامن',
       recentActivity: [
-        { id: 9, title: "تطوير موقع النادي", date: "2024-03-14", hours: 5, status: "approved" },
-        { id: 10, title: "إصلاح مشاكل تقنية", date: "2024-03-08", hours: 2, status: "approved" },
+        { id: 9, title: 'تطوير موقع النادي', date: '2024-03-14', hours: 5, status: 'approved' },
+        { id: 10, title: 'إصلاح مشاكل تقنية', date: '2024-03-08', hours: 2, status: 'approved' },
       ],
     },
     {
       id: 6,
-      name: "ريم خالد الشمري",
-      studentId: "444006789",
-      email: "reem@example.com",
-      phone: "0506789012",
-      role: "member",
-      joinDate: "2023-11-01",
+      name: 'ريم خالد الشمري',
+      studentId: '444006789',
+      email: 'reem@example.com',
+      phone: '0506789012',
+      role: 'member',
+      joinDate: '2023-11-01',
       totalHours: 32.75,
       completedTasks: 7,
       pendingTasks: 2,
       engagement: 68,
-      lastActive: "2024-03-14",
-      committee: "لجنة التسويق والإعلام",
-      major: "نظم المعلومات",
-      level: "المستوى السادس",
+      lastActive: '2024-03-14',
+      committee: 'لجنة التسويق والإعلام',
+      major: 'نظم المعلومات',
+      level: 'المستوى السادس',
       recentActivity: [
-        { id: 11, title: "تصميم شعار النادي", date: "2024-03-13", hours: 5, status: "approved" },
-        { id: 12, title: "إعداد استراتيجية تسويقية", date: "2024-03-07", hours: 3, status: "pending" },
+        { id: 11, title: 'تصميم شعار النادي', date: '2024-03-13', hours: 5, status: 'approved' },
+        {
+          id: 12,
+          title: 'إعداد استراتيجية تسويقية',
+          date: '2024-03-07',
+          hours: 3,
+          status: 'pending',
+        },
       ],
     },
     {
       id: 7,
-      name: "محمد عبدالله القحطاني",
-      studentId: "444007890",
-      email: "mohammed@example.com",
-      phone: "0507890123",
-      role: "member",
-      joinDate: "2023-11-10",
+      name: 'محمد عبدالله القحطاني',
+      studentId: '444007890',
+      email: 'mohammed@example.com',
+      phone: '0507890123',
+      role: 'member',
+      joinDate: '2023-11-10',
       totalHours: 28.5,
       completedTasks: 6,
       pendingTasks: 1,
       engagement: 65,
-      lastActive: "2024-03-12",
-      committee: "لجنة البرامج والفعاليات",
-      major: "علوم الحاسب",
-      level: "المستوى الخامس",
+      lastActive: '2024-03-12',
+      committee: 'لجنة البرامج والفعاليات',
+      major: 'علوم الحاسب',
+      level: 'المستوى الخامس',
       recentActivity: [
-        { id: 13, title: "تنظيم مسابقة برمجية", date: "2024-03-11", hours: 4, status: "approved" },
-        { id: 14, title: "إعداد أسئلة المسابقة", date: "2024-03-05", hours: 3, status: "approved" },
+        { id: 13, title: 'تنظيم مسابقة برمجية', date: '2024-03-11', hours: 4, status: 'approved' },
+        { id: 14, title: 'إعداد أسئلة المسابقة', date: '2024-03-05', hours: 3, status: 'approved' },
       ],
     },
     {
       id: 8,
-      name: "لينا سعيد الزهراني",
-      studentId: "444008901",
-      email: "lina@example.com",
-      phone: "0508901234",
-      role: "member",
-      joinDate: "2023-11-15",
+      name: 'لينا سعيد الزهراني',
+      studentId: '444008901',
+      email: 'lina@example.com',
+      phone: '0508901234',
+      role: 'member',
+      joinDate: '2023-11-15',
       totalHours: 25.0,
       completedTasks: 5,
       pendingTasks: 0,
       engagement: 60,
-      lastActive: "2024-03-10",
-      committee: "لجنة الموارد البشرية",
-      major: "نظم المعلومات",
-      level: "المستوى الرابع",
+      lastActive: '2024-03-10',
+      committee: 'لجنة الموارد البشرية',
+      major: 'نظم المعلومات',
+      level: 'المستوى الرابع',
       recentActivity: [
-        { id: 15, title: "تنظيم اجتماع الأعضاء", date: "2024-03-09", hours: 2, status: "approved" },
-        { id: 16, title: "إعداد قاعدة بيانات الأعضاء", date: "2024-03-03", hours: 3, status: "approved" },
+        { id: 15, title: 'تنظيم اجتماع الأعضاء', date: '2024-03-09', hours: 2, status: 'approved' },
+        {
+          id: 16,
+          title: 'إعداد قاعدة بيانات الأعضاء',
+          date: '2024-03-03',
+          hours: 3,
+          status: 'approved',
+        },
       ],
     },
-  ]
+  ];
+
+  const [members, setMembers] = useState(dummyMembers);
 
   // New member form state
   const [newMember, setNewMember] = useState({
-    name: "",
-    idNumber: "",
-    studentId: "",
-    email: "",
-    phone: "",
-    role: "member",
-    committee: "",
-    major: "",
-    level: "",
-    hours: "00",
-    minutes: "00",
-    seconds: "00",
-    engagement: "active"
-  })
+    name: '',
+    idNumber: '',
+    studentId: '',
+    email: '',
+    phone: '',
+    role: 'member',
+    committee: '',
+    major: '',
+    level: '',
+    hours: '00',
+    minutes: '00',
+    seconds: '00',
+    engagement: 'active',
+  });
 
   // تحسين دالة formatTimeFromDecimal لتكون أكثر دقة
   const formatTimeFromDecimal = (decimalHours) => {
-    const hours = Math.floor(decimalHours)
-    const minutesDecimal = (decimalHours - hours) * 60
-    const minutes = Math.floor(minutesDecimal)
-    const seconds = Math.floor((minutesDecimal - minutes) * 60)
+    const hours = Math.floor(decimalHours);
+    const minutesDecimal = (decimalHours - hours) * 60;
+    const minutes = Math.floor(minutesDecimal);
+    const seconds = Math.floor((minutesDecimal - minutes) * 60);
 
-    return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
-  }
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  };
 
   const getRoleText = (role) => {
     switch (role) {
-      case "leader":
-        return "قائد النادي"
-      case "hr":
-        return "موارد بشرية"
-      case "member":
-        return "عضو"
+      case 'leader':
+        return 'قائد النادي';
+      case 'hr':
+        return 'موارد بشرية';
+      case 'member':
+        return 'عضو';
       default:
-        return ""
+        return '';
     }
-  }
+  };
 
   const getRoleColor = (role) => {
     switch (role) {
-      case "leader":
-        return "bg-trust text-white"
-      case "hr":
-        return "bg-growth text-white"
-      case "member":
-        return "bg-excellence text-white"
+      case 'leader':
+        return 'bg-trust text-white';
+      case 'hr':
+        return 'bg-growth text-white';
+      case 'member':
+        return 'bg-excellence text-white';
       default:
-        return "bg-gray-100 text-gray-800"
+        return 'bg-gray-100 text-gray-800';
     }
-  }
+  };
 
   const getEngagementColor = (engagement) => {
-    if (engagement >= 80) return "text-growth"
-    if (engagement >= 60) return "text-yellow-600"
-    return "text-red-500"
-  }
+    if (engagement >= 80) return 'text-growth';
+    if (engagement >= 60) return 'text-yellow-600';
+    return 'text-red-500';
+  };
 
   const getEngagementBg = (engagement) => {
-    if (engagement >= 80) return "bg-growth/10"
-    if (engagement >= 60) return "bg-yellow-100"
-    return "bg-red-100"
-  }
+    if (engagement >= 80) return 'bg-growth/10';
+    if (engagement >= 60) return 'bg-yellow-100';
+    return 'bg-red-100';
+  };
 
   // Sort and filter members
   const sortedAndFilteredMembers = [...members]
@@ -282,58 +328,58 @@ const MemberManagement = () => {
       const matchesSearch =
         member.name.includes(searchQuery) ||
         member.studentId.includes(searchQuery) ||
-        member.email.includes(searchQuery)
-      const matchesRole = filterRole === "all" || member.role === filterRole
-      return matchesSearch && matchesRole
+        member.email.includes(searchQuery);
+      const matchesRole = filterRole === 'all' || member.role === filterRole;
+      return matchesSearch && matchesRole;
     })
     .sort((a, b) => {
-      let comparison = 0
+      let comparison = 0;
 
       switch (sortBy) {
-        case "name":
-          comparison = a.name.localeCompare(b.name)
-          break
-        case "hours":
-          comparison = a.totalHours - b.totalHours
-          break
-        case "engagement":
-          comparison = a.engagement - b.engagement
-          break
-        case "joinDate":
-          comparison = new Date(a.joinDate) - new Date(b.joinDate)
-          break
+        case 'name':
+          comparison = a.name.localeCompare(b.name);
+          break;
+        case 'hours':
+          comparison = a.totalHours - b.totalHours;
+          break;
+        case 'engagement':
+          comparison = a.engagement - b.engagement;
+          break;
+        case 'joinDate':
+          comparison = new Date(a.joinDate) - new Date(b.joinDate);
+          break;
         default:
-          comparison = 0
+          comparison = 0;
       }
 
-      return sortOrder === "asc" ? comparison : -comparison
-    })
+      return sortOrder === 'asc' ? comparison : -comparison;
+    });
 
   const handleSort = (field) => {
     if (sortBy === field) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc")
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
     } else {
-      setSortBy(field)
-      setSortOrder("asc")
+      setSortBy(field);
+      setSortOrder('asc');
     }
-  }
+  };
 
   const handleTimeChange = (field, value) => {
     // Ensure the value is between 0 and the maximum (59 for minutes/seconds, no limit for hours)
-    const maxValue = field === "hours" ? 999 : 59
-    const sanitizedValue = Math.min(Math.max(0, Number(value) || 0), maxValue).toString()
+    const maxValue = field === 'hours' ? 999 : 59;
+    const sanitizedValue = Math.min(Math.max(0, Number(value) || 0), maxValue).toString();
 
     setNewMember((prev) => ({
       ...prev,
-      [field]: sanitizedValue.padStart(2, "0"),
-    }))
-  }
+      [field]: sanitizedValue.padStart(2, '0'),
+    }));
+  };
 
   const handleAddMember = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (!newMember.name || !newMember.idNumber) {
-      alert('الرجاء إدخال اسم العضو ورقم الهوية')
-      return
+      alert('الرجاء إدخال اسم العضو ورقم الهوية');
+      return;
     }
     const member = {
       id: Date.now(),
@@ -343,22 +389,22 @@ const MemberManagement = () => {
       engagement: newMember.engagement,
       totalHours: '00:00:00',
       completedTasks: 0,
-      pendingTasks: 0
-    }
-    setMembers([...members, member])
+      pendingTasks: 0,
+    };
+    setMembers([...members, member]);
     setNewMember({
       name: '',
       idNumber: '',
       role: 'member',
-      engagement: 'active'
-    })
-  }
+      engagement: 'active',
+    });
+  };
 
   const handleDeleteMember = (memberId) => {
     // Here you would typically make an API call to delete the member
-    console.log("Deleting member with ID:", memberId)
-    setShowDeleteConfirmation(null)
-  }
+    console.log('Deleting member with ID:', memberId);
+    setShowDeleteConfirmation(null);
+  };
 
   return (
     <Layout>
@@ -384,7 +430,9 @@ const MemberManagement = () => {
               <div>
                 <p className="text-sm font-medium text-gray-500">متوسط الساعات</p>
                 <p className="text-2xl font-bold text-growth mt-1 group-hover:scale-105 transition-transform duration-300">
-                  {formatTimeFromDecimal(members.reduce((acc, member) => acc + member.totalHours, 0) / members.length)}
+                  {formatTimeFromDecimal(
+                    members.reduce((acc, member) => acc + member.totalHours, 0) / members.length
+                  )}
                 </p>
                 <p className="text-sm font-medium text-gray-500 mt-1">ساعة لكل عضو</p>
               </div>
@@ -400,12 +448,14 @@ const MemberManagement = () => {
               <div>
                 <p className="text-sm font-medium text-gray-500">أفضل أداء</p>
                 <p className="text-2xl font-bold text-excellence mt-1 group-hover:scale-105 transition-transform duration-300">
-                  {members.sort((a, b) => b.totalHours - a.totalHours)[0].name.split(" ")[0]}
+                  {members.sort((a, b) => b.totalHours - a.totalHours)[0].name.split(' ')[0]}
                 </p>
                 <p className="text-sm font-medium text-gray-500 mt-1 flex items-center">
                   <Clock className="h-4 w-4 mr-1 text-excellence" />
                   <span className="font-mono">
-                    {formatTimeFromDecimal(members.sort((a, b) => b.totalHours - a.totalHours)[0].totalHours)}
+                    {formatTimeFromDecimal(
+                      members.sort((a, b) => b.totalHours - a.totalHours)[0].totalHours
+                    )}
                   </span>
                 </p>
               </div>
@@ -462,12 +512,12 @@ const MemberManagement = () => {
                   <th
                     scope="col"
                     className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-                    onClick={() => handleSort("name")}
+                    onClick={() => handleSort('name')}
                   >
                     <div className="flex items-center">
                       <span>اسم العضو</span>
-                      {sortBy === "name" &&
-                        (sortOrder === "asc" ? (
+                      {sortBy === 'name' &&
+                        (sortOrder === 'asc' ? (
                           <ChevronUp className="h-4 w-4 mr-1" />
                         ) : (
                           <ChevronDown className="h-4 w-4 mr-1" />
@@ -495,12 +545,12 @@ const MemberManagement = () => {
                   <th
                     scope="col"
                     className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-                    onClick={() => handleSort("hours")}
+                    onClick={() => handleSort('hours')}
                   >
                     <div className="flex items-center">
                       <span>الساعات</span>
-                      {sortBy === "hours" &&
-                        (sortOrder === "asc" ? (
+                      {sortBy === 'hours' &&
+                        (sortOrder === 'asc' ? (
                           <ChevronUp className="h-4 w-4 mr-1" />
                         ) : (
                           <ChevronDown className="h-4 w-4 mr-1" />
@@ -510,12 +560,12 @@ const MemberManagement = () => {
                   <th
                     scope="col"
                     className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-                    onClick={() => handleSort("engagement")}
+                    onClick={() => handleSort('engagement')}
                   >
                     <div className="flex items-center">
                       <span>نسبة التفاعل</span>
-                      {sortBy === "engagement" &&
-                        (sortOrder === "asc" ? (
+                      {sortBy === 'engagement' &&
+                        (sortOrder === 'asc' ? (
                           <ChevronUp className="h-4 w-4 mr-1" />
                         ) : (
                           <ChevronDown className="h-4 w-4 mr-1" />
@@ -525,12 +575,12 @@ const MemberManagement = () => {
                   <th
                     scope="col"
                     className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-                    onClick={() => handleSort("joinDate")}
+                    onClick={() => handleSort('joinDate')}
                   >
                     <div className="flex items-center">
                       <span>تاريخ الانضمام</span>
-                      {sortBy === "joinDate" &&
-                        (sortOrder === "asc" ? (
+                      {sortBy === 'joinDate' &&
+                        (sortOrder === 'asc' ? (
                           <ChevronUp className="h-4 w-4 mr-1" />
                         ) : (
                           <ChevronDown className="h-4 w-4 mr-1" />
@@ -548,11 +598,16 @@ const MemberManagement = () => {
               <tbody className="bg-white divide-y divide-gray-200">
                 {sortedAndFilteredMembers.map((member) => (
                   // تحسين صف الجدول بأكمله
-                  <tr key={member.id} className="hover:bg-gray-50 transition-colors duration-150 hover:shadow-sm">
+                  <tr
+                    key={member.id}
+                    className="hover:bg-gray-50 transition-colors duration-150 hover:shadow-sm"
+                  >
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10 rounded-full bg-trust/10 flex items-center justify-center">
-                          <span className="text-lg font-medium text-trust">{member.name.charAt(0)}</span>
+                          <span className="text-lg font-medium text-trust">
+                            {member.name.charAt(0)}
+                          </span>
                         </div>
                         <div className="mr-4">
                           <div className="text-sm font-medium text-gray-900">{member.name}</div>
@@ -581,7 +636,9 @@ const MemberManagement = () => {
                           {formatTimeFromDecimal(member.totalHours)}
                         </span>
                       </div>
-                      <div className="text-xs text-gray-500 mt-1">{member.completedTasks} مهمة مكتملة</div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        {member.completedTasks} مهمة مكتملة
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {/* تحسين عرض نسبة التفاعل */}
@@ -600,7 +657,7 @@ const MemberManagement = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {new Date(member.joinDate).toLocaleDateString("ar-SA")}
+                      {new Date(member.joinDate).toLocaleDateString('ar-SA')}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-left text-sm font-medium">
                       <div className="flex items-center space-x-2 space-x-reverse">
@@ -634,7 +691,10 @@ const MemberManagement = () => {
             <div className="p-6 border-b border-gray-100">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-kaff text-trust">إضافة عضو جديد</h2>
-                <button onClick={() => setShowAddMemberModal(false)} className="text-gray-400 hover:text-gray-500">
+                <button
+                  onClick={() => setShowAddMemberModal(false)}
+                  className="text-gray-400 hover:text-gray-500"
+                >
                   <X className="h-6 w-6" />
                 </button>
               </div>
@@ -643,7 +703,9 @@ const MemberManagement = () => {
               <form onSubmit={handleAddMember} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">اسم العضو</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      اسم العضو
+                    </label>
                     <input
                       type="text"
                       placeholder="اسم العضو"
@@ -653,7 +715,9 @@ const MemberManagement = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">رقم الهوية</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      رقم الهوية
+                    </label>
                     <input
                       type="text"
                       placeholder="رقم الهوية"
@@ -663,7 +727,9 @@ const MemberManagement = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">الرقم الجامعي</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      الرقم الجامعي
+                    </label>
                     <input
                       type="text"
                       value={newMember.studentId}
@@ -673,7 +739,9 @@ const MemberManagement = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">البريد الإلكتروني</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      البريد الإلكتروني
+                    </label>
                     <input
                       type="email"
                       value={newMember.email}
@@ -683,7 +751,9 @@ const MemberManagement = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">رقم الهاتف</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      رقم الهاتف
+                    </label>
                     <input
                       type="tel"
                       value={newMember.phone}
@@ -729,7 +799,7 @@ const MemberManagement = () => {
                         <input
                           type="number"
                           value={newMember.hours}
-                          onChange={(e) => handleTimeChange("hours", e.target.value)}
+                          onChange={(e) => handleTimeChange('hours', e.target.value)}
                           className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-trust focus:border-trust text-center"
                           placeholder="00"
                           min="0"
@@ -741,7 +811,7 @@ const MemberManagement = () => {
                         <input
                           type="number"
                           value={newMember.minutes}
-                          onChange={(e) => handleTimeChange("minutes", e.target.value)}
+                          onChange={(e) => handleTimeChange('minutes', e.target.value)}
                           className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-trust focus:border-trust text-center"
                           placeholder="00"
                           min="0"
@@ -754,7 +824,7 @@ const MemberManagement = () => {
                         <input
                           type="number"
                           value={newMember.seconds}
-                          onChange={(e) => handleTimeChange("seconds", e.target.value)}
+                          onChange={(e) => handleTimeChange('seconds', e.target.value)}
                           className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-trust focus:border-trust text-center"
                           placeholder="00"
                           min="0"
@@ -766,7 +836,9 @@ const MemberManagement = () => {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">المستوى الدراسي</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      المستوى الدراسي
+                    </label>
                     <select
                       value={newMember.level}
                       onChange={(e) => setNewMember({ ...newMember, level: e.target.value })}
@@ -786,7 +858,11 @@ const MemberManagement = () => {
                   </div>
                 </div>
                 <div className="flex justify-end space-x-3 space-x-reverse">
-                  <button type="button" onClick={() => setShowAddMemberModal(false)} className="btn-secondary">
+                  <button
+                    type="button"
+                    onClick={() => setShowAddMemberModal(false)}
+                    className="btn-secondary"
+                  >
                     إلغاء
                   </button>
                   <button type="submit" className="btn-primary">
@@ -807,7 +883,10 @@ const MemberManagement = () => {
             <div className="p-6 border-b border-gray-100">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-kaff text-trust">تأكيد حذف العضو</h2>
-                <button onClick={() => setShowDeleteConfirmation(null)} className="text-gray-400 hover:text-gray-500">
+                <button
+                  onClick={() => setShowDeleteConfirmation(null)}
+                  className="text-gray-400 hover:text-gray-500"
+                >
                   <X className="h-6 w-6" />
                 </button>
               </div>
@@ -819,9 +898,9 @@ const MemberManagement = () => {
                 </div>
               </div>
               <p className="text-center text-gray-700 mb-6">
-                هل أنت متأكد من رغبتك في حذف العضو{" "}
-                <span className="font-bold text-trust">{showDeleteConfirmation.name}</span>؟ لا يمكن التراجع عن هذا
-                الإجراء.
+                هل أنت متأكد من رغبتك في حذف العضو{' '}
+                <span className="font-bold text-trust">{showDeleteConfirmation.name}</span>؟ لا يمكن
+                التراجع عن هذا الإجراء.
               </p>
               <div className="flex justify-center space-x-3 space-x-reverse">
                 <button onClick={() => setShowDeleteConfirmation(null)} className="btn-secondary">
@@ -847,7 +926,10 @@ const MemberManagement = () => {
             <div className="p-6 border-b border-gray-100">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-kaff text-trust">تفاصيل العضو</h2>
-                <button onClick={() => setShowMemberDetails(null)} className="text-gray-400 hover:text-gray-500">
+                <button
+                  onClick={() => setShowMemberDetails(null)}
+                  className="text-gray-400 hover:text-gray-500"
+                >
                   <X className="h-6 w-6" />
                 </button>
               </div>
@@ -858,9 +940,13 @@ const MemberManagement = () => {
                 <div className="md:col-span-1 bg-gray-50 p-6 rounded-xl">
                   <div className="flex flex-col items-center mb-6">
                     <div className="h-24 w-24 rounded-full bg-trust/10 flex items-center justify-center mb-4">
-                      <span className="text-3xl font-medium text-trust">{showMemberDetails.name.charAt(0)}</span>
+                      <span className="text-3xl font-medium text-trust">
+                        {showMemberDetails.name.charAt(0)}
+                      </span>
                     </div>
-                    <h3 className="text-xl font-medium text-gray-900 text-center">{showMemberDetails.name}</h3>
+                    <h3 className="text-xl font-medium text-gray-900 text-center">
+                      {showMemberDetails.name}
+                    </h3>
                     <span
                       className={`mt-2 px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getRoleColor(showMemberDetails.role)}`}
                     >
@@ -903,7 +989,7 @@ const MemberManagement = () => {
                       <div>
                         <p className="text-sm text-gray-500">تاريخ الانضمام</p>
                         <p className="font-medium">
-                          {new Date(showMemberDetails.joinDate).toLocaleDateString("ar-SA")}
+                          {new Date(showMemberDetails.joinDate).toLocaleDateString('ar-SA')}
                         </p>
                       </div>
                     </div>
@@ -949,7 +1035,9 @@ const MemberManagement = () => {
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="text-sm text-gray-500">المهام المكتملة</p>
-                          <p className="text-2xl font-bold text-growth mt-1">{showMemberDetails.completedTasks}</p>
+                          <p className="text-2xl font-bold text-growth mt-1">
+                            {showMemberDetails.completedTasks}
+                          </p>
                         </div>
                         <div className="bg-growth/10 p-3 rounded-full">
                           <CheckCircle2 className="h-6 w-6 text-growth" />
@@ -960,7 +1048,9 @@ const MemberManagement = () => {
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="text-sm text-gray-500">المهام المعلقة</p>
-                          <p className="text-2xl font-bold text-yellow-600 mt-1">{showMemberDetails.pendingTasks}</p>
+                          <p className="text-2xl font-bold text-yellow-600 mt-1">
+                            {showMemberDetails.pendingTasks}
+                          </p>
                         </div>
                         <div className="bg-yellow-100 p-3 rounded-full">
                           <AlertCircle className="h-6 w-6 text-yellow-600" />
@@ -985,7 +1075,7 @@ const MemberManagement = () => {
                       </span>
                     </div>
                     <p className="text-sm text-gray-500">
-                      آخر نشاط: {new Date(showMemberDetails.lastActive).toLocaleDateString("ar-SA")}
+                      آخر نشاط: {new Date(showMemberDetails.lastActive).toLocaleDateString('ar-SA')}
                     </p>
                   </div>
 
@@ -1005,25 +1095,27 @@ const MemberManagement = () => {
                               <h4 className="font-medium text-gray-900">{activity.title}</h4>
                               <span
                                 className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                  activity.status === "approved"
-                                    ? "bg-growth/10 text-growth"
-                                    : activity.status === "pending"
-                                      ? "bg-yellow-100 text-yellow-600"
-                                      : "bg-red-100 text-red-600"
+                                  activity.status === 'approved'
+                                    ? 'bg-growth/10 text-growth'
+                                    : activity.status === 'pending'
+                                      ? 'bg-yellow-100 text-yellow-600'
+                                      : 'bg-red-100 text-red-600'
                                 }`}
                               >
-                                {activity.status === "approved"
-                                  ? "تمت الموافقة"
-                                  : activity.status === "pending"
-                                    ? "قيد المراجعة"
-                                    : "مرفوض"}
+                                {activity.status === 'approved'
+                                  ? 'تمت الموافقة'
+                                  : activity.status === 'pending'
+                                    ? 'قيد المراجعة'
+                                    : 'مرفوض'}
                               </span>
                             </div>
                             <div className="mt-1 text-sm text-gray-500">
                               {/* تحسين عرض الساعات في الأنشطة الأخيرة */}
                               <span className="inline-flex items-center ml-4 bg-trust/5 px-2 py-1 rounded-full hover:bg-trust/10 transition-all duration-200">
                                 <Clock className="h-4 w-4 ml-1" />
-                                <span className="font-mono">{formatTimeFromDecimal(activity.hours)}</span>
+                                <span className="font-mono">
+                                  {formatTimeFromDecimal(activity.hours)}
+                                </span>
                               </span>
                               <span className="inline-flex items-center">
                                 <Calendar className="h-4 w-4 ml-1" />
@@ -1052,8 +1144,7 @@ const MemberManagement = () => {
         </div>
       )}
     </Layout>
-  )
-}
+  );
+};
 
-export default MemberManagement
-
+export default MemberManagement;

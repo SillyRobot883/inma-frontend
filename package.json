@@ -10,19 +10,40 @@
     "build:wasl": "pnpm --filter wasl build",
     "dev": "pnpm --parallel --filter inmaa --filter wasl dev",
     "build": "pnpm --parallel --filter inmaa --filter wasl build",
-    "lint": "pnpm --parallel --filter inmaa --filter wasl lint",
+    "lint": "pnpm --parallel --filter inmaa --filter wasl --filter @inmaa-wasl/api-client lint",
+    "lint:fix": "pnpm --parallel --filter inmaa --filter wasl --filter @inmaa-wasl/api-client lint:fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "preview:inmaa": "pnpm --filter inmaa preview",
     "preview:wasl": "pnpm --filter wasl preview",
     "setup": "pnpm install",
-    "clean": "rm -rf node_modules **/node_modules"
+    "clean": "rm -rf node_modules **/node_modules",
+    "clean:build": "rm -rf **/dist **/build apps/*/dist apps/*/build packages/*/dist",
+    "clean:all": "pnpm run clean && pnpm run clean:build",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write --ignore-unknown"
+    ],
+    "*.{json,css,md,html,yaml,yml}": [
+      "prettier --write --ignore-unknown"
+    ]
   },
   "devDependencies": {
-    "@eslint/js": "^9.25.0",
-    "eslint": "^8.56.0",
+    "@eslint/js": "^9.27.0",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
+    "eslint": "^9.27.0",
+    "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "globals": "^16.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.0",
+    "prettier": "^3.5.3",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1"
   }

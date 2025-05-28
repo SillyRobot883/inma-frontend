@@ -1,36 +1,25 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+
+import {
+  AlertCircle,
+  AlertTriangle,
+  CalendarDays,
+  CheckCircle,
+  CheckCircle2,
+  Clock,
+  Clock4,
+  FileText,
+  Info,
+  MessageCircle,
+  Pencil,
+  Search,
+  UserCircle,
+  XCircle,
+} from 'lucide-react';
+
 import Layout from '../components/Layout';
 import { useAuth } from '../context/AuthContext';
-import { 
-  Clock, 
-  CheckCircle2, 
-  AlertCircle, 
-  Users,
-  ChevronLeft,
-  Calendar,
-  Timer,
-  ChevronUp,
-  ChevronDown,
-  Activity,
-  Award,
-  Target,
-  UserCircle,
-  Building2,
-  Filter,
-  Search,
-  FileText,
-  AlertTriangle,
-  CheckCircle,
-  XCircle,
-  Info,
-  Eye,
-  MessageCircle,
-  Tag,
-  CalendarDays,
-  Clock4,
-  Pencil
-} from 'lucide-react';
 
 const HRDashboard = () => {
   const { clubId } = useParams();
@@ -38,7 +27,7 @@ const HRDashboard = () => {
   const [selectedTask, setSelectedTask] = useState(null);
   const [filterStatus, setFilterStatus] = useState('pending');
   const [searchQuery, setSearchQuery] = useState('');
-  
+
   // New state variables
   const [editingHours, setEditingHours] = useState(null);
   const [actionModal, setActionModal] = useState(null);
@@ -53,7 +42,7 @@ const HRDashboard = () => {
   };
 
   // Dummy data for submissions with more tasks
-  const submissions = [
+  const dummySubmissions = [
     {
       id: 1,
       member: 'فهد السالم',
@@ -65,8 +54,8 @@ const HRDashboard = () => {
       category: 'مهمة تخدم برامج أو مشاريع النادي',
       attachments: ['presentation.pdf', 'schedule.xlsx'],
       comments: [
-        { id: 1, user: 'سارة', text: 'الرجاء إضافة صور الفعالية', date: '2024-03-16 14:30' }
-      ]
+        { id: 1, user: 'سارة', text: 'الرجاء إضافة صور الفعالية', date: '2024-03-16 14:30' },
+      ],
     },
     {
       id: 2,
@@ -78,7 +67,7 @@ const HRDashboard = () => {
       description: 'تم إعداد التقرير الشهري للنادي وتوثيق جميع الفعاليات',
       category: 'مهمة تخدم الأنشطة الداخلية في النادي',
       attachments: ['monthly_report.pdf'],
-      comments: []
+      comments: [],
     },
     {
       id: 3,
@@ -91,8 +80,8 @@ const HRDashboard = () => {
       category: 'مهمة تخدم برامج أو مشاريع النادي',
       attachments: ['workshop_material.pdf'],
       comments: [
-        { id: 2, user: 'أحمد', text: 'نحتاج تفاصيل عن عدد المشاركين', date: '2024-03-14 16:45' }
-      ]
+        { id: 2, user: 'أحمد', text: 'نحتاج تفاصيل عن عدد المشاركين', date: '2024-03-14 16:45' },
+      ],
     },
     {
       id: 4,
@@ -104,7 +93,7 @@ const HRDashboard = () => {
       description: 'تصميم شعار جديد للنادي مع دليل الهوية البصرية',
       category: 'مهمة تخدم الأنشطة الداخلية في النادي',
       attachments: ['logo_files.zip', 'brand_guidelines.pdf'],
-      comments: []
+      comments: [],
     },
     {
       id: 5,
@@ -117,8 +106,8 @@ const HRDashboard = () => {
       category: 'مهمة تخدم مبادرات النادي',
       attachments: ['website_updates.docx'],
       comments: [
-        { id: 3, user: 'خالد', text: 'هل يمكن إضافة صور للتحديثات؟', date: '2024-03-12 11:20' }
-      ]
+        { id: 3, user: 'خالد', text: 'هل يمكن إضافة صور للتحديثات؟', date: '2024-03-12 11:20' },
+      ],
     },
     {
       id: 6,
@@ -131,8 +120,8 @@ const HRDashboard = () => {
       category: 'مهمة تخدم الأنشطة الداخلية في النادي',
       attachments: ['meeting_agenda.pdf'],
       comments: [
-        { id: 4, user: 'نورة', text: 'نحتاج تأكيد موعد القاعة', date: '2024-03-11 09:15' }
-      ]
+        { id: 4, user: 'نورة', text: 'نحتاج تأكيد موعد القاعة', date: '2024-03-11 09:15' },
+      ],
     },
     {
       id: 7,
@@ -144,7 +133,7 @@ const HRDashboard = () => {
       description: 'إعداد محتوى تدريبي لورشة العمل القادمة',
       category: 'مهمة تخدم برامج أو مشاريع النادي',
       attachments: ['training_material.pdf', 'exercises.docx'],
-      comments: []
+      comments: [],
     },
     {
       id: 8,
@@ -157,8 +146,8 @@ const HRDashboard = () => {
       category: 'مهمة تخدم المشاركات خارج الجامعة',
       attachments: ['sponsorship_proposal.pdf'],
       comments: [
-        { id: 5, user: 'فهد', text: 'هل تم تأكيد موعد الاجتماع؟', date: '2024-03-09 13:40' }
-      ]
+        { id: 5, user: 'فهد', text: 'هل تم تأكيد موعد الاجتماع؟', date: '2024-03-09 13:40' },
+      ],
     },
     {
       id: 9,
@@ -170,9 +159,7 @@ const HRDashboard = () => {
       description: 'تحديث قاعدة بيانات أعضاء النادي',
       category: 'مهمة تخدم الأنشطة الداخلية في النادي',
       attachments: ['database_updates.xlsx'],
-      comments: [
-        { id: 6, user: 'سارة', text: 'نحتاج تفاصيل التحديثات', date: '2024-03-08 15:10' }
-      ]
+      comments: [{ id: 6, user: 'سارة', text: 'نحتاج تفاصيل التحديثات', date: '2024-03-08 15:10' }],
     },
     {
       id: 10,
@@ -184,7 +171,7 @@ const HRDashboard = () => {
       description: 'توثيق وتصوير فعالية النادي الأخيرة',
       category: 'مهمة تخدم المشاركات المجتمعية',
       attachments: ['event_photos.zip', 'photo_release.pdf'],
-      comments: []
+      comments: [],
     },
     {
       id: 11,
@@ -197,14 +184,36 @@ const HRDashboard = () => {
       category: 'مهمة تخدم برامج أو مشاريع النادي',
       attachments: ['exhibition_plan.pdf'],
       comments: [
-        { id: 7, user: 'خالد', text: 'الرجاء إضافة قائمة بالمشاريع المشاركة وتفاصيل كل مشروع', date: '2024-03-06 10:30' },
-        { id: 8, user: 'أحمد العبدلي', text: 'تم إضافة قائمة المشاريع وتفاصيلها في المرفقات الجديدة', date: '2024-03-06 15:45' },
-        { id: 9, user: 'خالد', text: 'شكراً على التحديث. هل يمكن إضافة صور للمشاريع أيضاً؟', date: '2024-03-06 16:20' },
-        { id: 10, user: 'أحمد العبدلي', text: 'تم إضافة صور المشاريع في المرفقات', date: '2024-03-06 17:30' }
+        {
+          id: 7,
+          user: 'خالد',
+          text: 'الرجاء إضافة قائمة بالمشاريع المشاركة وتفاصيل كل مشروع',
+          date: '2024-03-06 10:30',
+        },
+        {
+          id: 8,
+          user: 'أحمد العبدلي',
+          text: 'تم إضافة قائمة المشاريع وتفاصيلها في المرفقات الجديدة',
+          date: '2024-03-06 15:45',
+        },
+        {
+          id: 9,
+          user: 'خالد',
+          text: 'شكراً على التحديث. هل يمكن إضافة صور للمشاريع أيضاً؟',
+          date: '2024-03-06 16:20',
+        },
+        {
+          id: 10,
+          user: 'أحمد العبدلي',
+          text: 'تم إضافة صور المشاريع في المرفقات',
+          date: '2024-03-06 17:30',
+        },
       ],
-      updatedAttachments: ['exhibition_plan.pdf', 'projects_list.xlsx', 'projects_photos.zip']
-    }
+      updatedAttachments: ['exhibition_plan.pdf', 'projects_list.xlsx', 'projects_photos.zip'],
+    },
   ];
+
+  const [submissions, setSubmissions] = useState(dummySubmissions);
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -252,18 +261,19 @@ const HRDashboard = () => {
       'مهمة تخدم المشاركات خارج الجامعة': 'bg-green-100 text-green-600',
       'مهمة تخدم مبادرات النادي': 'bg-pink-100 text-pink-600',
       'مهمة تخدم الأنشطة الداخلية في النادي': 'bg-indigo-100 text-indigo-600',
-      'مهمة تخدم المشاركات المجتمعية': 'bg-orange-100 text-orange-600'
+      'مهمة تخدم المشاركات المجتمعية': 'bg-orange-100 text-orange-600',
     };
     return colors[category] || 'bg-gray-100 text-gray-600';
   };
 
   const filteredSubmissions = submissions
-    .filter(submission => filterStatus === 'all' || submission.status === filterStatus)
-    .filter(submission => 
-      searchQuery === '' || 
-      submission.title.includes(searchQuery) || 
-      submission.member.includes(searchQuery) ||
-      submission.category.includes(searchQuery)
+    .filter((submission) => filterStatus === 'all' || submission.status === filterStatus)
+    .filter(
+      (submission) =>
+        searchQuery === '' ||
+        submission.title.includes(searchQuery) ||
+        submission.member.includes(searchQuery) ||
+        submission.category.includes(searchQuery)
     );
 
   // Action handlers
@@ -273,7 +283,7 @@ const HRDashboard = () => {
     setEditedHours({
       hours: hours.toString().padStart(2, '0'),
       minutes: minutes.toString().padStart(2, '0'),
-      seconds: seconds.toString().padStart(2, '0')
+      seconds: seconds.toString().padStart(2, '0'),
     });
     setEditComment('');
   };
@@ -284,12 +294,12 @@ const HRDashboard = () => {
       return;
     }
     // Rest of the save logic
-    const updatedSubmissions = submissions.map(submission => {
+    const updatedSubmissions = submissions.map((submission) => {
       if (submission.id === editingHours.id) {
         return {
           ...submission,
           hours: editingHours.hours,
-          comments: editingHours.comments
+          comments: editingHours.comments,
         };
       }
       return submission;
@@ -305,8 +315,9 @@ const HRDashboard = () => {
 
   const handleSubmitAction = () => {
     // Only require comment for needs_info and deny actions
-    if ((actionModal.type === 'needs_info' || actionModal.type === 'deny') && !actionComment.trim()) return;
-    
+    if ((actionModal.type === 'needs_info' || actionModal.type === 'deny') && !actionComment.trim())
+      return;
+
     // Here you would typically make an API call to update the status
     // For now, we'll just close the modal
     setActionModal(null);
@@ -323,28 +334,24 @@ const HRDashboard = () => {
               <div>
                 <p className="text-sm font-medium text-gray-500">الساعات المعلقة</p>
                 <p className="text-2xl font-bold text-yellow-600 mt-1">
-                  {submissions.filter(s => s.status === 'pending').length}
+                  {submissions.filter((s) => s.status === 'pending').length}
                 </p>
-                <p className="text-sm font-medium text-gray-500 mt-1">
-                  تحتاج مراجعة
-                </p>
+                <p className="text-sm font-medium text-gray-500 mt-1">تحتاج مراجعة</p>
               </div>
               <div className="bg-yellow-100 rounded-full p-3 transition-all duration-300 group-hover:bg-yellow-200">
                 <AlertCircle className="h-6 w-6 text-yellow-600" />
               </div>
             </div>
           </div>
-          
+
           <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-500">تحتاج معلومات</p>
                 <p className="text-2xl font-bold text-blue-600 mt-1">
-                  {submissions.filter(s => s.status === 'needs_info').length}
+                  {submissions.filter((s) => s.status === 'needs_info').length}
                 </p>
-                <p className="text-sm font-medium text-gray-500 mt-1">
-                  معلومات إضافية مطلوبة
-                </p>
+                <p className="text-sm font-medium text-gray-500 mt-1">معلومات إضافية مطلوبة</p>
               </div>
               <div className="bg-blue-100 rounded-full p-3 transition-all duration-300 group-hover:bg-blue-200">
                 <Info className="h-6 w-6 text-blue-600" />
@@ -357,11 +364,9 @@ const HRDashboard = () => {
               <div>
                 <p className="text-sm font-medium text-gray-500">تمت الموافقة</p>
                 <p className="text-2xl font-bold text-growth mt-1">
-                  {submissions.filter(s => s.status === 'approved').length}
+                  {submissions.filter((s) => s.status === 'approved').length}
                 </p>
-                <p className="text-sm font-medium text-gray-500 mt-1">
-                  مهام مكتملة
-                </p>
+                <p className="text-sm font-medium text-gray-500 mt-1">مهام مكتملة</p>
               </div>
               <div className="bg-growth/10 rounded-full p-3 transition-all duration-300 group-hover:bg-growth/20">
                 <CheckCircle2 className="h-6 w-6 text-growth" />
@@ -379,17 +384,15 @@ const HRDashboard = () => {
                       const [hours, minutes, seconds] = curr.hours.split(':').map(Number);
                       return acc + hours * 3600 + minutes * 60 + seconds;
                     }, 0);
-                    
+
                     const hours = Math.floor(totalSeconds / 3600);
                     const minutes = Math.floor((totalSeconds % 3600) / 60);
                     const seconds = totalSeconds % 60;
-                    
+
                     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                   })()}
                 </p>
-                <p className="text-sm font-medium text-gray-500 mt-1">
-                  ساعة عمل
-                </p>
+                <p className="text-sm font-medium text-gray-500 mt-1">ساعة عمل</p>
               </div>
               <div className="bg-trust/10 rounded-full p-3 transition-all duration-300 group-hover:bg-trust/20">
                 <Clock className="h-6 w-6 text-trust" />
@@ -419,45 +422,51 @@ const HRDashboard = () => {
                   onChange={(e) => setFilterStatus(e.target.value)}
                   className="border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust text-sm font-medium text-gray-700 transition-all duration-300"
                 >
-                  <option value="all" className="text-sm font-medium text-gray-700">جميع الحالات</option>
-                  <option value="pending" className="text-sm font-medium text-gray-700">قيد المراجعة</option>
-                  <option value="needs_info" className="text-sm font-medium text-gray-700">تحتاج معلومات</option>
-                  <option value="approved" className="text-sm font-medium text-gray-700">تمت الموافقة</option>
+                  <option value="all" className="text-sm font-medium text-gray-700">
+                    جميع الحالات
+                  </option>
+                  <option value="pending" className="text-sm font-medium text-gray-700">
+                    قيد المراجعة
+                  </option>
+                  <option value="needs_info" className="text-sm font-medium text-gray-700">
+                    تحتاج معلومات
+                  </option>
+                  <option value="approved" className="text-sm font-medium text-gray-700">
+                    تمت الموافقة
+                  </option>
                 </select>
               </div>
             </div>
           </div>
           <div className="divide-y divide-gray-100">
             {filteredSubmissions.map((submission) => (
-              <div 
-                key={submission.id} 
+              <div
+                key={submission.id}
                 className={`p-6 hover:bg-gray-50 transition-colors duration-200 ${
-                  submission.status === 'approved' 
-                    ? 'bg-growth/5 border-r-4 border-r-growth' 
-                    : ''
+                  submission.status === 'approved' ? 'bg-growth/5 border-r-4 border-r-growth' : ''
                 }`}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-start space-x-4 space-x-reverse">
                     <div className="flex-shrink-0">
-                      <div className={`h-10 w-10 rounded-full ${
-                        submission.status === 'approved' 
-                          ? 'bg-growth/10' 
-                          : 'bg-trust/10'
-                      } flex items-center justify-center`}>
-                        <FileText className={`h-6 w-6 ${
-                          submission.status === 'approved' 
-                            ? 'text-growth' 
-                            : 'text-trust'
-                        }`} />
+                      <div
+                        className={`h-10 w-10 rounded-full ${
+                          submission.status === 'approved' ? 'bg-growth/10' : 'bg-trust/10'
+                        } flex items-center justify-center`}
+                      >
+                        <FileText
+                          className={`h-6 w-6 ${
+                            submission.status === 'approved' ? 'text-growth' : 'text-trust'
+                          }`}
+                        />
                       </div>
                     </div>
                     <div>
                       <div className="flex items-center space-x-2 space-x-reverse">
-                        <h3 className="text-lg font-medium text-gray-900">
-                          {submission.title}
-                        </h3>
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getCategoryColor(submission.category)}`}>
+                        <h3 className="text-lg font-medium text-gray-900">{submission.title}</h3>
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getCategoryColor(submission.category)}`}
+                        >
                           {submission.category}
                         </span>
                       </div>
@@ -477,9 +486,7 @@ const HRDashboard = () => {
                           {submission.date}
                         </span>
                       </div>
-                      <p className="mt-2 text-sm text-gray-600">
-                        {submission.description}
-                      </p>
+                      <p className="mt-2 text-sm text-gray-600">{submission.description}</p>
                       {submission.attachments.length > 0 && (
                         <div className="mt-2 flex items-center space-x-2 space-x-reverse">
                           <FileText className="h-4 w-4 text-gray-400" />
@@ -498,11 +505,16 @@ const HRDashboard = () => {
                       {submission.comments.length > 0 && (
                         <div className="mt-3 space-y-2">
                           {submission.comments.map((comment) => (
-                            <div key={comment.id} className="flex items-start space-x-2 space-x-reverse bg-gray-50 rounded-lg p-3">
+                            <div
+                              key={comment.id}
+                              className="flex items-start space-x-2 space-x-reverse bg-gray-50 rounded-lg p-3"
+                            >
                               <MessageCircle className="h-4 w-4 text-gray-400 mt-0.5" />
                               <div className="flex-1">
                                 <div className="flex items-center justify-between">
-                                  <span className="text-sm font-medium text-gray-900">{comment.user}</span>
+                                  <span className="text-sm font-medium text-gray-900">
+                                    {comment.user}
+                                  </span>
                                   <span className="text-xs text-gray-500">{comment.date}</span>
                                 </div>
                                 <p className="text-sm text-gray-600 mt-1">{comment.text}</p>
@@ -514,55 +526,65 @@ const HRDashboard = () => {
                     </div>
                   </div>
                   <div className="flex items-start space-x-3 space-x-reverse">
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm ${
-                      submission.status === 'approved' 
-                        ? 'bg-growth text-white' 
-                        : getStatusColor(submission.status)
-                    }`}>
+                    <span
+                      className={`inline-flex items-center px-3 py-1 rounded-full text-sm ${
+                        submission.status === 'approved'
+                          ? 'bg-growth text-white'
+                          : getStatusColor(submission.status)
+                      }`}
+                    >
                       {getStatusIcon(submission.status)}
                       <span className="mr-1">{getStatusText(submission.status)}</span>
                     </span>
                     <div className="flex items-center space-x-2 space-x-reverse">
-                      <button 
+                      <button
                         className={`p-2 rounded-lg transition-colors duration-200 ${
                           submission.status === 'approved'
                             ? 'text-gray-300 cursor-not-allowed'
                             : 'text-gray-400 hover:text-trust hover:bg-gray-50'
                         }`}
-                        onClick={() => submission.status !== 'approved' && handleEditHours(submission)}
+                        onClick={() =>
+                          submission.status !== 'approved' && handleEditHours(submission)
+                        }
                         disabled={submission.status === 'approved'}
                       >
                         <Pencil className="h-5 w-5" />
                       </button>
-                      <button 
+                      <button
                         className={`p-2 rounded-lg transition-colors duration-200 ${
                           submission.status === 'approved'
                             ? 'text-growth/50 cursor-not-allowed'
                             : 'text-gray-400 hover:text-trust hover:bg-gray-50'
                         }`}
-                        onClick={() => submission.status !== 'approved' && handleAction('approve', submission)}
+                        onClick={() =>
+                          submission.status !== 'approved' && handleAction('approve', submission)
+                        }
                         disabled={submission.status === 'approved'}
                       >
                         <CheckCircle className="h-5 w-5" />
                       </button>
-                      <button 
+                      <button
                         className={`p-2 rounded-lg transition-colors duration-200 ${
                           submission.status === 'approved'
                             ? 'text-gray-300 cursor-not-allowed'
                             : 'text-gray-400 hover:text-yellow-600 hover:bg-gray-50'
                         }`}
-                        onClick={() => submission.status !== 'approved' && handleAction('needs_info', submission)}
+                        onClick={() =>
+                          submission.status !== 'approved' && handleAction('needs_info', submission)
+                        }
                         disabled={submission.status === 'approved'}
                       >
                         <AlertTriangle className="h-5 w-5" />
                       </button>
-                      <button 
+                      <button
                         className={`p-2 rounded-lg transition-colors duration-200 ${
                           submission.status === 'approved'
                             ? 'text-gray-300 cursor-not-allowed'
                             : 'text-gray-400 hover:text-red-600 hover:bg-gray-50'
                         }`}
-                        onClick={() => submission.status !== 'approved' && handleAction('deny', submission)}
+                        onClick={() =>
+                          submission.status !== 'approved' && handleAction('deny', submission)
+                        }
                         disabled={submission.status === 'approved'}
                       >
                         <XCircle className="h-5 w-5" />
@@ -583,7 +605,7 @@ const HRDashboard = () => {
             <div className="p-6 border-b border-gray-100">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-kaff text-trust">تفاصيل النشاط التطوعي</h2>
-                <button 
+                <button
                   onClick={() => setSelectedTask(null)}
                   className="text-gray-400 hover:text-gray-500"
                 >
@@ -596,9 +618,11 @@ const HRDashboard = () => {
                 <div>
                   <div className="flex items-center justify-between">
                     <h3 className="text-xl font-medium text-gray-900">{selectedTask.title}</h3>
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm ${
-                      getStatusColor(selectedTask.status)
-                    }`}>
+                    <span
+                      className={`inline-flex items-center px-3 py-1 rounded-full text-sm ${getStatusColor(
+                        selectedTask.status
+                      )}`}
+                    >
                       {getStatusIcon(selectedTask.status)}
                       <span className="mr-1">{getStatusText(selectedTask.status)}</span>
                     </span>
@@ -608,9 +632,11 @@ const HRDashboard = () => {
                       <UserCircle className="h-4 w-4 ml-1" />
                       {selectedTask.member}
                     </span>
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      getCategoryColor(selectedTask.category)
-                    }`}>
+                    <span
+                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getCategoryColor(
+                        selectedTask.category
+                      )}`}
+                    >
                       {selectedTask.category}
                     </span>
                   </div>
@@ -650,7 +676,10 @@ const HRDashboard = () => {
                     <h4 className="text-sm font-medium text-gray-900 mb-2">المرفقات</h4>
                     <div className="grid grid-cols-2 gap-4">
                       {selectedTask.attachments.map((attachment, index) => (
-                        <div key={index} className="flex items-center space-x-2 space-x-reverse bg-gray-50 rounded-lg p-3">
+                        <div
+                          key={index}
+                          className="flex items-center space-x-2 space-x-reverse bg-gray-50 rounded-lg p-3"
+                        >
                           <FileText className="h-5 w-5 text-gray-400" />
                           <span className="text-sm text-trust hover:text-trust-dark cursor-pointer">
                             {attachment}
@@ -679,12 +708,12 @@ const HRDashboard = () => {
                 )}
 
                 <div className="flex items-center justify-end space-x-3 space-x-reverse pt-4 border-t border-gray-100">
-                  <button className="btn-secondary">
-                    إضافة تعليق
-                  </button>
-                  <button className={`btn-primary ${
-                    selectedTask.status === 'approved' ? 'bg-growth hover:bg-growth-dark' : ''
-                  }`}>
+                  <button className="btn-secondary">إضافة تعليق</button>
+                  <button
+                    className={`btn-primary ${
+                      selectedTask.status === 'approved' ? 'bg-growth hover:bg-growth-dark' : ''
+                    }`}
+                  >
                     {selectedTask.status === 'approved' ? 'تم الموافقة' : 'موافقة'}
                   </button>
                 </div>
@@ -701,7 +730,7 @@ const HRDashboard = () => {
             <div className="p-6 border-b border-gray-100">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-kaff text-trust">تعديل الساعات</h2>
-                <button 
+                <button
                   onClick={() => setEditingHours(null)}
                   className="text-gray-400 hover:text-gray-500"
                 >
@@ -717,37 +746,35 @@ const HRDashboard = () => {
                   </label>
                   <div className="grid grid-cols-3 gap-4 items-end">
                     <div>
-                      <label className="block text-xs font-medium text-gray-500 mb-1">
-                        ثواني
-                      </label>
+                      <label className="block text-xs font-medium text-gray-500 mb-1">ثواني</label>
                       <input
                         type="number"
                         min="0"
                         max="59"
                         value={editedHours.seconds}
-                        onChange={(e) => setEditedHours({ ...editedHours, seconds: e.target.value })}
+                        onChange={(e) =>
+                          setEditedHours({ ...editedHours, seconds: e.target.value })
+                        }
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust text-center"
                         placeholder="00"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-gray-500 mb-1">
-                        دقائق
-                      </label>
+                      <label className="block text-xs font-medium text-gray-500 mb-1">دقائق</label>
                       <input
                         type="number"
                         min="0"
                         max="59"
                         value={editedHours.minutes}
-                        onChange={(e) => setEditedHours({ ...editedHours, minutes: e.target.value })}
+                        onChange={(e) =>
+                          setEditedHours({ ...editedHours, minutes: e.target.value })
+                        }
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust text-center"
                         placeholder="00"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-gray-500 mb-1">
-                        ساعات
-                      </label>
+                      <label className="block text-xs font-medium text-gray-500 mb-1">ساعات</label>
                       <input
                         type="number"
                         min="0"
@@ -771,16 +798,10 @@ const HRDashboard = () => {
                   />
                 </div>
                 <div className="flex justify-end space-x-3 space-x-reverse">
-                  <button
-                    onClick={() => setEditingHours(null)}
-                    className="btn-secondary"
-                  >
+                  <button onClick={() => setEditingHours(null)} className="btn-secondary">
                     إلغاء
                   </button>
-                  <button
-                    onClick={handleSaveHours}
-                    className="btn-primary"
-                  >
+                  <button onClick={handleSaveHours} className="btn-primary">
                     حفظ
                   </button>
                 </div>
@@ -797,10 +818,13 @@ const HRDashboard = () => {
             <div className="p-6 border-b border-gray-100">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-kaff text-trust">
-                  {actionModal.type === 'needs_info' ? 'طلب معلومات إضافية' : 
-                   actionModal.type === 'deny' ? 'رفض الطلب' : 'موافقة على الطلب'}
+                  {actionModal.type === 'needs_info'
+                    ? 'طلب معلومات إضافية'
+                    : actionModal.type === 'deny'
+                      ? 'رفض الطلب'
+                      : 'موافقة على الطلب'}
                 </h2>
-                <button 
+                <button
                   onClick={() => setActionModal(null)}
                   className="text-gray-400 hover:text-gray-500"
                 >
@@ -812,28 +836,34 @@ const HRDashboard = () => {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {actionModal.type === 'needs_info' ? 'ما هي المعلومات المطلوبة؟' : 
-                     actionModal.type === 'deny' ? 'سبب الرفض' : 'تعليق (اختياري)'}
+                    {actionModal.type === 'needs_info'
+                      ? 'ما هي المعلومات المطلوبة؟'
+                      : actionModal.type === 'deny'
+                        ? 'سبب الرفض'
+                        : 'تعليق (اختياري)'}
                   </label>
                   <textarea
                     value={actionComment}
                     onChange={(e) => setActionComment(e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust h-24 resize-none"
-                    placeholder={actionModal.type === 'approve' ? 'أضف تعليقاً (اختياري)...' : 'اكتب السبب هنا...'}
+                    placeholder={
+                      actionModal.type === 'approve'
+                        ? 'أضف تعليقاً (اختياري)...'
+                        : 'اكتب السبب هنا...'
+                    }
                     required={actionModal.type !== 'approve'}
                   />
                 </div>
                 <div className="flex justify-end space-x-3 space-x-reverse">
-                  <button
-                    onClick={() => setActionModal(null)}
-                    className="btn-secondary"
-                  >
+                  <button onClick={() => setActionModal(null)} className="btn-secondary">
                     إلغاء
                   </button>
                   <button
                     onClick={handleSubmitAction}
                     className={`btn-primary ${
-                      (actionModal.type !== 'approve' && !actionComment.trim()) ? 'opacity-50 cursor-not-allowed' : ''
+                      actionModal.type !== 'approve' && !actionComment.trim()
+                        ? 'opacity-50 cursor-not-allowed'
+                        : ''
                     }`}
                     disabled={actionModal.type !== 'approve' && !actionComment.trim()}
                   >
@@ -849,4 +879,4 @@ const HRDashboard = () => {
   );
 };
 
-export default HRDashboard; 
+export default HRDashboard;

@@ -1,7 +1,8 @@
-import axios from "axios";
-import { ClubRole, MembershipStatus } from "../constants";
+import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || "api";
+import { ClubRole, MembershipStatus } from '../constants';
+
+const API_URL = import.meta.env.VITE_API_URL || 'api';
 
 type ClubRoleType = keyof typeof ClubRole;
 type MembershipStatusType = keyof typeof MembershipStatus;
@@ -45,13 +46,23 @@ export const fetchClubMembers = async (clubUuid: string): Promise<Member[]> => {
   return response.data;
 };
 
-export const addClubMember = async (clubUuid: string, memberData: MemberData): Promise<MembershipResponse> => {
+export const addClubMember = async (
+  clubUuid: string,
+  memberData: MemberData
+): Promise<MembershipResponse> => {
   const response = await axios.post(`${API_URL}/clubs/${clubUuid}/memberships`, memberData);
   return response.data;
 };
 
-export const updateClubMember = async (clubUuid: string, membershipUuid: string, memberData: UpdateMemberData): Promise<MembershipResponse> => {
-  const response = await axios.put(`${API_URL}/clubs/${clubUuid}/memberships/${membershipUuid}`, memberData);
+export const updateClubMember = async (
+  clubUuid: string,
+  membershipUuid: string,
+  memberData: UpdateMemberData
+): Promise<MembershipResponse> => {
+  const response = await axios.put(
+    `${API_URL}/clubs/${clubUuid}/memberships/${membershipUuid}`,
+    memberData
+  );
   return response.data;
 };
 
@@ -69,7 +80,10 @@ export const leaveClub = async (clubUuid: string): Promise<void> => {
   await axios.delete(`${API_URL}/clubs/${clubUuid}/memberships/me`);
 };
 
-export const getMembershipDetails = async (clubUuid: string, membershipUuid: string): Promise<Member> => {
+export const getMembershipDetails = async (
+  clubUuid: string,
+  membershipUuid: string
+): Promise<Member> => {
   const response = await axios.get(`${API_URL}/clubs/${clubUuid}/memberships/${membershipUuid}`);
   return response.data;
 };

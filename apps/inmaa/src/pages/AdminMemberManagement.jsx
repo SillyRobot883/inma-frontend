@@ -1,21 +1,20 @@
 import { useState } from 'react';
-import AdminLayout from '../components/AdminLayout';
-import { 
-  Search,
-  User,
+
+import {
+  Building2,
   ChevronDown,
   ChevronUp,
-  Building2,
-  Shield,
   Clock,
-  Activity,
-  Plus,
   Edit2,
+  Plus,
+  Search,
   Trash2,
-  X,
+  User,
   UserPlus,
-  UserCog
+  X,
 } from 'lucide-react';
+
+import AdminLayout from '../components/AdminLayout';
 
 const AdminMemberManagement = ({ isInmaAdmin = false }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -41,14 +40,14 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
     minutes: '00',
     seconds: '00',
     engagement: 'active',
-    clubs: []
+    clubs: [],
   });
 
   // Edit member form state
   const [editMember, setEditMember] = useState(null);
 
   // Dummy data for members
-  const members = [
+  const dummyMembers = [
     {
       id: 1,
       name: 'فهد السالم',
@@ -59,8 +58,8 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
       clubs: [
         { id: 1, name: 'نادي التطوير', role: 'leader', hours: 45.5 },
         { id: 2, name: 'نادي الابتكار', role: 'member', hours: 30.0 },
-        { id: 3, name: 'نادي التصميم', role: 'hr', hours: 81.0 }
-      ]
+        { id: 3, name: 'نادي التصميم', role: 'hr', hours: 81.0 },
+      ],
     },
     {
       id: 2,
@@ -71,18 +70,21 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
       totalHours: 142.0,
       clubs: [
         { id: 1, name: 'نادي التطوير', role: 'member', hours: 42.0 },
-        { id: 4, name: 'نادي التصوير', role: 'leader', hours: 100.0 }
-      ]
+        { id: 4, name: 'نادي التصوير', role: 'leader', hours: 100.0 },
+      ],
     },
     // Add more dummy data as needed
   ];
+
+  // State for members
+  const [members, setMembers] = useState(dummyMembers);
 
   // Add dummy clubs data
   const clubs = [
     { id: 1, name: 'نادي التطوير' },
     { id: 2, name: 'نادي الابتكار' },
     { id: 3, name: 'نادي التصميم' },
-    { id: 4, name: 'نادي التصوير' }
+    { id: 4, name: 'نادي التصوير' },
   ];
 
   const getRoleColor = (role) => {
@@ -129,10 +131,11 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
   };
 
   const filteredMembers = members
-    .filter(member => 
-      member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      member.studentId.includes(searchQuery) ||
-      member.email.toLowerCase().includes(searchQuery.toLowerCase())
+    .filter(
+      (member) =>
+        member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        member.studentId.includes(searchQuery) ||
+        member.email.toLowerCase().includes(searchQuery.toLowerCase())
     )
     .sort((a, b) => {
       const direction = sortDirection === 'asc' ? 1 : -1;
@@ -167,7 +170,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
       engagement: 0,
       joinDate: new Date().toISOString().split('T')[0],
       recentActivity: [],
-      clubs: newMember.clubs
+      clubs: newMember.clubs,
     };
     setMembers([...members, member]);
     setNewMember({
@@ -184,7 +187,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
       minutes: '00',
       seconds: '00',
       engagement: 'active',
-      clubs: []
+      clubs: [],
     });
     setShowAddMemberModal(false);
   };
@@ -195,30 +198,28 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
       alert('الرجاء إدخال اسم العضو والرقم الجامعي');
       return;
     }
-    setMembers(members.map(member => 
-      member.id === editMember.id ? editMember : member
-    ));
+    setMembers(members.map((member) => (member.id === editMember.id ? editMember : member)));
     setShowEditMemberModal(null);
   };
 
   const handleDeleteMember = (memberId) => {
-    setMembers(members.filter(member => member.id !== memberId));
+    setMembers(members.filter((member) => member.id !== memberId));
     setShowDeleteConfirmation(null);
   };
 
   const handleTimeChange = (field, value) => {
     const maxValue = field === 'hours' ? 999 : 59;
     const sanitizedValue = Math.min(Math.max(0, Number(value) || 0), maxValue).toString();
-    setNewMember(prev => ({
+    setNewMember((prev) => ({
       ...prev,
-      [field]: sanitizedValue.padStart(2, '0')
+      [field]: sanitizedValue.padStart(2, '0'),
     }));
   };
 
   const handleClubSelection = (clubId) => {
-    setNewMember(prev => {
+    setNewMember((prev) => {
       const clubs = prev.clubs.includes(clubId)
-        ? prev.clubs.filter(id => id !== clubId)
+        ? prev.clubs.filter((id) => id !== clubId)
         : [...prev.clubs, clubId];
       return { ...prev, clubs };
     });
@@ -237,10 +238,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
               </p>
             </div>
             {isInmaAdmin && (
-              <button 
-                onClick={() => setShowAddMemberModal(true)}
-                className="btn-primary"
-              >
+              <button onClick={() => setShowAddMemberModal(true)} className="btn-primary">
                 <Plus className="h-5 w-5 ml-2" />
                 إضافة عضو جديد
               </button>
@@ -276,9 +274,12 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       className="flex items-center space-x-1 space-x-reverse"
                     >
                       <span>الاسم</span>
-                      {sortField === 'name' && (
-                        sortDirection === 'asc' ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />
-                      )}
+                      {sortField === 'name' &&
+                        (sortDirection === 'asc' ? (
+                          <ChevronUp className="h-4 w-4" />
+                        ) : (
+                          <ChevronDown className="h-4 w-4" />
+                        ))}
                     </button>
                   </th>
                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -296,9 +297,12 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       className="flex items-center space-x-1 space-x-reverse"
                     >
                       <span>إجمالي الساعات</span>
-                      {sortField === 'totalHours' && (
-                        sortDirection === 'asc' ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />
-                      )}
+                      {sortField === 'totalHours' &&
+                        (sortDirection === 'asc' ? (
+                          <ChevronUp className="h-4 w-4" />
+                        ) : (
+                          <ChevronDown className="h-4 w-4" />
+                        ))}
                     </button>
                   </th>
                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -342,7 +346,9 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       </td>
                       <td className="px-6 py-4">
                         <button
-                          onClick={() => setExpandedMember(expandedMember === member.id ? null : member.id)}
+                          onClick={() =>
+                            setExpandedMember(expandedMember === member.id ? null : member.id)
+                          }
                           className="flex items-center text-sm text-trust hover:text-trust-dark"
                         >
                           <span>{member.clubs.length} نادي</span>
@@ -356,7 +362,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       {isInmaAdmin && (
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           <div className="flex items-center space-x-3 space-x-reverse">
-                            <button 
+                            <button
                               onClick={() => {
                                 setEditMember(member);
                                 setShowEditMemberModal(member);
@@ -365,7 +371,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                             >
                               <Edit2 className="h-5 w-5" />
                             </button>
-                            <button 
+                            <button
                               onClick={() => setShowDeleteConfirmation(member)}
                               className="text-gray-400 hover:text-red-600"
                             >
@@ -384,9 +390,13 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                                 <div className="flex items-center justify-between">
                                   <div className="flex items-center">
                                     <Building2 className="h-5 w-5 text-gray-400 ml-2" />
-                                    <span className="text-sm font-medium text-gray-900">{club.name}</span>
+                                    <span className="text-sm font-medium text-gray-900">
+                                      {club.name}
+                                    </span>
                                   </div>
-                                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRoleColor(club.role)}`}>
+                                  <span
+                                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRoleColor(club.role)}`}
+                                  >
                                     {getRoleText(club.role)}
                                   </span>
                                 </div>
@@ -414,7 +424,10 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
               <div className="p-6 border-b border-gray-100">
                 <div className="flex items-center justify-between">
                   <h2 className="text-xl font-kaff text-trust">إضافة عضو جديد</h2>
-                  <button onClick={() => setShowAddMemberModal(false)} className="text-gray-400 hover:text-gray-500">
+                  <button
+                    onClick={() => setShowAddMemberModal(false)}
+                    className="text-gray-400 hover:text-gray-500"
+                  >
                     <X className="h-6 w-6" />
                   </button>
                 </div>
@@ -423,7 +436,9 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                 <form onSubmit={handleAddMember} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">اسم العضو</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        اسم العضو
+                      </label>
                       <input
                         type="text"
                         placeholder="اسم العضو"
@@ -434,7 +449,9 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">الرقم الجامعي</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        الرقم الجامعي
+                      </label>
                       <input
                         type="text"
                         placeholder="الرقم الجامعي"
@@ -445,7 +462,9 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">رقم الهوية</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        رقم الهوية
+                      </label>
                       <input
                         type="text"
                         placeholder="112XXXXXXXX"
@@ -456,7 +475,9 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">البريد الإلكتروني</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        البريد الإلكتروني
+                      </label>
                       <input
                         type="email"
                         placeholder="البريد الإلكتروني"
@@ -467,7 +488,9 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">رقم الهاتف</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        رقم الهاتف
+                      </label>
                       <input
                         type="tel"
                         placeholder="رقم الهاتف"
@@ -517,7 +540,9 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">المستوى الدراسي</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        المستوى الدراسي
+                      </label>
                       <select
                         value={newMember.level}
                         onChange={(e) => setNewMember({ ...newMember, level: e.target.value })}
@@ -536,10 +561,15 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       </select>
                     </div>
                     <div className="col-span-2">
-                      <label className="block text-sm font-medium text-gray-700 mb-1">الأندية</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        الأندية
+                      </label>
                       <div className="grid grid-cols-2 gap-2">
-                        {clubs.map(club => (
-                          <label key={club.id} className="flex items-center space-x-2 space-x-reverse p-2 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        {clubs.map((club) => (
+                          <label
+                            key={club.id}
+                            className="flex items-center space-x-2 space-x-reverse p-2 border rounded-lg hover:bg-gray-50 cursor-pointer"
+                          >
                             <input
                               type="checkbox"
                               checked={newMember.clubs.includes(club.id)}
@@ -553,7 +583,11 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                     </div>
                   </div>
                   <div className="flex justify-end space-x-3 space-x-reverse">
-                    <button type="button" onClick={() => setShowAddMemberModal(false)} className="btn-secondary">
+                    <button
+                      type="button"
+                      onClick={() => setShowAddMemberModal(false)}
+                      className="btn-secondary"
+                    >
                       إلغاء
                     </button>
                     <button type="submit" className="btn-primary">
@@ -574,7 +608,10 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
               <div className="p-6 border-b border-gray-100">
                 <div className="flex items-center justify-between">
                   <h2 className="text-xl font-kaff text-trust">تعديل بيانات العضو</h2>
-                  <button onClick={() => setShowEditMemberModal(null)} className="text-gray-400 hover:text-gray-500">
+                  <button
+                    onClick={() => setShowEditMemberModal(null)}
+                    className="text-gray-400 hover:text-gray-500"
+                  >
                     <X className="h-6 w-6" />
                   </button>
                 </div>
@@ -583,7 +620,9 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                 <form onSubmit={handleEditMember} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">اسم العضو</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        اسم العضو
+                      </label>
                       <input
                         type="text"
                         value={editMember.name}
@@ -593,17 +632,23 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">الرقم الجامعي</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        الرقم الجامعي
+                      </label>
                       <input
                         type="text"
                         value={editMember.studentId}
-                        onChange={(e) => setEditMember({ ...editMember, studentId: e.target.value })}
+                        onChange={(e) =>
+                          setEditMember({ ...editMember, studentId: e.target.value })
+                        }
                         className="input-field"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">البريد الإلكتروني</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        البريد الإلكتروني
+                      </label>
                       <input
                         type="email"
                         value={editMember.email}
@@ -613,7 +658,9 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">رقم الهاتف</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        رقم الهاتف
+                      </label>
                       <input
                         type="tel"
                         value={editMember.phone}
@@ -639,7 +686,9 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       <label className="block text-sm font-medium text-gray-700 mb-1">اللجنة</label>
                       <select
                         value={editMember.committee}
-                        onChange={(e) => setEditMember({ ...editMember, committee: e.target.value })}
+                        onChange={(e) =>
+                          setEditMember({ ...editMember, committee: e.target.value })
+                        }
                         className="input-field"
                         required
                       >
@@ -661,7 +710,9 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">المستوى الدراسي</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        المستوى الدراسي
+                      </label>
                       <select
                         value={editMember.level}
                         onChange={(e) => setEditMember({ ...editMember, level: e.target.value })}
@@ -681,7 +732,11 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                     </div>
                   </div>
                   <div className="flex justify-end space-x-3 space-x-reverse">
-                    <button type="button" onClick={() => setShowEditMemberModal(null)} className="btn-secondary">
+                    <button
+                      type="button"
+                      onClick={() => setShowEditMemberModal(null)}
+                      className="btn-secondary"
+                    >
                       إلغاء
                     </button>
                     <button type="submit" className="btn-primary">
@@ -705,10 +760,7 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
                   هل أنت متأكد من حذف العضو {showDeleteConfirmation.name}؟
                 </p>
                 <div className="flex justify-center space-x-3 space-x-reverse">
-                  <button
-                    onClick={() => setShowDeleteConfirmation(null)}
-                    className="btn-secondary"
-                  >
+                  <button onClick={() => setShowDeleteConfirmation(null)} className="btn-secondary">
                     إلغاء
                   </button>
                   <button
@@ -728,4 +780,4 @@ const AdminMemberManagement = ({ isInmaAdmin = false }) => {
   );
 };
 
-export default AdminMemberManagement; 
+export default AdminMemberManagement;

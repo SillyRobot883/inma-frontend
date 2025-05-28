@@ -1,29 +1,29 @@
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+
+import {
+  Activity,
+  AlertCircle,
+  BarChart3,
+  Building2,
+  Calendar,
+  CheckCircle2,
+  ChevronLeft,
+  Clock,
+  Crown,
+  Shield,
+  Target,
+  Timer,
+  TrendingUp,
+  Trophy,
+  UserCircle,
+  Users,
+  XCircle,
+} from 'lucide-react';
+
 import Layout from '../components/Layout';
 import Leaderboard from '../components/Leaderboard';
 import { useAuth } from '../context/AuthContext';
-import { 
-  Clock, 
-  CheckCircle2, 
-  AlertCircle, 
-  Users,
-  Timer,
-  Activity,
-  Award,
-  Target,
-  UserCircle,
-  Building2,
-  TrendingUp,
-  BarChart3,
-  Calendar,
-  Trophy,
-  ChevronLeft,
-  Crown,
-  UserPlus,
-  Shield,
-  XCircle
-} from 'lucide-react';
-import { useState } from 'react';
 
 const Dashboard = () => {
   const { clubId } = useParams();
@@ -36,7 +36,7 @@ const Dashboard = () => {
     email: '',
     phone: '',
     ssn: '',
-    currentLeaderSSN: ''
+    currentLeaderSSN: '',
   });
   const [error, setError] = useState('');
 
@@ -57,16 +57,16 @@ const Dashboard = () => {
         title: 'تنظيم ورشة عمل Git',
         status: 'approved',
         hours: '03:00',
-        date: '2024-03-15'
+        date: '2024-03-15',
       },
       {
         id: 2,
         title: 'إعداد محتوى تدريبي',
         status: 'pending',
         hours: '02:30',
-        date: '2024-03-14'
-      }
-    ]
+        date: '2024-03-14',
+      },
+    ],
   };
 
   // Additional stats for admins
@@ -80,7 +80,7 @@ const Dashboard = () => {
     topPerformers: [
       { name: 'عبدالله محمد', hours: '65:30', role: 'عضو' },
       { name: 'سارة أحمد', hours: '58:45', role: 'عضو' },
-      { name: 'خالد العمري', hours: '52:15', role: 'عضو' }
+      { name: 'خالد العمري', hours: '52:15', role: 'عضو' },
     ],
     recentSubmissions: [
       {
@@ -89,7 +89,7 @@ const Dashboard = () => {
         title: 'تنسيق فعالية النادي',
         status: 'pending',
         hours: '04:00',
-        date: '2024-03-16'
+        date: '2024-03-16',
       },
       {
         id: 2,
@@ -97,9 +97,9 @@ const Dashboard = () => {
         title: 'إعداد التقرير الشهري',
         status: 'approved',
         hours: '02:30',
-        date: '2024-03-15'
-      }
-    ]
+        date: '2024-03-15',
+      },
+    ],
   };
 
   const getStatusColor = (status) => {
@@ -121,7 +121,7 @@ const Dashboard = () => {
       email: '',
       phone: '',
       ssn: '',
-      currentLeaderSSN: ''
+      currentLeaderSSN: '',
     });
     setError('');
   };
@@ -164,7 +164,7 @@ const Dashboard = () => {
       email: member.email,
       phone: '0500000000', // This would come from the member's data
       ssn: '',
-      currentLeaderSSN: ''
+      currentLeaderSSN: '',
     });
   };
 
@@ -192,7 +192,9 @@ const Dashboard = () => {
                 </div>
               </div>
               <div>
-                <h2 className="text-3xl font-kaff font-bold text-trust mb-1">{currentClub?.name}</h2>
+                <h2 className="text-3xl font-kaff font-bold text-trust mb-1">
+                  {currentClub?.name}
+                </h2>
                 <p className="text-gray-600 text-sm font-medium">مرحباً بك في لوحة التحكم</p>
               </div>
             </div>
@@ -268,8 +270,8 @@ const Dashboard = () => {
           <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xl font-kaff text-trust">طلبات اعتماد الساعات الأخيرة</h3>
-              <a 
-                href={`/volunteer-hours/${clubId}`} 
+              <a
+                href={`/volunteer-hours/${clubId}`}
                 className="text-sm text-trust hover:text-trust-dark font-medium flex items-center"
               >
                 عرض الكل
@@ -303,7 +305,9 @@ const Dashboard = () => {
                       </div>
                     </div>
                   </div>
-                  <span className={`inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${getStatusColor(activity.status)}`}>
+                  <span
+                    className={`inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${getStatusColor(activity.status)}`}
+                  >
                     {activity.status === 'approved' ? 'تمت الموافقة' : 'قيد المراجعة'}
                   </span>
                 </div>
@@ -383,8 +387,8 @@ const Dashboard = () => {
             <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-kaff text-trust">آخر طلبات اعتماد الساعات للنادي</h3>
-                <a 
-                  href={`/hr-dashboard/${clubId}`} 
+                <a
+                  href={`/hr-dashboard/${clubId}`}
                   className="text-sm text-trust hover:text-trust-dark font-medium flex items-center"
                 >
                   عرض الكل
@@ -420,7 +424,9 @@ const Dashboard = () => {
                         </div>
                       </div>
                     </div>
-                    <span className={`inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${getStatusColor(activity.status)}`}>
+                    <span
+                      className={`inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${getStatusColor(activity.status)}`}
+                    >
                       {activity.status === 'approved' ? 'تمت الموافقة' : 'قيد المراجعة'}
                     </span>
                   </div>
@@ -438,10 +444,7 @@ const Dashboard = () => {
             </div>
             <h2 className="text-2xl font-kaff text-trust">قائمة المتصدرين</h2>
           </div>
-          <Leaderboard 
-            data={clubStats.topPerformers}
-            maxItems={5}
-          />
+          <Leaderboard data={clubStats.topPerformers} maxItems={5} />
         </div>
 
         {/* Leader Change Modal */}
@@ -451,9 +454,11 @@ const Dashboard = () => {
               <div className="p-6 border-b border-gray-100">
                 <div className="flex items-center justify-between">
                   <h2 className="text-xl font-kaff text-trust">
-                    {currentStep === 1 ? 'تغيير قائد النادي' : 
-                     currentStep === 2 ? 'تأكيد التغيير' : 
-                     'مراجعة المعلومات'}
+                    {currentStep === 1
+                      ? 'تغيير قائد النادي'
+                      : currentStep === 2
+                        ? 'تأكيد التغيير'
+                        : 'مراجعة المعلومات'}
                   </h2>
                   <button
                     onClick={() => setShowLeaderChangeModal(false)}
@@ -464,17 +469,15 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className="p-6">
-                {error && (
-                  <div className="mb-4 p-4 bg-red-50 rounded-lg text-red-600">
-                    {error}
-                  </div>
-                )}
+                {error && <div className="mb-4 p-4 bg-red-50 rounded-lg text-red-600">{error}</div>}
                 {currentStep === 1 ? (
                   <div className="space-y-6">
                     <div>
-                      <h3 className="text-lg font-medium text-gray-900 mb-4">اختر من الأعضاء الحاليين</h3>
+                      <h3 className="text-lg font-medium text-gray-900 mb-4">
+                        اختر من الأعضاء الحاليين
+                      </h3>
                       <div className="space-y-3">
-                        {clubStats.topPerformers.map(member => (
+                        {clubStats.topPerformers.map((member) => (
                           <button
                             key={member.name}
                             onClick={() => handleSelectExistingMember(member)}
@@ -499,7 +502,9 @@ const Dashboard = () => {
                       </div>
                     </div>
                     <div className="border-t border-gray-100 pt-6">
-                      <h3 className="text-lg font-medium text-gray-900 mb-4">أو أدخل معلومات القائد الجديد</h3>
+                      <h3 className="text-lg font-medium text-gray-900 mb-4">
+                        أو أدخل معلومات القائد الجديد
+                      </h3>
                       <div className="space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -569,7 +574,9 @@ const Dashboard = () => {
                       <input
                         type="text"
                         value={newLeader.currentLeaderSSN}
-                        onChange={(e) => setNewLeader({ ...newLeader, currentLeaderSSN: e.target.value })}
+                        onChange={(e) =>
+                          setNewLeader({ ...newLeader, currentLeaderSSN: e.target.value })
+                        }
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
                         placeholder="أدخل رقم هويتك للتأكيد"
                       />
@@ -585,7 +592,7 @@ const Dashboard = () => {
                         </p>
                       </div>
                     </div>
-                    
+
                     <div className="bg-white rounded-lg border border-gray-200 p-6">
                       <div className="space-y-4">
                         <div className="flex items-center justify-between">
@@ -611,7 +618,8 @@ const Dashboard = () => {
                       <div className="flex items-center space-x-3 space-x-reverse">
                         <AlertCircle className="h-5 w-5 text-red-500" />
                         <p className="text-red-700">
-                          تنبيه: هذا الإجراء لا يمكن التراجع عنه. سيتم نقل صلاحيات قائد النادي بشكل كامل إلى القائد الجديد.
+                          تنبيه: هذا الإجراء لا يمكن التراجع عنه. سيتم نقل صلاحيات قائد النادي بشكل
+                          كامل إلى القائد الجديد.
                         </p>
                       </div>
                     </div>
@@ -619,11 +627,7 @@ const Dashboard = () => {
                 )}
                 <div className="flex justify-end space-x-3 space-x-reverse mt-6">
                   {currentStep > 1 && (
-                    <button
-                      type="button"
-                      onClick={handlePreviousStep}
-                      className="btn-secondary"
-                    >
+                    <button type="button" onClick={handlePreviousStep} className="btn-secondary">
                       رجوع
                     </button>
                   )}
@@ -638,14 +642,16 @@ const Dashboard = () => {
                     type="button"
                     onClick={handleNextStep}
                     className={`px-4 py-2 rounded-lg font-medium text-white transition-colors duration-200 ${
-                      currentStep === 3 
-                        ? 'bg-red-600 hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2' 
+                      currentStep === 3
+                        ? 'bg-red-600 hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2'
                         : 'bg-trust hover:bg-trust-dark focus:ring-2 focus:ring-trust focus:ring-offset-2'
                     }`}
                   >
-                    {currentStep === 1 ? 'التالي' : 
-                     currentStep === 2 ? 'تأكيد التغيير' : 
-                     'تأكيد وتعيين القائد الجديد'}
+                    {currentStep === 1
+                      ? 'التالي'
+                      : currentStep === 2
+                        ? 'تأكيد التغيير'
+                        : 'تأكيد وتعيين القائد الجديد'}
                   </button>
                 </div>
               </div>
@@ -657,4 +663,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard; 
+export default Dashboard;

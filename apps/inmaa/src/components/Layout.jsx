@@ -1,21 +1,19 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { 
-  Home, 
-  ClipboardList, 
-  Users, 
-  Settings,
-  LogOut,
-  Building2,
+
+import {
   ChevronDown,
-  Bell,
-  User,
-  Shield,
+  ClipboardList,
   Clock,
-  UserCog
+  Home,
+  LogOut,
+  Shield,
+  User,
+  UserCog,
+  Users,
 } from 'lucide-react';
+
 import logo from '../assets/1-05.png';
-import { createPortal } from 'react-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -24,33 +22,33 @@ const Layout = ({ children }) => {
   const isClubsPage = location.pathname === '/clubs';
 
   const navigation = [
-    { 
-      name: 'الرئيسية', 
+    {
+      name: 'الرئيسية',
       href: `/dashboard/${currentClub?.id}`,
-      icon: Home 
+      icon: Home,
     },
-    { 
-      name: 'رفع الساعات التطوعية', 
+    {
+      name: 'رفع الساعات التطوعية',
       href: `/task-submission/${currentClub?.id}`,
-      icon: ClipboardList 
+      icon: ClipboardList,
     },
-    { 
-      name: 'سجل الساعات التطوعية', 
+    {
+      name: 'سجل الساعات التطوعية',
       href: `/volunteer-hours/${currentClub?.id}`,
-      icon: Clock 
+      icon: Clock,
     },
     ...(currentClub?.role === 'hr' || currentClub?.role === 'leader'
       ? [
-          { 
-            name: 'إدارة الأعضاء', 
+          {
+            name: 'إدارة الأعضاء',
             href: `/member-management/${currentClub?.id}`,
-            icon: UserCog 
+            icon: UserCog,
           },
-          { 
-            name: 'لوحة الموارد البشرية', 
+          {
+            name: 'لوحة الموارد البشرية',
             href: `/hr-dashboard/${currentClub?.id}`,
-            icon: Users 
-          }
+            icon: Users,
+          },
         ]
       : []),
   ];
@@ -78,7 +76,7 @@ const Layout = ({ children }) => {
       case 'hr':
         return 'موارد بشرية';
       case 'leader':
-        return  'قائد نادي';
+        return 'قائد نادي';
       default:
         return 'عضو';
     }
@@ -109,9 +107,7 @@ const Layout = ({ children }) => {
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-sm font-medium text-white">
-                      {user?.name}
-                    </h3>
+                    <h3 className="text-sm font-medium text-white">{user?.name}</h3>
                     <div className="flex items-center mt-1 text-xs text-white/70">
                       {getRoleIcon(currentClub?.role)}
                       <span className="mr-1.5 font-medium">{getRoleText(currentClub?.role)}</span>
@@ -123,7 +119,9 @@ const Layout = ({ children }) => {
                 <div className="bg-white/5 rounded-xl p-3 transition-all duration-300 hover:bg-white/10">
                   <div className="flex items-center justify-between">
                     <button
-                      onClick={() => document.getElementById('clubDropdown').classList.toggle('hidden')}
+                      onClick={() =>
+                        document.getElementById('clubDropdown').classList.toggle('hidden')
+                      }
                       className="flex items-center w-full text-white group"
                     >
                       <ChevronDown className="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" />
@@ -192,14 +190,14 @@ const Layout = ({ children }) => {
                     key={item.name}
                     to={item.href}
                     className={`flex items-center px-4 py-3 rounded-xl transition-all duration-300 ${
-                      isActive 
-                        ? 'bg-white/10 text-white' 
-                        : 'text-white/90 hover:bg-white/5'
+                      isActive ? 'bg-white/10 text-white' : 'text-white/90 hover:bg-white/5'
                     }`}
                   >
-                    <Icon className={`h-5 w-5 ml-3 transition-transform duration-300 ${
-                      isActive ? 'scale-110' : 'group-hover:scale-110'
-                    }`} />
+                    <Icon
+                      className={`h-5 w-5 ml-3 transition-transform duration-300 ${
+                        isActive ? 'scale-110' : 'group-hover:scale-110'
+                      }`}
+                    />
                     <span className={`font-medium ${isActive ? 'text-white' : 'text-white/90'}`}>
                       {item.name}
                     </span>
@@ -211,7 +209,9 @@ const Layout = ({ children }) => {
             {/* Footer */}
             <div className="px-2 py-4 border-t border-white/10">
               <button
-                onClick={() => {/* Implement logout */}}
+                onClick={() => {
+                  /* Implement logout */
+                }}
                 className="w-full flex items-center px-4 py-3 rounded-xl text-red-300 hover:bg-red-500/20 transition-all duration-300"
               >
                 <LogOut className="h-5 w-5 ml-3 group-hover:-translate-x-1 transition-transform duration-300" />
@@ -223,19 +223,19 @@ const Layout = ({ children }) => {
       )}
 
       {/* Main content */}
-      <div className={!isClubsPage ? "mr-64" : ""}>
+      <div className={!isClubsPage ? 'mr-64' : ''}>
         <header className="bg-white shadow-sm border-b border-gray-200">
           <div className="px-6 py-6">
             <h1 className="text-2xl font-kaff font-bold text-trust">
-              {isClubsPage ? "الأندية" : (navigation.find((item) => item.href === location.pathname)?.name || 'الرئيسية')}
+              {isClubsPage
+                ? 'الأندية'
+                : navigation.find((item) => item.href === location.pathname)?.name || 'الرئيسية'}
             </h1>
           </div>
         </header>
 
         <main className="py-8">
-          <div className="max-w-7xl mx-auto px-6">
-            {children}
-          </div>
+          <div className="max-w-7xl mx-auto px-6">{children}</div>
         </main>
       </div>
 
@@ -245,4 +245,4 @@ const Layout = ({ children }) => {
   );
 };
 
-export default Layout; 
+export default Layout;

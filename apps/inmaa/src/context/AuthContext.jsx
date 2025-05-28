@@ -1,10 +1,10 @@
-import { createContext, useContext, useState } from "react";
-import { auth } from "@inmaa-wasl/api-client";
+import { createContext, useContext, useState } from 'react';
+
+import { auth } from '@inmaa-wasl/api-client';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-
   // For testing different roles, change this initial state
   const [user, setUser] = useState({
     id: 1,
@@ -16,20 +16,20 @@ export const AuthProvider = ({ children }) => {
       {
         id: 1,
         name: 'نادي تيكنيشن',
-        role: 'hr'
+        role: 'hr',
       },
       {
         id: 2,
         name: 'نادي الابتكار',
-        role: 'member'
+        role: 'member',
       },
       {
         id: 3,
         name: 'نادي التصميم',
-        role: 'member'
-      }
+        role: 'member',
+      },
     ],
-    selectedClubId: 1 // Default selected club
+    selectedClubId: 1, // Default selected club
   });
   // For actual login
   // const [user, setUser] = useState(() => {
@@ -44,40 +44,40 @@ export const AuthProvider = ({ children }) => {
       const { data } = await auth.login(credentials);
       const { token, user } = data;
 
-      localStorage.setItem("authToken", token);
-      localStorage.setItem("userData", JSON.stringify(user));
+      localStorage.setItem('authToken', token);
+      localStorage.setItem('userData', JSON.stringify(user));
       setUser(user);
       setIsAuthenticated(true);
       return user;
     } catch (error) {
-      console.error("Login failed:", error);
-      throw new Error("Invalid email or password. Please try again.");
+      console.error('Login failed:', error);
+      throw new Error('Invalid email or password. Please try again.');
     }
   };
 
   const handleLogout = async () => {
     try {
       await auth.logout();
-      localStorage.removeItem("authToken");
-      localStorage.removeItem("userData");
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('userData');
       setUser(null);
       setIsAuthenticated(false);
     } catch (error) {
-      console.error("Logout failed:", error);
+      console.error('Logout failed:', error);
     }
   };
 
   const handleRegister = async (userData) => {
     try {
       const { token, user } = await auth.register(userData);
-      localStorage.setItem("authToken", token);
-      localStorage.setItem("userData", JSON.stringify(user));
+      localStorage.setItem('authToken', token);
+      localStorage.setItem('userData', JSON.stringify(user));
       setUser(user);
       setIsAuthenticated(true);
       return user;
     } catch (error) {
-      console.error("Registration failed:", error);
-      throw new Error("Registration failed. Please try again.");
+      console.error('Registration failed:', error);
+      throw new Error('Registration failed. Please try again.');
     }
   };
 
@@ -88,9 +88,7 @@ export const AuthProvider = ({ children }) => {
     }));
   };
 
-  const currentClub = user?.clubs?.find(
-    (club) => club.id === user?.selectedClubId,
-  );
+  const currentClub = user?.clubs?.find((club) => club.id === user?.selectedClubId);
 
   return (
     <AuthContext.Provider
@@ -113,7 +111,7 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 };

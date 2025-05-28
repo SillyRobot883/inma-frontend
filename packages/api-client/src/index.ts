@@ -3,12 +3,7 @@ import * as clubs from './api/clubs';
 import * as events from './api/events';
 import * as members from './api/members';
 
-export {
-  auth,
-  clubs,
-  events,
-  members
-};
+export { auth, clubs, events, members };
 
 export * from './constants';
 
