@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
+
+import { Clock, Users } from 'lucide-react';
+
 import Layout from '../components/Layout';
 import { useAuth } from '../context/AuthContext';
-import { Users, Clock } from 'lucide-react';
 
 const Clubs = () => {
   const { user } = useAuth();
@@ -14,7 +16,7 @@ const Clubs = () => {
       logo: '/src/assets/1-06.png',
       totalMembers: 25,
       totalHours: 150,
-      role: 'leader'
+      role: 'leader',
     },
     {
       id: 2,
@@ -22,7 +24,7 @@ const Clubs = () => {
       logo: '/src/assets/1-06.png',
       totalMembers: 30,
       totalHours: 200,
-      role: 'member'
+      role: 'member',
     },
     {
       id: 3,
@@ -30,8 +32,8 @@ const Clubs = () => {
       logo: '/src/assets/1-06.png',
       totalMembers: 40,
       totalHours: 180,
-      role: 'hr'
-    }
+      role: 'hr',
+    },
   ];
 
   const getRoleLabel = (role) => {
@@ -63,32 +65,21 @@ const Clubs = () => {
   return (
     <Layout>
       <div className="space-y-8">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-kaff text-trust">الأندية</h1>
-          {user.role === 'inma_admin' && (
-            <button className="btn-primary">
-              إضافة نادي جديد
-            </button>
-          )}
+        <div className="flex items-center justify-between">
+          <h1 className="font-kaff text-trust text-2xl">الأندية</h1>
+          {user.role === 'inma_admin' && <button className="btn-primary">إضافة نادي جديد</button>}
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {userClubs.map((club) => (
-            <div
-              key={club.id}
-              className="card hover:shadow-lg transition-shadow duration-200"
-            >
+            <div key={club.id} className="card transition-shadow duration-200 hover:shadow-lg">
               <div className="flex items-center space-x-4 space-x-reverse">
-                <img
-                  className="h-16 w-16 rounded-xl"
-                  src={club.logo}
-                  alt={club.name}
-                />
+                <img className="h-16 w-16 rounded-xl" src={club.logo} alt={club.name} />
                 <div>
-                  <h3 className="text-lg font-kaff text-trust">
-                    {club.name}
-                  </h3>
-                  <span className={`inline-block px-3 py-1 rounded-full text-xs mt-2 ${getRoleColor(club.role)}`}>
+                  <h3 className="font-kaff text-trust text-lg">{club.name}</h3>
+                  <span
+                    className={`mt-2 inline-block rounded-full px-3 py-1 text-xs ${getRoleColor(club.role)}`}
+                  >
                     {getRoleLabel(club.role)}
                   </span>
                 </div>
@@ -96,34 +87,27 @@ const Clubs = () => {
 
               <div className="mt-6 grid grid-cols-2 gap-4">
                 <div className="flex items-center space-x-2 space-x-reverse">
-                  <div className="p-2 rounded-lg bg-growth/10">
-                    <Users className="h-5 w-5 text-growth" />
+                  <div className="bg-growth/10 rounded-lg p-2">
+                    <Users className="text-growth h-5 w-5" />
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">عدد الأعضاء</p>
-                    <p className="text-lg font-medium text-trust">
-                      {club.totalMembers}
-                    </p>
+                    <p className="text-trust text-lg font-medium">{club.totalMembers}</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2 space-x-reverse">
-                  <div className="p-2 rounded-lg bg-growth/10">
-                    <Clock className="h-5 w-5 text-growth" />
+                  <div className="bg-growth/10 rounded-lg p-2">
+                    <Clock className="text-growth h-5 w-5" />
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">إجمالي الساعات</p>
-                    <p className="text-lg font-medium text-trust">
-                      {club.totalHours}
-                    </p>
+                    <p className="text-trust text-lg font-medium">{club.totalHours}</p>
                   </div>
                 </div>
               </div>
 
               <div className="mt-6">
-                <Link
-                  to={`/club/${club.id}`}
-                  className="btn-secondary w-full text-center"
-                >
+                <Link to={`/club/${club.id}`} className="btn-secondary w-full text-center">
                   عرض التفاصيل
                 </Link>
               </div>
@@ -135,4 +119,4 @@ const Clubs = () => {
   );
 };
 
-export default Clubs; 
+export default Clubs;

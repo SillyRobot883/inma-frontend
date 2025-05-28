@@ -151,14 +151,14 @@ const InmaAdminDashboard = () => {
     <AdminLayout isInmaAdmin={true}>
       <div className="space-y-8">
         {/* Header Section */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="rounded-xl bg-white p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-kaff text-trust">لوحة تحكم إنماء</h2>
+              <h2 className="font-kaff text-trust text-2xl">لوحة تحكم إنماء</h2>
             </div>
             <div className="flex items-center space-x-4 space-x-reverse">
               <button onClick={() => setShowAddClubModal(true)} className="btn-primary">
-                <Plus className="h-5 w-5 ml-2" />
+                <Plus className="ml-2 h-5 w-5" />
                 إضافة نادي جديد
               </button>
             </div>
@@ -166,49 +166,49 @@ const InmaAdminDashboard = () => {
         </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+          <div className="rounded-xl bg-white p-6 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500">إجمالي الأندية</p>
-                <p className="text-2xl font-medium text-trust mt-1">{clubs.length}</p>
+                <p className="text-trust mt-1 text-2xl font-medium">{clubs.length}</p>
               </div>
               <div className="bg-trust/10 rounded-full p-3">
-                <Building2 className="h-6 w-6 text-trust" />
+                <Building2 className="text-trust h-6 w-6" />
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm p-6">
+          <div className="rounded-xl bg-white p-6 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500">إجمالي الأعضاء</p>
-                <p className="text-2xl font-medium text-trust mt-1">
+                <p className="text-trust mt-1 text-2xl font-medium">
                   {clubs.reduce((acc, club) => acc + club.members, 0)}
                 </p>
               </div>
               <div className="bg-trust/10 rounded-full p-3">
-                <Users className="h-6 w-6 text-trust" />
+                <Users className="text-trust h-6 w-6" />
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm p-6">
+          <div className="rounded-xl bg-white p-6 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500">إجمالي الساعات</p>
-                <p className="text-2xl font-medium text-trust mt-1">
+                <p className="text-trust mt-1 text-2xl font-medium">
                   {formatHours(clubs.reduce((acc, club) => acc + club.totalHours, 0))}
                 </p>
               </div>
               <div className="bg-trust/10 rounded-full p-3">
-                <Clock className="h-6 w-6 text-trust" />
+                <Clock className="text-trust h-6 w-6" />
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm p-6">
+          <div className="rounded-xl bg-white p-6 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500">الأندية المتعثرة</p>
-                <p className="text-2xl font-medium text-yellow-600 mt-1">
+                <p className="mt-1 text-2xl font-medium text-yellow-600">
                   {
                     clubs.filter((club) => {
                       const memberEngagement =
@@ -231,7 +231,7 @@ const InmaAdminDashboard = () => {
                   }
                 </p>
               </div>
-              <div className="bg-yellow-100 rounded-full p-3">
+              <div className="rounded-full bg-yellow-100 p-3">
                 <AlertTriangle className="h-6 w-6 text-yellow-600" />
               </div>
             </div>
@@ -239,18 +239,18 @@ const InmaAdminDashboard = () => {
         </div>
 
         {/* Clubs Grid */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-kaff text-trust">الأندية</h2>
+        <div className="rounded-xl bg-white p-6 shadow-sm">
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="font-kaff text-trust text-xl">الأندية</h2>
             <div className="flex items-center space-x-4 space-x-reverse">
               <div className="relative">
-                <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Search className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-gray-400" />
                 <input
                   type="text"
                   placeholder="بحث عن نادي..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 pr-12 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust w-64"
+                  className="focus:ring-trust/20 focus:border-trust w-64 rounded-lg border border-gray-200 py-2 pl-10 pr-12 focus:outline-none focus:ring-2"
                 />
               </div>
               <button
@@ -259,12 +259,12 @@ const InmaAdminDashboard = () => {
                   showStrugglingOnly ? 'bg-yellow-100 text-yellow-800' : ''
                 }`}
               >
-                <AlertTriangle className="h-5 w-5 ml-2" />
+                <AlertTriangle className="ml-2 h-5 w-5" />
                 {showStrugglingOnly ? 'عرض الكل' : 'عرض المتعثرة فقط'}
               </button>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filteredClubs.map((club) => (
               <ClubCard
                 key={club.id}
@@ -278,14 +278,14 @@ const InmaAdminDashboard = () => {
 
         {/* Add Club Modal */}
         {showAddClubModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-xl shadow-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
-              <div className="p-6 border-b border-gray-100 sticky top-0 bg-white z-10">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+            <div className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-xl bg-white shadow-xl">
+              <div className="sticky top-0 z-10 border-b border-gray-100 bg-white p-6">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-kaff text-trust">إضافة نادي جديد</h2>
+                  <h2 className="font-kaff text-trust text-2xl">إضافة نادي جديد</h2>
                   <button
                     onClick={() => setShowAddClubModal(false)}
-                    className="text-gray-400 hover:text-gray-500 transition-colors"
+                    className="text-gray-400 transition-colors hover:text-gray-500"
                   >
                     <X className="h-6 w-6" />
                   </button>
@@ -296,7 +296,7 @@ const InmaAdminDashboard = () => {
                   {/* Basic Information Section */}
                   <div className="space-y-6">
                     <h3 className="text-lg font-medium text-gray-900">المعلومات الأساسية</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                       <div className="space-y-2">
                         <label className="block text-sm font-medium text-gray-700">
                           اسم النادي <span className="text-red-500">*</span>
@@ -351,21 +351,21 @@ const InmaAdminDashboard = () => {
                   {/* Logo Upload Section */}
                   <div className="space-y-6">
                     <h3 className="text-lg font-medium text-gray-900">شعار النادي</h3>
-                    <div className="flex items-center justify-center w-full">
+                    <div className="flex w-full items-center justify-center">
                       <div className="w-full max-w-md">
-                        <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl hover:border-trust/50 transition-colors">
+                        <div className="hover:border-trust/50 mt-1 flex justify-center rounded-xl border-2 border-dashed border-gray-300 px-6 pb-6 pt-5 transition-colors">
                           <div className="space-y-2 text-center">
                             {newClub.logo ? (
                               <div className="relative">
                                 <img
                                   src={newClub.logo}
                                   alt="Club logo preview"
-                                  className="mx-auto h-32 w-32 object-cover rounded-lg shadow-sm"
+                                  className="mx-auto h-32 w-32 rounded-lg object-cover shadow-sm"
                                 />
                                 <button
                                   type="button"
                                   onClick={() => setNewClub({ ...newClub, logo: null })}
-                                  className="absolute -top-2 -right-2 bg-red-100 rounded-full p-1.5 text-red-600 hover:bg-red-200 transition-colors"
+                                  className="absolute -right-2 -top-2 rounded-full bg-red-100 p-1.5 text-red-600 transition-colors hover:bg-red-200"
                                 >
                                   <X className="h-4 w-4" />
                                 </button>
@@ -376,7 +376,7 @@ const InmaAdminDashboard = () => {
                                   <Upload className="h-full w-full" />
                                 </div>
                                 <div className="flex text-sm text-gray-600">
-                                  <label className="relative cursor-pointer bg-white rounded-md font-medium text-trust hover:text-trust-dark focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-trust">
+                                  <label className="text-trust hover:text-trust-dark focus-within:ring-trust relative cursor-pointer rounded-md bg-white font-medium focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2">
                                     <span>رفع صورة</span>
                                     <input
                                       type="file"
@@ -400,7 +400,7 @@ const InmaAdminDashboard = () => {
                     <h3 className="text-lg font-medium text-gray-900">
                       معلومات المشرف <span className="text-red-500">*</span>
                     </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                       <div className="space-y-2">
                         <label className="block text-sm font-medium text-gray-700">
                           اسم المشرف
@@ -445,7 +445,7 @@ const InmaAdminDashboard = () => {
                     <h3 className="text-lg font-medium text-gray-900">
                       معلومات قائد النادي <span className="text-red-500">*</span>
                     </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                       <div className="space-y-2">
                         <label className="block text-sm font-medium text-gray-700">
                           اسم قائد النادي
@@ -504,7 +504,7 @@ const InmaAdminDashboard = () => {
                   </div>
 
                   {/* Form Actions */}
-                  <div className="flex justify-end space-x-3 space-x-reverse pt-4 border-t border-gray-100">
+                  <div className="flex justify-end space-x-3 space-x-reverse border-t border-gray-100 pt-4">
                     <button
                       type="button"
                       onClick={() => setShowAddClubModal(false)}
@@ -513,7 +513,7 @@ const InmaAdminDashboard = () => {
                       إلغاء
                     </button>
                     <button type="submit" className="btn-primary">
-                      <Plus className="h-5 w-5 ml-2" />
+                      <Plus className="ml-2 h-5 w-5" />
                       إضافة النادي
                     </button>
                   </div>

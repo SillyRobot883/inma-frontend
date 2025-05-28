@@ -158,7 +158,7 @@ const VolunteeringHoursLog = () => {
       case 'all':
         return <FileText className="h-4 w-4 text-gray-500" />;
       case 'approved':
-        return <CheckCircle2 className="h-4 w-4 text-growth" />;
+        return <CheckCircle2 className="text-growth h-4 w-4" />;
       case 'pending':
         return <AlertCircle className="h-4 w-4 text-yellow-500" />;
       case 'rejected':
@@ -240,49 +240,49 @@ const VolunteeringHoursLog = () => {
 
   return (
     <Layout>
-      <div className="max-w-5xl mx-auto">
+      <div className="mx-auto max-w-5xl">
         {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6 border border-gray-100">
-            <div className="flex items-center justify-between mb-4">
+        <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-5">
+          <div className="rounded-xl border border-gray-100 bg-gradient-to-br from-white to-gray-50 p-6 shadow-sm transition-all duration-300 hover:shadow-md">
+            <div className="mb-4 flex items-center justify-between">
               <span className="text-sm font-medium text-gray-500">إجمالي المهام</span>
-              <div className="bg-gray-100 p-2 rounded-lg">
+              <div className="rounded-lg bg-gray-100 p-2">
                 <FileText className="h-5 w-5 text-gray-600" />
               </div>
             </div>
             <div className="text-2xl font-bold text-gray-900">{stats.total}</div>
           </div>
-          <div className="bg-gradient-to-br from-white to-growth/5 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6 border border-growth/10">
-            <div className="flex items-center justify-between mb-4">
+          <div className="to-growth/5 border-growth/10 rounded-xl border bg-gradient-to-br from-white p-6 shadow-sm transition-all duration-300 hover:shadow-md">
+            <div className="mb-4 flex items-center justify-between">
               <span className="text-sm font-medium text-gray-500">المهام المعتمدة</span>
-              <div className="bg-growth/10 p-2 rounded-lg">
-                <CheckCircle2 className="h-5 w-5 text-growth" />
+              <div className="bg-growth/10 rounded-lg p-2">
+                <CheckCircle2 className="text-growth h-5 w-5" />
               </div>
             </div>
-            <div className="text-2xl font-bold text-growth">{stats.approved}</div>
+            <div className="text-growth text-2xl font-bold">{stats.approved}</div>
           </div>
-          <div className="bg-gradient-to-br from-white to-yellow-50 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6 border border-yellow-100">
-            <div className="flex items-center justify-between mb-4">
+          <div className="rounded-xl border border-yellow-100 bg-gradient-to-br from-white to-yellow-50 p-6 shadow-sm transition-all duration-300 hover:shadow-md">
+            <div className="mb-4 flex items-center justify-between">
               <span className="text-sm font-medium text-gray-500">قيد المراجعة</span>
-              <div className="bg-yellow-100 p-2 rounded-lg">
+              <div className="rounded-lg bg-yellow-100 p-2">
                 <AlertCircle className="h-5 w-5 text-yellow-500" />
               </div>
             </div>
             <div className="text-2xl font-bold text-yellow-500">{stats.pending}</div>
           </div>
-          <div className="bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6 border border-blue-100">
-            <div className="flex items-center justify-between mb-4">
+          <div className="rounded-xl border border-blue-100 bg-gradient-to-br from-white to-blue-50 p-6 shadow-sm transition-all duration-300 hover:shadow-md">
+            <div className="mb-4 flex items-center justify-between">
               <span className="text-sm font-medium text-gray-500">تحتاج معلومات</span>
-              <div className="bg-blue-100 p-2 rounded-lg">
+              <div className="rounded-lg bg-blue-100 p-2">
                 <Info className="h-5 w-5 text-blue-500" />
               </div>
             </div>
             <div className="text-2xl font-bold text-blue-500">{stats.needs_info}</div>
           </div>
-          <div className="bg-gradient-to-br from-white to-red-50 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6 border border-red-100">
-            <div className="flex items-center justify-between mb-4">
+          <div className="rounded-xl border border-red-100 bg-gradient-to-br from-white to-red-50 p-6 shadow-sm transition-all duration-300 hover:shadow-md">
+            <div className="mb-4 flex items-center justify-between">
               <span className="text-sm font-medium text-gray-500">المهام المرفوضة</span>
-              <div className="bg-red-100 p-2 rounded-lg">
+              <div className="rounded-lg bg-red-100 p-2">
                 <XCircle className="h-5 w-5 text-red-500" />
               </div>
             </div>
@@ -291,28 +291,28 @@ const VolunteeringHoursLog = () => {
         </div>
 
         {/* Total Hours Card */}
-        <div className="bg-gradient-to-br from-white to-trust/5 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-8 mb-8 border border-trust/10">
-          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6">
+        <div className="to-trust/5 border-trust/10 mb-8 rounded-xl border bg-gradient-to-br from-white p-8 shadow-sm transition-all duration-300 hover:shadow-md">
+          <div className="rounded-xl bg-white/80 p-6 backdrop-blur-sm">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3 space-x-reverse">
-                <div className="bg-trust/10 p-2 rounded-lg">
-                  <Info className="h-5 w-5 text-trust" />
+                <div className="bg-trust/10 rounded-lg p-2">
+                  <Info className="text-trust h-5 w-5" />
                 </div>
                 <span className="text-lg font-medium text-gray-900">
                   إجمالي الساعات التطوعية المعتمدة
                 </span>
               </div>
-              <div className="text-2xl font-bold text-trust">{formatTotalHours(totalHours)}</div>
+              <div className="text-trust text-2xl font-bold">{formatTotalHours(totalHours)}</div>
             </div>
           </div>
         </div>
 
         {/* Submissions List with Search */}
-        <div className="bg-white rounded-xl shadow-sm p-8">
-          <div className="flex items-center justify-between mb-6">
+        <div className="rounded-xl bg-white p-8 shadow-sm">
+          <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center space-x-3 space-x-reverse">
               <div
-                className={`p-2 rounded-lg ${
+                className={`rounded-lg p-2 ${
                   statusFilter === 'all'
                     ? 'bg-gray-100'
                     : statusFilter === 'approved'
@@ -326,39 +326,39 @@ const VolunteeringHoursLog = () => {
               >
                 {getStatusIcon(statusFilter)}
               </div>
-              <h2 className="text-2xl font-kaff text-trust">سجل الساعات التطوعية</h2>
+              <h2 className="font-kaff text-trust text-2xl">سجل الساعات التطوعية</h2>
             </div>
             <div className="flex items-center space-x-4 space-x-reverse">
               <div className="relative">
-                <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Search className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-gray-400" />
                 <input
                   type="text"
                   placeholder="بحث في السجلات..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 pr-12 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust w-64 transition-all duration-300"
+                  className="focus:ring-trust/20 focus:border-trust w-64 rounded-lg border border-gray-200 py-2 pl-10 pr-12 transition-all duration-300 focus:outline-none focus:ring-2"
                 />
               </div>
               <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center space-x-2 space-x-reverse px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust bg-white transition-all duration-300 hover:bg-gray-50"
+                  className="focus:ring-trust/20 focus:border-trust flex items-center space-x-2 space-x-reverse rounded-lg border border-gray-200 bg-white px-4 py-2 transition-all duration-300 hover:bg-gray-50 focus:outline-none focus:ring-2"
                 >
                   {getStatusIcon(statusFilter)}
                   <span className="text-gray-700">{getStatusText(statusFilter)}</span>
                   <ChevronDown
-                    className={`h-4 w-4 text-gray-400 transition-transform duration-200 ${isDropdownOpen ? 'transform rotate-180' : ''}`}
+                    className={`h-4 w-4 text-gray-400 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180 transform' : ''}`}
                   />
                 </button>
 
                 {isDropdownOpen && (
-                  <div className="absolute left-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-1 z-50">
+                  <div className="absolute left-0 z-50 mt-1 w-48 rounded-lg border border-gray-100 bg-white py-1 shadow-lg">
                     <button
                       onClick={() => {
                         setStatusFilter('all');
                         setIsDropdownOpen(false);
                       }}
-                      className={`w-full flex items-center space-x-2 space-x-reverse px-4 py-2 hover:bg-gray-50 transition-colors ${statusFilter === 'all' ? 'bg-gray-50' : ''}`}
+                      className={`flex w-full items-center space-x-2 space-x-reverse px-4 py-2 transition-colors hover:bg-gray-50 ${statusFilter === 'all' ? 'bg-gray-50' : ''}`}
                     >
                       <FileText className="h-4 w-4 text-gray-500" />
                       <span className="text-gray-700">جميع الحالات</span>
@@ -368,9 +368,9 @@ const VolunteeringHoursLog = () => {
                         setStatusFilter('approved');
                         setIsDropdownOpen(false);
                       }}
-                      className={`w-full flex items-center space-x-2 space-x-reverse px-4 py-2 hover:bg-gray-50 transition-colors ${statusFilter === 'approved' ? 'bg-gray-50' : ''}`}
+                      className={`flex w-full items-center space-x-2 space-x-reverse px-4 py-2 transition-colors hover:bg-gray-50 ${statusFilter === 'approved' ? 'bg-gray-50' : ''}`}
                     >
-                      <CheckCircle2 className="h-4 w-4 text-growth" />
+                      <CheckCircle2 className="text-growth h-4 w-4" />
                       <span className="text-gray-700">المهام المقبولة</span>
                     </button>
                     <button
@@ -378,7 +378,7 @@ const VolunteeringHoursLog = () => {
                         setStatusFilter('pending');
                         setIsDropdownOpen(false);
                       }}
-                      className={`w-full flex items-center space-x-2 space-x-reverse px-4 py-2 hover:bg-gray-50 transition-colors ${statusFilter === 'pending' ? 'bg-gray-50' : ''}`}
+                      className={`flex w-full items-center space-x-2 space-x-reverse px-4 py-2 transition-colors hover:bg-gray-50 ${statusFilter === 'pending' ? 'bg-gray-50' : ''}`}
                     >
                       <AlertCircle className="h-4 w-4 text-yellow-500" />
                       <span className="text-gray-700">قيد المراجعة</span>
@@ -388,7 +388,7 @@ const VolunteeringHoursLog = () => {
                         setStatusFilter('needs_info');
                         setIsDropdownOpen(false);
                       }}
-                      className={`w-full flex items-center space-x-2 space-x-reverse px-4 py-2 hover:bg-gray-50 transition-colors ${statusFilter === 'needs_info' ? 'bg-gray-50' : ''}`}
+                      className={`flex w-full items-center space-x-2 space-x-reverse px-4 py-2 transition-colors hover:bg-gray-50 ${statusFilter === 'needs_info' ? 'bg-gray-50' : ''}`}
                     >
                       <Info className="h-4 w-4 text-blue-500" />
                       <span className="text-gray-700">تحتاج معلومات</span>
@@ -398,7 +398,7 @@ const VolunteeringHoursLog = () => {
                         setStatusFilter('rejected');
                         setIsDropdownOpen(false);
                       }}
-                      className={`w-full flex items-center space-x-2 space-x-reverse px-4 py-2 hover:bg-gray-50 transition-colors ${statusFilter === 'rejected' ? 'bg-gray-50' : ''}`}
+                      className={`flex w-full items-center space-x-2 space-x-reverse px-4 py-2 transition-colors hover:bg-gray-50 ${statusFilter === 'rejected' ? 'bg-gray-50' : ''}`}
                     >
                       <XCircle className="h-4 w-4 text-red-500" />
                       <span className="text-gray-700">المهام المرفوضة</span>
@@ -413,18 +413,18 @@ const VolunteeringHoursLog = () => {
             {filteredSubmissions.map((submission) => (
               <div
                 key={submission.id}
-                className={`rounded-xl p-6 hover:shadow-md transition-all duration-300 border ${
+                className={`rounded-xl border p-6 transition-all duration-300 hover:shadow-md ${
                   submission.status === 'approved'
-                    ? 'bg-gradient-to-br from-growth/5 to-white border-growth/10'
+                    ? 'from-growth/5 border-growth/10 bg-gradient-to-br to-white'
                     : submission.status === 'needs_info'
-                      ? 'bg-gradient-to-br from-blue-50 to-white border-blue-100'
-                      : 'bg-gradient-to-br from-white to-gray-50 border-gray-100'
+                      ? 'border-blue-100 bg-gradient-to-br from-blue-50 to-white'
+                      : 'border-gray-100 bg-gradient-to-br from-white to-gray-50'
                 }`}
               >
                 <div className="flex items-start space-x-4 space-x-reverse">
                   <div className="flex-shrink-0">
                     <div
-                      className={`p-3 rounded-lg ${
+                      className={`rounded-lg p-3 ${
                         submission.status === 'approved'
                           ? 'bg-growth/10'
                           : submission.status === 'needs_info'
@@ -444,11 +444,11 @@ const VolunteeringHoursLog = () => {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-medium text-gray-900 text-lg">{submission.title}</h3>
+                    <div className="mb-4 flex items-center justify-between">
+                      <h3 className="text-lg font-medium text-gray-900">{submission.title}</h3>
                       <div className="flex items-center space-x-2 space-x-reverse">
                         <div
-                          className={`flex items-center space-x-2 space-x-reverse px-3 py-1.5 rounded-lg ${
+                          className={`flex items-center space-x-2 space-x-reverse rounded-lg px-3 py-1.5 ${
                             submission.status === 'approved'
                               ? 'bg-growth/10'
                               : submission.status === 'needs_info'
@@ -459,7 +459,7 @@ const VolunteeringHoursLog = () => {
                           }`}
                         >
                           {submission.status === 'approved' && (
-                            <CheckCircle2 className="h-5 w-5 text-growth" />
+                            <CheckCircle2 className="text-growth h-5 w-5" />
                           )}
                           {submission.status === 'needs_info' && (
                             <Info className="h-5 w-5 text-blue-500" />
@@ -493,7 +493,7 @@ const VolunteeringHoursLog = () => {
                         {submission.status === 'needs_info' && (
                           <button
                             onClick={() => handleEditSubmission(submission)}
-                            className="p-2 text-blue-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
+                            className="rounded-lg p-2 text-blue-500 transition-colors duration-200 hover:bg-blue-50 hover:text-blue-600"
                           >
                             <Edit2 className="h-5 w-5" />
                           </button>
@@ -501,30 +501,30 @@ const VolunteeringHoursLog = () => {
                       </div>
                     </div>
 
-                    <div className="flex items-center space-x-4 space-x-reverse mb-4">
-                      <div className="bg-trust/10 text-trust px-4 py-2 rounded-lg flex items-center">
-                        <Clock className="h-5 w-5 ml-2" />
+                    <div className="mb-4 flex items-center space-x-4 space-x-reverse">
+                      <div className="bg-trust/10 text-trust flex items-center rounded-lg px-4 py-2">
+                        <Clock className="ml-2 h-5 w-5" />
                         <span className="font-medium">{submission.time}</span>
                       </div>
-                      <div className="bg-white px-4 py-2 rounded-lg flex items-center shadow-sm">
-                        <Calendar className="h-5 w-5 ml-2 text-gray-500" />
+                      <div className="flex items-center rounded-lg bg-white px-4 py-2 shadow-sm">
+                        <Calendar className="ml-2 h-5 w-5 text-gray-500" />
                         <span className="text-gray-600">
                           {new Date(submission.submittedAt).toLocaleDateString('ar-SA')}
                         </span>
                       </div>
-                      <div className="bg-gradient-to-br from-trust/10 to-white px-4 py-2 rounded-lg shadow-sm border border-trust/20">
+                      <div className="from-trust/10 border-trust/20 rounded-lg border bg-gradient-to-br to-white px-4 py-2 shadow-sm">
                         <span className="text-trust font-medium">{submission.category}</span>
                       </div>
                     </div>
 
-                    <div className="bg-white rounded-lg p-4 mb-4 shadow-sm">
-                      <p className="text-gray-600 leading-relaxed">{submission.description}</p>
+                    <div className="mb-4 rounded-lg bg-white p-4 shadow-sm">
+                      <p className="leading-relaxed text-gray-600">{submission.description}</p>
                     </div>
 
                     {submission.status === 'needs_info' && submission.feedback && (
-                      <div className="mt-4 bg-gradient-to-br from-blue-50 to-white rounded-lg p-4 border border-blue-100">
-                        <div className="flex items-center space-x-2 space-x-reverse mb-2">
-                          <div className="bg-blue-100 p-1.5 rounded-lg">
+                      <div className="mt-4 rounded-lg border border-blue-100 bg-gradient-to-br from-blue-50 to-white p-4">
+                        <div className="mb-2 flex items-center space-x-2 space-x-reverse">
+                          <div className="rounded-lg bg-blue-100 p-1.5">
                             <Info className="h-5 w-5 text-blue-500" />
                           </div>
                           <span className="font-medium text-blue-500">طلب معلومات إضافية</span>
@@ -534,9 +534,9 @@ const VolunteeringHoursLog = () => {
                     )}
 
                     {submission.status === 'rejected' && submission.feedback && (
-                      <div className="mt-4 bg-gradient-to-br from-red-50 to-white rounded-lg p-4 border border-red-100">
-                        <div className="flex items-center space-x-2 space-x-reverse mb-2">
-                          <div className="bg-red-100 p-1.5 rounded-lg">
+                      <div className="mt-4 rounded-lg border border-red-100 bg-gradient-to-br from-red-50 to-white p-4">
+                        <div className="mb-2 flex items-center space-x-2 space-x-reverse">
+                          <div className="rounded-lg bg-red-100 p-1.5">
                             <XCircle className="h-5 w-5 text-red-500" />
                           </div>
                           <span className="font-medium text-red-500">سبب الرفض</span>
@@ -546,12 +546,12 @@ const VolunteeringHoursLog = () => {
                     )}
 
                     {submission.status === 'approved' && submission.feedback && (
-                      <div className="mt-4 bg-gradient-to-br from-trust/5 to-white rounded-lg p-4 border border-trust/10">
-                        <div className="flex items-center space-x-2 space-x-reverse mb-2">
-                          <div className="bg-trust/10 p-1.5 rounded-lg">
-                            <Info className="h-5 w-5 text-trust" />
+                      <div className="from-trust/5 border-trust/10 mt-4 rounded-lg border bg-gradient-to-br to-white p-4">
+                        <div className="mb-2 flex items-center space-x-2 space-x-reverse">
+                          <div className="bg-trust/10 rounded-lg p-1.5">
+                            <Info className="text-trust h-5 w-5" />
                           </div>
-                          <span className="font-medium text-trust">
+                          <span className="text-trust font-medium">
                             تعليق إدارة الموارد البشرية
                           </span>
                         </div>
@@ -569,11 +569,11 @@ const VolunteeringHoursLog = () => {
       {/* Edit Submission Modal */}
       {editingSubmission &&
         createPortal(
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-            <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-              <div className="p-6 border-b border-gray-100">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl bg-white shadow-xl">
+              <div className="border-b border-gray-100 p-6">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-kaff text-trust">تعديل النشاط التطوعي</h2>
+                  <h2 className="font-kaff text-trust text-xl">تعديل النشاط التطوعي</h2>
                   <button
                     onClick={() => setEditingSubmission(null)}
                     className="text-gray-400 hover:text-gray-500"
@@ -592,13 +592,13 @@ const VolunteeringHoursLog = () => {
                   <div className="space-y-6">
                     {/* HR Comment Section */}
                     {editingSubmission.feedback && (
-                      <div className="bg-blue-50 rounded-lg p-4 border border-blue-100">
+                      <div className="rounded-lg border border-blue-100 bg-blue-50 p-4">
                         <div className="flex items-start space-x-3 space-x-reverse">
-                          <div className="bg-blue-100 p-1.5 rounded-lg">
+                          <div className="rounded-lg bg-blue-100 p-1.5">
                             <Info className="h-5 w-5 text-blue-500" />
                           </div>
                           <div>
-                            <div className="flex items-center space-x-2 space-x-reverse mb-2">
+                            <div className="mb-2 flex items-center space-x-2 space-x-reverse">
                               <span className="font-medium text-blue-500">
                                 طلب معلومات إضافية من إدارة الموارد البشرية
                               </span>
@@ -619,9 +619,9 @@ const VolunteeringHoursLog = () => {
                     )}
 
                     {/* Member Information Section */}
-                    <div className="bg-gray-50 rounded-lg p-4 space-y-4">
+                    <div className="space-y-4 rounded-lg bg-gray-50 p-4">
                       <h3 className="font-medium text-gray-900">معلومات العضو</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                         <div className="flex items-center space-x-3 space-x-reverse">
                           <User className="h-5 w-5 text-gray-400" />
                           <div>
@@ -646,9 +646,9 @@ const VolunteeringHoursLog = () => {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="mb-1 block text-sm font-medium text-gray-700">
                           عنوان النشاط
                         </label>
                         <input
@@ -657,12 +657,12 @@ const VolunteeringHoursLog = () => {
                           onChange={(e) =>
                             setEditingSubmission({ ...editingSubmission, title: e.target.value })
                           }
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                          className="focus:ring-trust focus:border-trust w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2"
                           required
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="mb-1 block text-sm font-medium text-gray-700">
                           عدد الساعات (ساعة:دقيقة:ثانية)
                         </label>
                         <div className="grid grid-cols-3 gap-2">
@@ -676,12 +676,12 @@ const VolunteeringHoursLog = () => {
                                   hours: e.target.value,
                                 })
                               }
-                              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust text-center"
+                              className="focus:ring-trust focus:border-trust w-full rounded-lg border border-gray-300 px-4 py-2 text-center focus:ring-2"
                               placeholder="00"
                               min="0"
                               required
                             />
-                            <span className="absolute top-2 left-2 text-gray-400">س</span>
+                            <span className="absolute left-2 top-2 text-gray-400">س</span>
                           </div>
                           <div className="relative">
                             <input
@@ -693,13 +693,13 @@ const VolunteeringHoursLog = () => {
                                   minutes: e.target.value,
                                 })
                               }
-                              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust text-center"
+                              className="focus:ring-trust focus:border-trust w-full rounded-lg border border-gray-300 px-4 py-2 text-center focus:ring-2"
                               placeholder="00"
                               min="0"
                               max="59"
                               required
                             />
-                            <span className="absolute top-2 left-2 text-gray-400">د</span>
+                            <span className="absolute left-2 top-2 text-gray-400">د</span>
                           </div>
                           <div className="relative">
                             <input
@@ -711,13 +711,13 @@ const VolunteeringHoursLog = () => {
                                   seconds: e.target.value,
                                 })
                               }
-                              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust text-center"
+                              className="focus:ring-trust focus:border-trust w-full rounded-lg border border-gray-300 px-4 py-2 text-center focus:ring-2"
                               placeholder="00"
                               min="0"
                               max="59"
                               required
                             />
-                            <span className="absolute top-2 left-2 text-gray-400">ث</span>
+                            <span className="absolute left-2 top-2 text-gray-400">ث</span>
                           </div>
                         </div>
                       </div>
@@ -725,17 +725,17 @@ const VolunteeringHoursLog = () => {
 
                     {/* Task Categories */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="mb-2 block text-sm font-medium text-gray-700">
                         تصنيف النشاط التطوعي
                       </label>
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                         {taskCategories.map((category) => (
                           <div
                             key={category.id}
-                            className={`relative p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                            className={`relative cursor-pointer rounded-lg border-2 p-4 transition-all ${
                               editingSubmission.category === category.id.toString()
                                 ? 'border-trust bg-trust/5'
-                                : 'border-gray-200 hover:border-trust/50'
+                                : 'hover:border-trust/50 border-gray-200'
                             }`}
                             onClick={() =>
                               setEditingSubmission({
@@ -746,20 +746,20 @@ const VolunteeringHoursLog = () => {
                           >
                             <div className="flex items-start space-x-3 space-x-reverse">
                               <div
-                                className={`w-5 h-5 rounded-full border-2 mt-1 flex-shrink-0 ${
+                                className={`mt-1 h-5 w-5 flex-shrink-0 rounded-full border-2 ${
                                   editingSubmission.category === category.id.toString()
                                     ? 'border-trust bg-trust'
                                     : 'border-gray-300'
                                 }`}
                               >
                                 {editingSubmission.category === category.id.toString() && (
-                                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                                  <div className="h-2 w-2 rounded-full bg-white"></div>
                                 )}
                               </div>
                               <div>
-                                <h4 className="font-medium text-gray-900 mb-1">{category.name}</h4>
+                                <h4 className="mb-1 font-medium text-gray-900">{category.name}</h4>
                                 <p className="text-sm text-gray-500">{category.description}</p>
-                                <p className="text-sm text-trust mt-1">{category.examples}</p>
+                                <p className="text-trust mt-1 text-sm">{category.examples}</p>
                               </div>
                             </div>
                           </div>
@@ -768,7 +768,7 @@ const VolunteeringHoursLog = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         وصف النشاط التطوعي
                       </label>
                       <textarea
@@ -780,19 +780,19 @@ const VolunteeringHoursLog = () => {
                           })
                         }
                         rows={4}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                        className="focus:ring-trust focus:border-trust w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2"
                         required
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="mb-2 block text-sm font-medium text-gray-700">
                         المرفقات
                       </label>
                       <div className="flex items-center space-x-4 space-x-reverse">
-                        <label className="cursor-pointer bg-trust/10 hover:bg-trust/20 text-trust px-4 py-2 rounded-md transition-colors">
+                        <label className="bg-trust/10 hover:bg-trust/20 text-trust cursor-pointer rounded-md px-4 py-2 transition-colors">
                           <span className="flex items-center">
-                            <Upload className="h-5 w-5 ml-2" />
+                            <Upload className="ml-2 h-5 w-5" />
                             إضافة ملف
                           </span>
                           <input
@@ -819,10 +819,10 @@ const VolunteeringHoursLog = () => {
                           {editingSubmission.attachments.map((file, index) => (
                             <div
                               key={index}
-                              className="flex items-center space-x-2 space-x-reverse bg-gray-50 rounded-lg p-3"
+                              className="flex items-center space-x-2 space-x-reverse rounded-lg bg-gray-50 p-3"
                             >
                               <FileText className="h-5 w-5 text-gray-400" />
-                              <span className="text-sm text-trust hover:text-trust-dark cursor-pointer">
+                              <span className="text-trust hover:text-trust-dark cursor-pointer text-sm">
                                 {file.name}
                               </span>
                             </div>
@@ -832,7 +832,7 @@ const VolunteeringHoursLog = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         رد على طلب المعلومات الإضافية
                       </label>
                       <textarea
@@ -844,7 +844,7 @@ const VolunteeringHoursLog = () => {
                           })
                         }
                         rows={3}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                        className="focus:ring-trust focus:border-trust w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2"
                         placeholder="أضف ردك على طلب المعلومات الإضافية هنا..."
                       />
                       <p className="mt-1 text-sm text-gray-500">

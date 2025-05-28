@@ -96,13 +96,13 @@ const TaskSubmission = () => {
     <Layout>
       <div className="space-y-8">
         {/* Task Submission Form */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-kaff font-bold text-trust mb-6">رفع ساعات تطوعية جديدة</h2>
+        <div className="rounded-lg bg-white p-6 shadow">
+          <h2 className="font-kaff text-trust mb-6 text-xl font-bold">رفع ساعات تطوعية جديدة</h2>
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Member Information Section */}
-            <div className="bg-gray-50 rounded-lg p-4 space-y-4">
+            <div className="space-y-4 rounded-lg bg-gray-50 p-4">
               <h3 className="font-medium text-gray-900">معلومات العضو</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                 <div className="flex items-center space-x-3 space-x-reverse">
                   <User className="h-5 w-5 text-gray-400" />
                   <div>
@@ -127,21 +127,21 @@ const TaskSubmission = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="mb-2 block text-sm font-medium text-gray-700">
                   عنوان النشاط التطوعي
                 </label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData((prev) => ({ ...prev, title: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-trust focus:border-trust"
+                  className="focus:ring-trust focus:border-trust w-full rounded-md border border-gray-300 px-4 py-2"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="mb-2 block text-sm font-medium text-gray-700">
                   عدد الساعات (ساعة:دقيقة:ثانية)
                 </label>
                 <div className="grid grid-cols-3 gap-2">
@@ -150,38 +150,38 @@ const TaskSubmission = () => {
                       type="number"
                       value={formData.hours}
                       onChange={(e) => handleTimeChange('hours', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-trust focus:border-trust text-center"
+                      className="focus:ring-trust focus:border-trust w-full rounded-md border border-gray-300 px-4 py-2 text-center"
                       placeholder="00"
                       min="0"
                       required
                     />
-                    <span className="absolute top-2 left-2 text-gray-400">س</span>
+                    <span className="absolute left-2 top-2 text-gray-400">س</span>
                   </div>
                   <div className="relative">
                     <input
                       type="number"
                       value={formData.minutes}
                       onChange={(e) => handleTimeChange('minutes', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-trust focus:border-trust text-center"
+                      className="focus:ring-trust focus:border-trust w-full rounded-md border border-gray-300 px-4 py-2 text-center"
                       placeholder="00"
                       min="0"
                       max="59"
                       required
                     />
-                    <span className="absolute top-2 left-2 text-gray-400">د</span>
+                    <span className="absolute left-2 top-2 text-gray-400">د</span>
                   </div>
                   <div className="relative">
                     <input
                       type="number"
                       value={formData.seconds}
                       onChange={(e) => handleTimeChange('seconds', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-trust focus:border-trust text-center"
+                      className="focus:ring-trust focus:border-trust w-full rounded-md border border-gray-300 px-4 py-2 text-center"
                       placeholder="00"
                       min="0"
                       max="59"
                       required
                     />
-                    <span className="absolute top-2 left-2 text-gray-400">ث</span>
+                    <span className="absolute left-2 top-2 text-gray-400">ث</span>
                   </div>
                 </div>
               </div>
@@ -189,17 +189,17 @@ const TaskSubmission = () => {
 
             {/* Task Categories with Better UX */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="mb-2 block text-sm font-medium text-gray-700">
                 تصنيف النشاط التطوعي
               </label>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {taskCategories.map((category) => (
                   <div
                     key={category.id}
-                    className={`relative p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                    className={`relative cursor-pointer rounded-lg border-2 p-4 transition-all ${
                       formData.category === category.id.toString()
                         ? 'border-trust bg-trust/5'
-                        : 'border-gray-200 hover:border-trust/50'
+                        : 'hover:border-trust/50 border-gray-200'
                     }`}
                     onClick={() =>
                       setFormData((prev) => ({ ...prev, category: category.id.toString() }))
@@ -207,22 +207,22 @@ const TaskSubmission = () => {
                   >
                     <div className="flex items-start space-x-3 space-x-reverse">
                       <div
-                        className={`w-5 h-5 rounded-full border-2 mt-1 flex-shrink-0 ${
+                        className={`mt-1 h-5 w-5 flex-shrink-0 rounded-full border-2 ${
                           formData.category === category.id.toString()
                             ? 'border-trust bg-trust'
                             : 'border-gray-300'
                         }`}
                       >
                         {formData.category === category.id.toString() && (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                          <div className="flex h-full w-full items-center justify-center">
+                            <div className="h-2 w-2 rounded-full bg-white"></div>
                           </div>
                         )}
                       </div>
                       <div>
-                        <h4 className="font-medium text-gray-900 mb-1">{category.name}</h4>
+                        <h4 className="mb-1 font-medium text-gray-900">{category.name}</h4>
                         <p className="text-sm text-gray-500">{category.description}</p>
-                        <p className="text-sm text-trust mt-1">{category.examples}</p>
+                        <p className="text-trust mt-1 text-sm">{category.examples}</p>
                       </div>
                     </div>
                   </div>
@@ -231,24 +231,24 @@ const TaskSubmission = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="mb-2 block text-sm font-medium text-gray-700">
                 وصف النشاط التطوعي
               </label>
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
                 rows={4}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-trust focus:border-trust"
+                className="focus:ring-trust focus:border-trust w-full rounded-md border border-gray-300 px-4 py-2"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">المرفقات</label>
+              <label className="mb-2 block text-sm font-medium text-gray-700">المرفقات</label>
               <div className="flex items-center space-x-4 space-x-reverse">
-                <label className="cursor-pointer bg-trust/10 hover:bg-trust/20 text-trust px-4 py-2 rounded-md transition-colors">
+                <label className="bg-trust/10 hover:bg-trust/20 text-trust cursor-pointer rounded-md px-4 py-2 transition-colors">
                   <span className="flex items-center">
-                    <Upload className="h-5 w-5 ml-2" />
+                    <Upload className="ml-2 h-5 w-5" />
                     إضافة ملف
                   </span>
                   <input type="file" multiple className="hidden" onChange={handleFileChange} />
@@ -263,7 +263,7 @@ const TaskSubmission = () => {
 
             <button
               type="submit"
-              className="w-full md:w-auto px-6 py-2 bg-trust text-white rounded-md hover:bg-trust/90 transition-colors"
+              className="bg-trust hover:bg-trust/90 w-full rounded-md px-6 py-2 text-white transition-colors md:w-auto"
             >
               تقديم النشاط التطوعي
             </button>

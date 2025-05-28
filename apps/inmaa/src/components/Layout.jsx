@@ -85,10 +85,10 @@ const Layout = ({ children }) => {
   return (
     <div className="min-h-screen bg-gray-50/50">
       {!isClubsPage && (
-        <div className="fixed top-0 right-0 w-64 h-full bg-trust shadow-xl z-50">
-          <div className="flex flex-col h-full">
+        <div className="bg-trust fixed right-0 top-0 z-50 h-full w-64 shadow-xl">
+          <div className="flex h-full flex-col">
             {/* Logo section */}
-            <div className="flex items-center justify-center h-20 px-4 border-b border-white/10">
+            <div className="flex h-20 items-center justify-center border-b border-white/10 px-4">
               <img
                 className="h-24 w-auto transform transition-transform duration-300 hover:scale-105"
                 src={logo}
@@ -97,18 +97,18 @@ const Layout = ({ children }) => {
             </div>
 
             {/* User info */}
-            <div className="px-4 py-6 border-b border-white/10">
+            <div className="border-b border-white/10 px-4 py-6">
               <div className="flex flex-col space-y-4">
                 {/* User Avatar and Name */}
                 <div className="flex items-center space-x-3 space-x-reverse">
-                  <div className="h-12 w-12 rounded-full bg-growth/20 flex items-center justify-center ring-2 ring-white/20 transform transition-transform duration-300 hover:scale-105">
+                  <div className="bg-growth/20 flex h-12 w-12 transform items-center justify-center rounded-full ring-2 ring-white/20 transition-transform duration-300 hover:scale-105">
                     <span className="text-base font-medium text-white">
                       {user?.name?.charAt(0)}
                     </span>
                   </div>
                   <div>
                     <h3 className="text-sm font-medium text-white">{user?.name}</h3>
-                    <div className="flex items-center mt-1 text-xs text-white/70">
+                    <div className="mt-1 flex items-center text-xs text-white/70">
                       {getRoleIcon(currentClub?.role)}
                       <span className="mr-1.5 font-medium">{getRoleText(currentClub?.role)}</span>
                     </div>
@@ -116,17 +116,17 @@ const Layout = ({ children }) => {
                 </div>
 
                 {/* Current Club Section */}
-                <div className="bg-white/5 rounded-xl p-3 transition-all duration-300 hover:bg-white/10">
+                <div className="rounded-xl bg-white/5 p-3 transition-all duration-300 hover:bg-white/10">
                   <div className="flex items-center justify-between">
                     <button
                       onClick={() =>
                         document.getElementById('clubDropdown').classList.toggle('hidden')
                       }
-                      className="flex items-center w-full text-white group"
+                      className="group flex w-full items-center text-white"
                     >
-                      <ChevronDown className="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" />
-                      <div className="text-right flex items-center space-x-3 space-x-reverse mr-3">
-                        <div className="h-8 w-8 rounded-lg shadow-sm ring-2 ring-white/20 overflow-hidden">
+                      <ChevronDown className="h-4 w-4 opacity-70 transition-opacity group-hover:opacity-100" />
+                      <div className="mr-3 flex items-center space-x-3 space-x-reverse text-right">
+                        <div className="h-8 w-8 overflow-hidden rounded-lg shadow-sm ring-2 ring-white/20">
                           <img
                             className="h-full w-full object-cover"
                             src={`/src/assets/club-${currentClub?.id}.png`}
@@ -139,7 +139,7 @@ const Layout = ({ children }) => {
                         </div>
                         <div>
                           <p className="text-xs text-white/70">النادي الحالي</p>
-                          <p className="text-sm font-medium mt-0.5">{currentClub?.name}</p>
+                          <p className="mt-0.5 text-sm font-medium">{currentClub?.name}</p>
                         </div>
                       </div>
                     </button>
@@ -148,9 +148,9 @@ const Layout = ({ children }) => {
                   {/* Enhanced Dropdown */}
                   <div
                     id="clubDropdown"
-                    className="hidden absolute z-10 mt-2 w-64 bg-white rounded-lg shadow-lg py-1 right-16 border border-gray-100"
+                    className="absolute right-16 z-10 mt-2 hidden w-64 rounded-lg border border-gray-100 bg-white py-1 shadow-lg"
                   >
-                    <div className="px-3 py-2 text-xs text-gray-500 bg-gray-50 rounded-t-lg border-b border-gray-100">
+                    <div className="rounded-t-lg border-b border-gray-100 bg-gray-50 px-3 py-2 text-xs text-gray-500">
                       الأندية المتاحة
                     </div>
                     {user?.clubs.map((club) => (
@@ -160,14 +160,14 @@ const Layout = ({ children }) => {
                           handleClubSwitch(club.id);
                           document.getElementById('clubDropdown').classList.add('hidden');
                         }}
-                        className={`w-full text-right px-4 py-3 text-sm hover:bg-gray-50 transition-colors ${
+                        className={`w-full px-4 py-3 text-right text-sm transition-colors hover:bg-gray-50 ${
                           club.id === currentClub?.id ? 'bg-trust/5 text-trust' : 'text-gray-700'
                         }`}
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-2 space-x-reverse">
                             {getRoleIcon(club.role)}
-                            <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">
+                            <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600">
                               {getRoleText(club.role)}
                             </span>
                           </div>
@@ -181,7 +181,7 @@ const Layout = ({ children }) => {
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 px-2 py-4 space-y-1">
+            <nav className="flex-1 space-y-1 px-2 py-4">
               {navigation.map((item) => {
                 const Icon = item.icon;
                 const isActive = location.pathname === item.href;
@@ -189,12 +189,12 @@ const Layout = ({ children }) => {
                   <Link
                     key={item.name}
                     to={item.href}
-                    className={`flex items-center px-4 py-3 rounded-xl transition-all duration-300 ${
+                    className={`flex items-center rounded-xl px-4 py-3 transition-all duration-300 ${
                       isActive ? 'bg-white/10 text-white' : 'text-white/90 hover:bg-white/5'
                     }`}
                   >
                     <Icon
-                      className={`h-5 w-5 ml-3 transition-transform duration-300 ${
+                      className={`ml-3 h-5 w-5 transition-transform duration-300 ${
                         isActive ? 'scale-110' : 'group-hover:scale-110'
                       }`}
                     />
@@ -207,14 +207,14 @@ const Layout = ({ children }) => {
             </nav>
 
             {/* Footer */}
-            <div className="px-2 py-4 border-t border-white/10">
+            <div className="border-t border-white/10 px-2 py-4">
               <button
                 onClick={() => {
                   /* Implement logout */
                 }}
-                className="w-full flex items-center px-4 py-3 rounded-xl text-red-300 hover:bg-red-500/20 transition-all duration-300"
+                className="flex w-full items-center rounded-xl px-4 py-3 text-red-300 transition-all duration-300 hover:bg-red-500/20"
               >
-                <LogOut className="h-5 w-5 ml-3 group-hover:-translate-x-1 transition-transform duration-300" />
+                <LogOut className="ml-3 h-5 w-5 transition-transform duration-300 group-hover:-translate-x-1" />
                 <span className="font-medium">تسجيل الخروج</span>
               </button>
             </div>
@@ -224,9 +224,9 @@ const Layout = ({ children }) => {
 
       {/* Main content */}
       <div className={!isClubsPage ? 'mr-64' : ''}>
-        <header className="bg-white shadow-sm border-b border-gray-200">
+        <header className="border-b border-gray-200 bg-white shadow-sm">
           <div className="px-6 py-6">
-            <h1 className="text-2xl font-kaff font-bold text-trust">
+            <h1 className="font-kaff text-trust text-2xl font-bold">
               {isClubsPage
                 ? 'الأندية'
                 : navigation.find((item) => item.href === location.pathname)?.name || 'الرئيسية'}
@@ -235,7 +235,7 @@ const Layout = ({ children }) => {
         </header>
 
         <main className="py-8">
-          <div className="max-w-7xl mx-auto px-6">{children}</div>
+          <div className="mx-auto max-w-7xl px-6">{children}</div>
         </main>
       </div>
 

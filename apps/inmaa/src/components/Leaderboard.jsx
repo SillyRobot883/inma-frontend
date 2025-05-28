@@ -1,4 +1,4 @@
-import { Trophy, Medal, Award } from 'lucide-react';
+import { Award, Medal, Trophy } from 'lucide-react';
 
 const Leaderboard = ({ data = [], maxItems = 10 }) => {
   const formatTime = (timeString) => {
@@ -15,35 +15,29 @@ const Leaderboard = ({ data = [], maxItems = 10 }) => {
       case 2:
         return <Medal className="h-5 w-5 text-amber-600" />;
       default:
-        return <Award className="h-5 w-5 text-trust/50" />;
+        return <Award className="text-trust/50 h-5 w-5" />;
     }
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
+    <div className="rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md">
       <div className="space-y-3">
         {data.slice(0, maxItems).map((item, index) => (
-          <div 
+          <div
             key={index}
-            className="flex items-center justify-between p-3 rounded-lg transition-all duration-300 hover:bg-trust/5 group"
+            className="hover:bg-trust/5 group flex items-center justify-between rounded-lg p-3 transition-all duration-300"
           >
             <div className="flex items-center space-x-3 space-x-reverse">
-              <div className="flex-shrink-0">
-                {getRankIcon(index)}
-              </div>
+              <div className="flex-shrink-0">{getRankIcon(index)}</div>
               <div>
-                <p className="text-sm font-medium text-gray-900 group-hover:text-trust transition-colors duration-300">
+                <p className="group-hover:text-trust text-sm font-medium text-gray-900 transition-colors duration-300">
                   {item.name}
                 </p>
-                <p className="text-xs text-gray-500">
-                  {item.role || 'عضو'}
-                </p>
+                <p className="text-xs text-gray-500">{item.role || 'عضو'}</p>
               </div>
             </div>
             <div className="flex items-center space-x-2 space-x-reverse">
-              <span className="text-sm font-medium text-trust">
-                {formatTime(item.hours)}
-              </span>
+              <span className="text-trust text-sm font-medium">{formatTime(item.hours)}</span>
               <span className="text-xs text-gray-500">ساعة</span>
             </div>
           </div>
@@ -53,4 +47,4 @@ const Leaderboard = ({ data = [], maxItems = 10 }) => {
   );
 };
 
-export default Leaderboard; 
+export default Leaderboard;
