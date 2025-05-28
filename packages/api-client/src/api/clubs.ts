@@ -1,7 +1,8 @@
-import axios from "axios";
-import type { ClubType, ClubStatus } from "../constants";
+import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || "api";
+import type { ClubStatus, ClubType } from '../constants';
+
+const API_URL = import.meta.env.VITE_API_URL || 'api';
 
 export interface Club {
   id: number;
@@ -46,10 +47,7 @@ export const createClub = async (clubData: ClubData): Promise<Club> => {
   return response.data;
 };
 
-export const updateClub = async (
-  clubUuid: string,
-  clubData: Partial<ClubData>
-): Promise<Club> => {
+export const updateClub = async (clubUuid: string, clubData: Partial<ClubData>): Promise<Club> => {
   const response = await axios.put(`${API_URL}/clubs/${clubUuid}`, clubData);
   return response.data;
 };

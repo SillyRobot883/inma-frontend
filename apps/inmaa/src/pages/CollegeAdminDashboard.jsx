@@ -1,27 +1,19 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import {
+  AlertCircle,
+  AlertTriangle,
+  Building2,
+  CheckCircle2,
+  Clock,
+  Info,
+  Search,
+  Users,
+} from 'lucide-react';
+
 import AdminLayout from '../components/AdminLayout';
 import ClubCard from '../components/ClubCard';
-import { 
-  Building2, 
-  Users, 
-  Clock, 
-  Activity,
-  ChevronDown,
-  Search,
-  Filter,
-  FileText,
-  ArrowRight,
-  CheckCircle2,
-  AlertCircle,
-  Info,
-  Plus,
-  Edit2,
-  Trash2,
-  TrendingUp,
-  BarChart3,
-  AlertTriangle
-} from 'lucide-react';
 import { clubs as dummyClubs } from '../data/dummyClubs';
 
 const CollegeAdminDashboard = () => {
@@ -81,20 +73,21 @@ const CollegeAdminDashboard = () => {
   };
 
   // Filter clubs based on search and struggling status
-  const filteredClubs = clubs.filter(club => {
+  const filteredClubs = clubs.filter((club) => {
     const matchesSearch = club.name.toLowerCase().includes(searchQuery.toLowerCase());
     if (!showStrugglingOnly) return matchesSearch;
-    
+
     // Calculate struggling criteria
     const memberEngagement = club.activeMembers > 0 ? club.engagementScore / club.activeMembers : 0;
     const pendingTasksRatio = club.activeMembers > 0 ? club.pendingTasks / club.activeMembers : 0;
-    
+
     const lastActivityDate = new Date(club.recentActivity[0]?.date || '');
     const today = new Date();
     const daysSinceLastActivity = Math.floor((today - lastActivityDate) / (1000 * 60 * 60 * 24));
-    
-    const isStruggling = memberEngagement < 0.6 || pendingTasksRatio > 0.3 || daysSinceLastActivity > 7;
-    
+
+    const isStruggling =
+      memberEngagement < 0.6 || pendingTasksRatio > 0.3 || daysSinceLastActivity > 7;
+
     return matchesSearch && isStruggling;
   });
 
@@ -119,9 +112,7 @@ const CollegeAdminDashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500">إجمالي الأندية</p>
-                <p className="text-2xl font-medium text-trust mt-1">
-                  {clubs.length}
-                </p>
+                <p className="text-2xl font-medium text-trust mt-1">{clubs.length}</p>
               </div>
               <div className="bg-trust/10 rounded-full p-3">
                 <Building2 className="h-6 w-6 text-trust" />
@@ -159,16 +150,26 @@ const CollegeAdminDashboard = () => {
               <div>
                 <p className="text-sm text-gray-500">الأندية المتعثرة</p>
                 <p className="text-2xl font-medium text-yellow-600 mt-1">
-                  {clubs.filter(club => {
-                    const memberEngagement = club.activeMembers > 0 ? club.engagementScore / club.activeMembers : 0;
-                    const pendingTasksRatio = club.activeMembers > 0 ? club.pendingTasks / club.activeMembers : 0;
-                    
-                    const lastActivityDate = new Date(club.recentActivity[0]?.date || '');
-                    const today = new Date();
-                    const daysSinceLastActivity = Math.floor((today - lastActivityDate) / (1000 * 60 * 60 * 24));
-                    
-                    return memberEngagement < 0.6 || pendingTasksRatio > 0.3 || daysSinceLastActivity > 7;
-                  }).length}
+                  {
+                    clubs.filter((club) => {
+                      const memberEngagement =
+                        club.activeMembers > 0 ? club.engagementScore / club.activeMembers : 0;
+                      const pendingTasksRatio =
+                        club.activeMembers > 0 ? club.pendingTasks / club.activeMembers : 0;
+
+                      const lastActivityDate = new Date(club.recentActivity[0]?.date || '');
+                      const today = new Date();
+                      const daysSinceLastActivity = Math.floor(
+                        (today - lastActivityDate) / (1000 * 60 * 60 * 24)
+                      );
+
+                      return (
+                        memberEngagement < 0.6 ||
+                        pendingTasksRatio > 0.3 ||
+                        daysSinceLastActivity > 7
+                      );
+                    }).length
+                  }
                 </p>
               </div>
               <div className="bg-yellow-100 rounded-full p-3">
@@ -193,7 +194,7 @@ const CollegeAdminDashboard = () => {
                   className="pl-10 pr-12 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust w-64"
                 />
               </div>
-              <button 
+              <button
                 onClick={() => setShowStrugglingOnly(!showStrugglingOnly)}
                 className={`btn-secondary flex items-center ${
                   showStrugglingOnly ? 'bg-yellow-100 text-yellow-800' : ''
@@ -220,4 +221,4 @@ const CollegeAdminDashboard = () => {
   );
 };
 
-export default CollegeAdminDashboard; 
+export default CollegeAdminDashboard;

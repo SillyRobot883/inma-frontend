@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
+
+import { Building2 } from 'lucide-react';
+
 import { useAuth } from '../context/AuthContext';
-import { Building2, Users, Clock } from 'lucide-react';
 
 const ClubsSelection = () => {
   const { user } = useAuth();
@@ -65,7 +67,9 @@ const ClubsSelection = () => {
                 </div>
                 <div className="flex-1">
                   <h3 className="text-lg font-kaff text-trust mb-2">{club.name}</h3>
-                  <span className={`inline-block px-3 py-1 rounded-full text-xs ${getRoleColor(club.role)}`}>
+                  <span
+                    className={`inline-block px-3 py-1 rounded-full text-xs ${getRoleColor(club.role)}`}
+                  >
                     {getRoleText(club.role)}
                   </span>
                 </div>
@@ -78,4 +82,4 @@ const ClubsSelection = () => {
   );
 };
 
-export default ClubsSelection; 
+export default ClubsSelection;

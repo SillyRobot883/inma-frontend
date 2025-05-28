@@ -1,8 +1,6 @@
-import { Building2, Users, Clock, AlertTriangle, Clock4 } from 'lucide-react';
+import { AlertTriangle, Clock, Clock4, Users } from 'lucide-react';
 
 const ClubCard = ({ club, onViewDetails, formatHours }) => {
-
-
   // for context (backend team)
 
   // متعثر (struggling) criteria:
@@ -13,27 +11,30 @@ const ClubCard = ({ club, onViewDetails, formatHours }) => {
   // Calculate club status based on new criteria
   const memberEngagement = club.activeMembers > 0 ? club.engagementScore / club.activeMembers : 0;
   const pendingTasksRatio = club.activeMembers > 0 ? club.pendingTasks / club.activeMembers : 0;
-  
+
   const lastActivityDate = new Date(club.recentActivity[0]?.date || '');
   const today = new Date();
   const daysSinceLastActivity = Math.floor((today - lastActivityDate) / (1000 * 60 * 60 * 24));
-  
-  const isStruggling = memberEngagement < 0.6 || pendingTasksRatio > 0.3 || daysSinceLastActivity > 7;
+
+  const isStruggling =
+    memberEngagement < 0.6 || pendingTasksRatio > 0.3 || daysSinceLastActivity > 7;
 
   // Format date in Hijri
   const formatHijriDate = (date) => {
     const hijriDate = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', {
       day: 'numeric',
       month: 'long',
-      year: 'numeric'
+      year: 'numeric',
     }).format(date);
     return hijriDate.replace('١٤٤٥', '١٤٤٦'); // Replace 1445 with 1446
   };
 
   return (
-    <div className={`card hover:shadow-lg transition-shadow duration-200 ${
-      (isStruggling) ? 'border-l-4 border-yellow-500' : ''
-    }`}>
+    <div
+      className={`card hover:shadow-lg transition-shadow duration-200 ${
+        isStruggling ? 'border-l-4 border-yellow-500' : ''
+      }`}
+    >
       <div className="flex items-center space-x-4 space-x-reverse">
         <div className="h-16 w-16 rounded-xl overflow-hidden">
           <img
@@ -52,9 +53,7 @@ const ClubCard = ({ club, onViewDetails, formatHours }) => {
           />
         </div>
         <div>
-          <h3 className="text-lg font-kaff text-trust">
-            {club.name}
-          </h3>
+          <h3 className="text-lg font-kaff text-trust">{club.name}</h3>
           {/* Performance Indicators */}
           <div className="flex flex-wrap gap-2 mt-2">
             {memberEngagement < 0.6 && (
@@ -91,9 +90,7 @@ const ClubCard = ({ club, onViewDetails, formatHours }) => {
           </div>
           <div>
             <p className="text-sm text-gray-500">عدد الأعضاء</p>
-            <p className="text-lg font-medium text-trust">
-              {club.members}
-            </p>
+            <p className="text-lg font-medium text-trust">{club.members}</p>
           </div>
         </div>
         <div className="flex items-center space-x-2 space-x-reverse">
@@ -102,18 +99,13 @@ const ClubCard = ({ club, onViewDetails, formatHours }) => {
           </div>
           <div>
             <p className="text-sm text-gray-500">إجمالي الساعات</p>
-            <p className="text-lg font-medium text-trust">
-              {formatHours(club.totalHours)}
-            </p>
+            <p className="text-lg font-medium text-trust">{formatHours(club.totalHours)}</p>
           </div>
         </div>
       </div>
 
       <div className="mt-6">
-        <button 
-          onClick={() => onViewDetails(club.id)}
-          className="btn-secondary w-full text-center"
-        >
+        <button onClick={() => onViewDetails(club.id)} className="btn-secondary w-full text-center">
           عرض التفاصيل
         </button>
       </div>
@@ -121,4 +113,4 @@ const ClubCard = ({ club, onViewDetails, formatHours }) => {
   );
 };
 
-export default ClubCard; 
+export default ClubCard;

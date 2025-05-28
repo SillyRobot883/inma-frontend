@@ -1,11 +1,8 @@
-import axios from "axios";
-import {
-  EVENT_CATEGORIES,
-  EVENT_STATUSES,
-  EVENT_REGISTRATION_STATUSES,
-} from "../constants";
+import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || "api";
+import { EVENT_CATEGORIES, EVENT_STATUSES } from '../constants';
+
+const API_URL = import.meta.env.VITE_API_URL || 'api';
 
 export interface Event {
   id: number;
@@ -57,16 +54,12 @@ export const fetchAllEvents = async (): Promise<Event[]> => {
   return response.data;
 };
 
-export const registerForEvent = async (
-  eventId: string
-): Promise<RegistrationResponse> => {
+export const registerForEvent = async (eventId: string): Promise<RegistrationResponse> => {
   const response = await axios.post(`${API_URL}/events/${eventId}/register`);
   return response.data;
 };
 
-export const unregisterFromEvent = async (
-  eventId: string
-): Promise<RegistrationResponse> => {
+export const unregisterFromEvent = async (eventId: string): Promise<RegistrationResponse> => {
   const response = await axios.post(`${API_URL}/events/${eventId}/unregister`);
   return response.data;
 };

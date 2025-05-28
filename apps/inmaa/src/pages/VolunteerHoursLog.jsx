@@ -1,8 +1,25 @@
-import { useState, useRef, useEffect } from 'react';
-import Layout from '../components/Layout';
-import { Clock, Calendar, FileText, Search, Info, CheckCircle2, AlertCircle, XCircle, ChevronDown, Edit2, Plus, User, BookOpen, Users, Upload } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+
+import {
+  AlertCircle,
+  BookOpen,
+  Calendar,
+  CheckCircle2,
+  ChevronDown,
+  Clock,
+  Edit2,
+  FileText,
+  Info,
+  Search,
+  Upload,
+  User,
+  Users,
+  XCircle,
+} from 'lucide-react';
+
+import Layout from '../components/Layout';
+import { useAuth } from '../context/AuthContext';
 
 const VolunteeringHoursLog = () => {
   const { user } = useAuth();
@@ -18,38 +35,38 @@ const VolunteeringHoursLog = () => {
       id: '1',
       name: 'مهمة تخدم برامج أو مشاريع النادي',
       description: 'المهام التي تخدم أهداف النادي وبرامجه',
-      examples: 'مثال: تنظيم ورشة عمل، إعداد محتوى تدريبي'
+      examples: 'مثال: تنظيم ورشة عمل، إعداد محتوى تدريبي',
     },
     {
       id: '2',
       name: 'مهمة تخدم المشاركات المجتمعية',
       description: 'المهام التي تخدم المجتمع المحلي',
-      examples: 'مثال: تنظيم حملة توعوية، المشاركة في فعاليات مجتمعية'
+      examples: 'مثال: تنظيم حملة توعوية، المشاركة في فعاليات مجتمعية',
     },
     {
       id: '3',
       name: 'مهمة تخدم تطوير المهارات',
       description: 'المهام التي تساعد في تطوير مهارات الأعضاء',
-      examples: 'مثال: حضور ورشة تدريبية، إعداد بحث'
+      examples: 'مثال: حضور ورشة تدريبية، إعداد بحث',
     },
     {
       id: '4',
       name: 'مهمة تخدم الإدارة والتخطيط',
       description: 'المهام المتعلقة بإدارة وتخطيط أنشطة النادي',
-      examples: 'مثال: إعداد خطة عمل، تنظيم اجتماعات'
+      examples: 'مثال: إعداد خطة عمل، تنظيم اجتماعات',
     },
     {
       id: '5',
       name: 'مهمة تخدم التواصل والتسويق',
       description: 'المهام المتعلقة بالتواصل والتسويق للنادي',
-      examples: 'مثال: إدارة وسائل التواصل الاجتماعي، تصميم مواد ترويجية'
+      examples: 'مثال: إدارة وسائل التواصل الاجتماعي، تصميم مواد ترويجية',
     },
     {
       id: '6',
       name: 'مهمة تخدم التقييم والمتابعة',
       description: 'المهام المتعلقة بتقييم ومتابعة أنشطة النادي',
-      examples: 'مثال: إعداد تقارير، متابعة تنفيذ المهام'
-    }
+      examples: 'مثال: إعداد تقارير، متابعة تنفيذ المهام',
+    },
   ];
 
   // Close dropdown when clicking outside
@@ -69,47 +86,50 @@ const VolunteeringHoursLog = () => {
     {
       id: 1,
       title: 'دورة الأستعداد لسوق',
-      description: 'تنظيم وإعداد دورة تدريبية للأعضاء حول كيفية الاستعداد لسوق العمل، شملت الدورة محاضرات حول كتابة السيرة الذاتية ومهارات المقابلة الوظيفية',
+      description:
+        'تنظيم وإعداد دورة تدريبية للأعضاء حول كيفية الاستعداد لسوق العمل، شملت الدورة محاضرات حول كتابة السيرة الذاتية ومهارات المقابلة الوظيفية',
       time: '08:00:00',
       submittedAt: '2025-01-29T17:00:00',
       status: 'approved',
       feedback: 'عمل ممتاز! شكراً على جهودك',
-      category: 'مهمة تخدم برامج أو مشاريع النادي'
+      category: 'مهمة تخدم برامج أو مشاريع النادي',
     },
     {
       id: 2,
       title: 'Create a simple blog using git camp',
-      description: 'إنشاء مدونة بسيطة باستخدام Git و GitHub، شملت المهمة تعليم الأعضاء أساسيات Git وإدارة المشاريع',
+      description:
+        'إنشاء مدونة بسيطة باستخدام Git و GitHub، شملت المهمة تعليم الأعضاء أساسيات Git وإدارة المشاريع',
       time: '10:00:00',
       submittedAt: '2025-03-14T06:25:00',
       status: 'needs_info',
       feedback: 'يرجى إضافة تفاصيل أكثر عن المهمة وعدد المشاركين',
-      category: 'مهمة تخدم برامج أو مشاريع النادي'
+      category: 'مهمة تخدم برامج أو مشاريع النادي',
     },
     {
       id: 3,
       title: 'تنسيق اجتماع النادي',
-      description: 'تنسيق وإعداد اجتماع دوري لأعضاء النادي لمناقشة خطة العمل القادمة وتقييم النشاطات السابقة',
+      description:
+        'تنسيق وإعداد اجتماع دوري لأعضاء النادي لمناقشة خطة العمل القادمة وتقييم النشاطات السابقة',
       time: '01:15:00',
       submittedAt: '2024-03-13T16:20:00',
       status: 'rejected',
       feedback: 'يرجى إضافة تفاصيل أكثر عن المهمة',
-      category: 'مهمة تخدم المشاركات المجتمعية'
-    }
+      category: 'مهمة تخدم المشاركات المجتمعية',
+    },
   ]);
 
   // Calculate statistics
   const stats = {
     total: submissions.length,
-    approved: submissions.filter(s => s.status === 'approved').length,
-    pending: submissions.filter(s => s.status === 'pending').length,
-    rejected: submissions.filter(s => s.status === 'rejected').length,
-    needs_info: submissions.filter(s => s.status === 'needs_info').length,
+    approved: submissions.filter((s) => s.status === 'approved').length,
+    pending: submissions.filter((s) => s.status === 'pending').length,
+    rejected: submissions.filter((s) => s.status === 'rejected').length,
+    needs_info: submissions.filter((s) => s.status === 'needs_info').length,
   };
 
   // Calculate total hours from previous submissions
   const totalHours = submissions
-    .filter(submission => submission.status === 'approved')
+    .filter((submission) => submission.status === 'approved')
     .reduce((total, submission) => {
       const [hours, minutes, seconds] = submission.time.split(':').map(Number);
       return total + hours + minutes / 60 + seconds / 3600;
@@ -125,8 +145,9 @@ const VolunteeringHoursLog = () => {
   };
 
   // Filter previous submissions based on search query and status
-  const filteredSubmissions = submissions.filter(submission => {
-    const matchesSearch = submission.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  const filteredSubmissions = submissions.filter((submission) => {
+    const matchesSearch =
+      submission.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       submission.category.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus = statusFilter === 'all' || submission.status === statusFilter;
     return matchesSearch && matchesStatus;
@@ -176,14 +197,14 @@ const VolunteeringHoursLog = () => {
       seconds: seconds || '00',
       attachments: submission.attachments || [],
       category: submission.category || taskCategories[0].id, // Default to first category if none selected
-      memberComment: '' // Add new field for member's comment
+      memberComment: '', // Add new field for member's comment
     });
   };
 
   const handleSaveEdit = (updatedSubmission) => {
     // Format the time back to HH:MM:SS
     const formattedTime = `${updatedSubmission.hours.padStart(2, '0')}:${updatedSubmission.minutes.padStart(2, '0')}:${updatedSubmission.seconds.padStart(2, '0')}`;
-    
+
     // Add the member's comment to the submission's comments array
     const updatedComments = [
       ...(updatedSubmission.comments || []),
@@ -191,25 +212,29 @@ const VolunteeringHoursLog = () => {
         id: Date.now(),
         user: user.name,
         text: updatedSubmission.memberComment,
-        date: new Date().toLocaleString('ar-SA', { 
+        date: new Date().toLocaleString('ar-SA', {
           year: 'numeric',
           month: '2-digit',
           day: '2-digit',
           hour: '2-digit',
-          minute: '2-digit'
-        })
-      }
+          minute: '2-digit',
+        }),
+      },
     ];
-    
-    setSubmissions(prev => prev.map(sub => 
-      sub.id === updatedSubmission.id ? { 
-        ...updatedSubmission, 
-        time: formattedTime,
-        status: 'pending', // Reset status to pending for HR review
-        comments: updatedComments,
-        memberComment: '' // Clear the comment field
-      } : sub
-    ));
+
+    setSubmissions((prev) =>
+      prev.map((sub) =>
+        sub.id === updatedSubmission.id
+          ? {
+              ...updatedSubmission,
+              time: formattedTime,
+              status: 'pending', // Reset status to pending for HR review
+              comments: updatedComments,
+              memberComment: '', // Clear the comment field
+            }
+          : sub
+      )
+    );
     setEditingSubmission(null);
   };
 
@@ -273,7 +298,9 @@ const VolunteeringHoursLog = () => {
                 <div className="bg-trust/10 p-2 rounded-lg">
                   <Info className="h-5 w-5 text-trust" />
                 </div>
-                <span className="text-lg font-medium text-gray-900">إجمالي الساعات التطوعية المعتمدة</span>
+                <span className="text-lg font-medium text-gray-900">
+                  إجمالي الساعات التطوعية المعتمدة
+                </span>
               </div>
               <div className="text-2xl font-bold text-trust">{formatTotalHours(totalHours)}</div>
             </div>
@@ -284,16 +311,19 @@ const VolunteeringHoursLog = () => {
         <div className="bg-white rounded-xl shadow-sm p-8">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-3 space-x-reverse">
-              <div className={`p-2 rounded-lg ${statusFilter === 'all'
-                ? 'bg-gray-100'
-                : statusFilter === 'approved'
-                  ? 'bg-growth/10'
-                  : statusFilter === 'pending'
-                    ? 'bg-yellow-100'
-                    : statusFilter === 'needs_info'
-                      ? 'bg-blue-100'
-                      : 'bg-red-100'
-                }`}>
+              <div
+                className={`p-2 rounded-lg ${
+                  statusFilter === 'all'
+                    ? 'bg-gray-100'
+                    : statusFilter === 'approved'
+                      ? 'bg-growth/10'
+                      : statusFilter === 'pending'
+                        ? 'bg-yellow-100'
+                        : statusFilter === 'needs_info'
+                          ? 'bg-blue-100'
+                          : 'bg-red-100'
+                }`}
+              >
                 {getStatusIcon(statusFilter)}
               </div>
               <h2 className="text-2xl font-kaff text-trust">سجل الساعات التطوعية</h2>
@@ -316,7 +346,9 @@ const VolunteeringHoursLog = () => {
                 >
                   {getStatusIcon(statusFilter)}
                   <span className="text-gray-700">{getStatusText(statusFilter)}</span>
-                  <ChevronDown className={`h-4 w-4 text-gray-400 transition-transform duration-200 ${isDropdownOpen ? 'transform rotate-180' : ''}`} />
+                  <ChevronDown
+                    className={`h-4 w-4 text-gray-400 transition-transform duration-200 ${isDropdownOpen ? 'transform rotate-180' : ''}`}
+                  />
                 </button>
 
                 {isDropdownOpen && (
@@ -378,62 +410,84 @@ const VolunteeringHoursLog = () => {
           </div>
 
           <div className="space-y-6">
-            {filteredSubmissions.map(submission => (
+            {filteredSubmissions.map((submission) => (
               <div
                 key={submission.id}
                 className={`rounded-xl p-6 hover:shadow-md transition-all duration-300 border ${
                   submission.status === 'approved'
                     ? 'bg-gradient-to-br from-growth/5 to-white border-growth/10'
                     : submission.status === 'needs_info'
-                    ? 'bg-gradient-to-br from-blue-50 to-white border-blue-100'
-                    : 'bg-gradient-to-br from-white to-gray-50 border-gray-100'
+                      ? 'bg-gradient-to-br from-blue-50 to-white border-blue-100'
+                      : 'bg-gradient-to-br from-white to-gray-50 border-gray-100'
                 }`}
               >
                 <div className="flex items-start space-x-4 space-x-reverse">
                   <div className="flex-shrink-0">
-                    <div className={`p-3 rounded-lg ${
-                      submission.status === 'approved'
-                        ? 'bg-growth/10'
-                        : submission.status === 'needs_info'
-                        ? 'bg-blue-100'
-                        : 'bg-gray-100'
-                    }`}>
-                      <FileText className={`h-6 w-6 ${
+                    <div
+                      className={`p-3 rounded-lg ${
                         submission.status === 'approved'
-                          ? 'text-growth'
+                          ? 'bg-growth/10'
                           : submission.status === 'needs_info'
-                          ? 'text-blue-500'
-                          : 'text-gray-500'
-                      }`} />
+                            ? 'bg-blue-100'
+                            : 'bg-gray-100'
+                      }`}
+                    >
+                      <FileText
+                        className={`h-6 w-6 ${
+                          submission.status === 'approved'
+                            ? 'text-growth'
+                            : submission.status === 'needs_info'
+                              ? 'text-blue-500'
+                              : 'text-gray-500'
+                        }`}
+                      />
                     </div>
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="font-medium text-gray-900 text-lg">{submission.title}</h3>
                       <div className="flex items-center space-x-2 space-x-reverse">
-                        <div className={`flex items-center space-x-2 space-x-reverse px-3 py-1.5 rounded-lg ${
-                          submission.status === 'approved'
-                            ? 'bg-growth/10'
-                            : submission.status === 'needs_info'
-                            ? 'bg-blue-100'
-                            : submission.status === 'rejected'
-                            ? 'bg-red-50'
-                            : 'bg-yellow-50'
-                        }`}>
-                          {submission.status === 'approved' && <CheckCircle2 className="h-5 w-5 text-growth" />}
-                          {submission.status === 'needs_info' && <Info className="h-5 w-5 text-blue-500" />}
-                          {submission.status === 'rejected' && <XCircle className="h-5 w-5 text-red-500" />}
-                          {submission.status === 'pending' && <AlertCircle className="h-5 w-5 text-yellow-500" />}
-                          <span className={`text-sm font-medium ${
-                            submission.status === 'approved' ? 'text-growth' :
-                            submission.status === 'needs_info' ? 'text-blue-500' :
-                            submission.status === 'rejected' ? 'text-red-500' :
-                            'text-yellow-500'
-                          }`}>
-                            {submission.status === 'approved' ? 'تمت الموافقة' :
-                             submission.status === 'needs_info' ? 'تحتاج معلومات' :
-                             submission.status === 'rejected' ? 'مرفوض' :
-                             'قيد المراجعة'}
+                        <div
+                          className={`flex items-center space-x-2 space-x-reverse px-3 py-1.5 rounded-lg ${
+                            submission.status === 'approved'
+                              ? 'bg-growth/10'
+                              : submission.status === 'needs_info'
+                                ? 'bg-blue-100'
+                                : submission.status === 'rejected'
+                                  ? 'bg-red-50'
+                                  : 'bg-yellow-50'
+                          }`}
+                        >
+                          {submission.status === 'approved' && (
+                            <CheckCircle2 className="h-5 w-5 text-growth" />
+                          )}
+                          {submission.status === 'needs_info' && (
+                            <Info className="h-5 w-5 text-blue-500" />
+                          )}
+                          {submission.status === 'rejected' && (
+                            <XCircle className="h-5 w-5 text-red-500" />
+                          )}
+                          {submission.status === 'pending' && (
+                            <AlertCircle className="h-5 w-5 text-yellow-500" />
+                          )}
+                          <span
+                            className={`text-sm font-medium ${
+                              submission.status === 'approved'
+                                ? 'text-growth'
+                                : submission.status === 'needs_info'
+                                  ? 'text-blue-500'
+                                  : submission.status === 'rejected'
+                                    ? 'text-red-500'
+                                    : 'text-yellow-500'
+                            }`}
+                          >
+                            {submission.status === 'approved'
+                              ? 'تمت الموافقة'
+                              : submission.status === 'needs_info'
+                                ? 'تحتاج معلومات'
+                                : submission.status === 'rejected'
+                                  ? 'مرفوض'
+                                  : 'قيد المراجعة'}
                           </span>
                         </div>
                         {submission.status === 'needs_info' && (
@@ -454,7 +508,9 @@ const VolunteeringHoursLog = () => {
                       </div>
                       <div className="bg-white px-4 py-2 rounded-lg flex items-center shadow-sm">
                         <Calendar className="h-5 w-5 ml-2 text-gray-500" />
-                        <span className="text-gray-600">{new Date(submission.submittedAt).toLocaleDateString('ar-SA')}</span>
+                        <span className="text-gray-600">
+                          {new Date(submission.submittedAt).toLocaleDateString('ar-SA')}
+                        </span>
                       </div>
                       <div className="bg-gradient-to-br from-trust/10 to-white px-4 py-2 rounded-lg shadow-sm border border-trust/20">
                         <span className="text-trust font-medium">{submission.category}</span>
@@ -462,9 +518,7 @@ const VolunteeringHoursLog = () => {
                     </div>
 
                     <div className="bg-white rounded-lg p-4 mb-4 shadow-sm">
-                      <p className="text-gray-600 leading-relaxed">
-                        {submission.description}
-                      </p>
+                      <p className="text-gray-600 leading-relaxed">{submission.description}</p>
                     </div>
 
                     {submission.status === 'needs_info' && submission.feedback && (
@@ -475,9 +529,7 @@ const VolunteeringHoursLog = () => {
                           </div>
                           <span className="font-medium text-blue-500">طلب معلومات إضافية</span>
                         </div>
-                        <p className="text-gray-600">
-                          {submission.feedback}
-                        </p>
+                        <p className="text-gray-600">{submission.feedback}</p>
                       </div>
                     )}
 
@@ -489,9 +541,7 @@ const VolunteeringHoursLog = () => {
                           </div>
                           <span className="font-medium text-red-500">سبب الرفض</span>
                         </div>
-                        <p className="text-gray-600">
-                          {submission.feedback}
-                        </p>
+                        <p className="text-gray-600">{submission.feedback}</p>
                       </div>
                     )}
 
@@ -501,11 +551,11 @@ const VolunteeringHoursLog = () => {
                           <div className="bg-trust/10 p-1.5 rounded-lg">
                             <Info className="h-5 w-5 text-trust" />
                           </div>
-                          <span className="font-medium text-trust">تعليق إدارة الموارد البشرية</span>
+                          <span className="font-medium text-trust">
+                            تعليق إدارة الموارد البشرية
+                          </span>
                         </div>
-                        <p className="text-gray-600">
-                          {submission.feedback}
-                        </p>
+                        <p className="text-gray-600">{submission.feedback}</p>
                       </div>
                     )}
                   </div>
@@ -517,275 +567,312 @@ const VolunteeringHoursLog = () => {
       </div>
 
       {/* Edit Submission Modal */}
-      {editingSubmission && createPortal(
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-100">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-kaff text-trust">تعديل النشاط التطوعي</h2>
-                <button
-                  onClick={() => setEditingSubmission(null)}
-                  className="text-gray-400 hover:text-gray-500"
-                >
-                  <XCircle className="h-6 w-6" />
-                </button>
+      {editingSubmission &&
+        createPortal(
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+            <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+              <div className="p-6 border-b border-gray-100">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-kaff text-trust">تعديل النشاط التطوعي</h2>
+                  <button
+                    onClick={() => setEditingSubmission(null)}
+                    className="text-gray-400 hover:text-gray-500"
+                  >
+                    <XCircle className="h-6 w-6" />
+                  </button>
+                </div>
               </div>
-            </div>
-            <div className="p-6">
-              <form onSubmit={(e) => {
-                e.preventDefault();
-                handleSaveEdit(editingSubmission);
-              }}>
-                <div className="space-y-6">
-                  {/* HR Comment Section */}
-                  {editingSubmission.feedback && (
-                    <div className="bg-blue-50 rounded-lg p-4 border border-blue-100">
-                      <div className="flex items-start space-x-3 space-x-reverse">
-                        <div className="bg-blue-100 p-1.5 rounded-lg">
-                          <Info className="h-5 w-5 text-blue-500" />
-                        </div>
-                        <div>
-                          <div className="flex items-center space-x-2 space-x-reverse mb-2">
-                            <span className="font-medium text-blue-500">طلب معلومات إضافية من إدارة الموارد البشرية</span>
-                            <span className="text-sm text-blue-400">
-                              {new Date(editingSubmission.submittedAt).toLocaleString('ar-SA', {
-                                year: 'numeric',
-                                month: '2-digit',
-                                day: '2-digit',
-                                hour: '2-digit',
-                                minute: '2-digit'
-                              })}
-                            </span>
+              <div className="p-6">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleSaveEdit(editingSubmission);
+                  }}
+                >
+                  <div className="space-y-6">
+                    {/* HR Comment Section */}
+                    {editingSubmission.feedback && (
+                      <div className="bg-blue-50 rounded-lg p-4 border border-blue-100">
+                        <div className="flex items-start space-x-3 space-x-reverse">
+                          <div className="bg-blue-100 p-1.5 rounded-lg">
+                            <Info className="h-5 w-5 text-blue-500" />
                           </div>
-                          <p className="text-gray-700">
-                            {editingSubmission.feedback}
-                          </p>
+                          <div>
+                            <div className="flex items-center space-x-2 space-x-reverse mb-2">
+                              <span className="font-medium text-blue-500">
+                                طلب معلومات إضافية من إدارة الموارد البشرية
+                              </span>
+                              <span className="text-sm text-blue-400">
+                                {new Date(editingSubmission.submittedAt).toLocaleString('ar-SA', {
+                                  year: 'numeric',
+                                  month: '2-digit',
+                                  day: '2-digit',
+                                  hour: '2-digit',
+                                  minute: '2-digit',
+                                })}
+                              </span>
+                            </div>
+                            <p className="text-gray-700">{editingSubmission.feedback}</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Member Information Section */}
+                    <div className="bg-gray-50 rounded-lg p-4 space-y-4">
+                      <h3 className="font-medium text-gray-900">معلومات العضو</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="flex items-center space-x-3 space-x-reverse">
+                          <User className="h-5 w-5 text-gray-400" />
+                          <div>
+                            <label className="block text-sm text-gray-500">اسم العضو</label>
+                            <p className="text-sm font-medium text-gray-900">{user?.name}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-3 space-x-reverse">
+                          <BookOpen className="h-5 w-5 text-gray-400" />
+                          <div>
+                            <label className="block text-sm text-gray-500">الرقم الجامعي</label>
+                            <p className="text-sm font-medium text-gray-900">{user?.studentId}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-3 space-x-reverse">
+                          <Users className="h-5 w-5 text-gray-400" />
+                          <div>
+                            <label className="block text-sm text-gray-500">اللجنة التابع لها</label>
+                            <p className="text-sm font-medium text-gray-900">{user?.committee}</p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  )}
 
-                  {/* Member Information Section */}
-                  <div className="bg-gray-50 rounded-lg p-4 space-y-4">
-                    <h3 className="font-medium text-gray-900">معلومات العضو</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="flex items-center space-x-3 space-x-reverse">
-                        <User className="h-5 w-5 text-gray-400" />
-                        <div>
-                          <label className="block text-sm text-gray-500">اسم العضو</label>
-                          <p className="text-sm font-medium text-gray-900">{user?.name}</p>
-                        </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          عنوان النشاط
+                        </label>
+                        <input
+                          type="text"
+                          value={editingSubmission.title || ''}
+                          onChange={(e) =>
+                            setEditingSubmission({ ...editingSubmission, title: e.target.value })
+                          }
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                          required
+                        />
                       </div>
-                      <div className="flex items-center space-x-3 space-x-reverse">
-                        <BookOpen className="h-5 w-5 text-gray-400" />
-                        <div>
-                          <label className="block text-sm text-gray-500">الرقم الجامعي</label>
-                          <p className="text-sm font-medium text-gray-900">{user?.studentId}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-3 space-x-reverse">
-                        <Users className="h-5 w-5 text-gray-400" />
-                        <div>
-                          <label className="block text-sm text-gray-500">اللجنة التابع لها</label>
-                          <p className="text-sm font-medium text-gray-900">{user?.committee}</p>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          عدد الساعات (ساعة:دقيقة:ثانية)
+                        </label>
+                        <div className="grid grid-cols-3 gap-2">
+                          <div className="relative">
+                            <input
+                              type="number"
+                              value={editingSubmission.hours || '00'}
+                              onChange={(e) =>
+                                setEditingSubmission({
+                                  ...editingSubmission,
+                                  hours: e.target.value,
+                                })
+                              }
+                              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust text-center"
+                              placeholder="00"
+                              min="0"
+                              required
+                            />
+                            <span className="absolute top-2 left-2 text-gray-400">س</span>
+                          </div>
+                          <div className="relative">
+                            <input
+                              type="number"
+                              value={editingSubmission.minutes || '00'}
+                              onChange={(e) =>
+                                setEditingSubmission({
+                                  ...editingSubmission,
+                                  minutes: e.target.value,
+                                })
+                              }
+                              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust text-center"
+                              placeholder="00"
+                              min="0"
+                              max="59"
+                              required
+                            />
+                            <span className="absolute top-2 left-2 text-gray-400">د</span>
+                          </div>
+                          <div className="relative">
+                            <input
+                              type="number"
+                              value={editingSubmission.seconds || '00'}
+                              onChange={(e) =>
+                                setEditingSubmission({
+                                  ...editingSubmission,
+                                  seconds: e.target.value,
+                                })
+                              }
+                              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust text-center"
+                              placeholder="00"
+                              min="0"
+                              max="59"
+                              required
+                            />
+                            <span className="absolute top-2 left-2 text-gray-400">ث</span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Task Categories */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        تصنيف النشاط التطوعي
+                      </label>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {taskCategories.map((category) => (
+                          <div
+                            key={category.id}
+                            className={`relative p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                              editingSubmission.category === category.id.toString()
+                                ? 'border-trust bg-trust/5'
+                                : 'border-gray-200 hover:border-trust/50'
+                            }`}
+                            onClick={() =>
+                              setEditingSubmission({
+                                ...editingSubmission,
+                                category: category.id.toString(),
+                              })
+                            }
+                          >
+                            <div className="flex items-start space-x-3 space-x-reverse">
+                              <div
+                                className={`w-5 h-5 rounded-full border-2 mt-1 flex-shrink-0 ${
+                                  editingSubmission.category === category.id.toString()
+                                    ? 'border-trust bg-trust'
+                                    : 'border-gray-300'
+                                }`}
+                              >
+                                {editingSubmission.category === category.id.toString() && (
+                                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                                )}
+                              </div>
+                              <div>
+                                <h4 className="font-medium text-gray-900 mb-1">{category.name}</h4>
+                                <p className="text-sm text-gray-500">{category.description}</p>
+                                <p className="text-sm text-trust mt-1">{category.examples}</p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        عنوان النشاط
+                        وصف النشاط التطوعي
                       </label>
-                      <input
-                        type="text"
-                        value={editingSubmission.title || ''}
-                        onChange={(e) => setEditingSubmission({ ...editingSubmission, title: e.target.value })}
+                      <textarea
+                        value={editingSubmission.description || ''}
+                        onChange={(e) =>
+                          setEditingSubmission({
+                            ...editingSubmission,
+                            description: e.target.value,
+                          })
+                        }
+                        rows={4}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
                         required
                       />
                     </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        المرفقات
+                      </label>
+                      <div className="flex items-center space-x-4 space-x-reverse">
+                        <label className="cursor-pointer bg-trust/10 hover:bg-trust/20 text-trust px-4 py-2 rounded-md transition-colors">
+                          <span className="flex items-center">
+                            <Upload className="h-5 w-5 ml-2" />
+                            إضافة ملف
+                          </span>
+                          <input
+                            type="file"
+                            multiple
+                            className="hidden"
+                            onChange={(e) => {
+                              const files = Array.from(e.target.files);
+                              setEditingSubmission((prev) => ({
+                                ...prev,
+                                attachments: [...(prev.attachments || []), ...files],
+                              }));
+                            }}
+                          />
+                        </label>
+                        <div className="text-sm text-gray-500">
+                          {editingSubmission.attachments?.length > 0
+                            ? `${editingSubmission.attachments.length} ملفات مرفقة`
+                            : 'لا توجد مرفقات'}
+                        </div>
+                      </div>
+                      {editingSubmission.attachments?.length > 0 && (
+                        <div className="mt-2 grid grid-cols-2 gap-2">
+                          {editingSubmission.attachments.map((file, index) => (
+                            <div
+                              key={index}
+                              className="flex items-center space-x-2 space-x-reverse bg-gray-50 rounded-lg p-3"
+                            >
+                              <FileText className="h-5 w-5 text-gray-400" />
+                              <span className="text-sm text-trust hover:text-trust-dark cursor-pointer">
+                                {file.name}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        عدد الساعات (ساعة:دقيقة:ثانية)
+                        رد على طلب المعلومات الإضافية
                       </label>
-                      <div className="grid grid-cols-3 gap-2">
-                        <div className="relative">
-                          <input
-                            type="number"
-                            value={editingSubmission.hours || '00'}
-                            onChange={(e) => setEditingSubmission({ ...editingSubmission, hours: e.target.value })}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust text-center"
-                            placeholder="00"
-                            min="0"
-                            required
-                          />
-                          <span className="absolute top-2 left-2 text-gray-400">س</span>
-                        </div>
-                        <div className="relative">
-                          <input
-                            type="number"
-                            value={editingSubmission.minutes || '00'}
-                            onChange={(e) => setEditingSubmission({ ...editingSubmission, minutes: e.target.value })}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust text-center"
-                            placeholder="00"
-                            min="0"
-                            max="59"
-                            required
-                          />
-                          <span className="absolute top-2 left-2 text-gray-400">د</span>
-                        </div>
-                        <div className="relative">
-                          <input
-                            type="number"
-                            value={editingSubmission.seconds || '00'}
-                            onChange={(e) => setEditingSubmission({ ...editingSubmission, seconds: e.target.value })}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust text-center"
-                            placeholder="00"
-                            min="0"
-                            max="59"
-                            required
-                          />
-                          <span className="absolute top-2 left-2 text-gray-400">ث</span>
-                        </div>
-                      </div>
+                      <textarea
+                        value={editingSubmission.memberComment || ''}
+                        onChange={(e) =>
+                          setEditingSubmission({
+                            ...editingSubmission,
+                            memberComment: e.target.value,
+                          })
+                        }
+                        rows={3}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
+                        placeholder="أضف ردك على طلب المعلومات الإضافية هنا..."
+                      />
+                      <p className="mt-1 text-sm text-gray-500">
+                        سيتم إرسال ردك مع التعديلات إلى إدارة الموارد البشرية للمراجعة
+                      </p>
+                    </div>
+
+                    <div className="flex justify-end space-x-3 space-x-reverse">
+                      <button
+                        type="button"
+                        onClick={() => setEditingSubmission(null)}
+                        className="btn-secondary"
+                      >
+                        إلغاء
+                      </button>
+                      <button type="submit" className="btn-primary">
+                        حفظ التعديلات
+                      </button>
                     </div>
                   </div>
-
-                  {/* Task Categories */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      تصنيف النشاط التطوعي
-                    </label>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {taskCategories.map(category => (
-                        <div
-                          key={category.id}
-                          className={`relative p-4 rounded-lg border-2 cursor-pointer transition-all ${
-                            editingSubmission.category === category.id.toString()
-                              ? 'border-trust bg-trust/5'
-                              : 'border-gray-200 hover:border-trust/50'
-                          }`}
-                          onClick={() => setEditingSubmission({ ...editingSubmission, category: category.id.toString() })}
-                        >
-                          <div className="flex items-start space-x-3 space-x-reverse">
-                            <div className={`w-5 h-5 rounded-full border-2 mt-1 flex-shrink-0 ${
-                              editingSubmission.category === category.id.toString()
-                                ? 'border-trust bg-trust'
-                                : 'border-gray-300'
-                            }`}>
-                              {editingSubmission.category === category.id.toString() && (
-                                <div className="w-2 h-2 bg-white rounded-full"></div>
-                              )}
-                            </div>
-                            <div>
-                              <h4 className="font-medium text-gray-900 mb-1">{category.name}</h4>
-                              <p className="text-sm text-gray-500">{category.description}</p>
-                              <p className="text-sm text-trust mt-1">{category.examples}</p>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      وصف النشاط التطوعي
-                    </label>
-                    <textarea
-                      value={editingSubmission.description || ''}
-                      onChange={(e) => setEditingSubmission({ ...editingSubmission, description: e.target.value })}
-                      rows={4}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      المرفقات
-                    </label>
-                    <div className="flex items-center space-x-4 space-x-reverse">
-                      <label className="cursor-pointer bg-trust/10 hover:bg-trust/20 text-trust px-4 py-2 rounded-md transition-colors">
-                        <span className="flex items-center">
-                          <Upload className="h-5 w-5 ml-2" />
-                          إضافة ملف
-                        </span>
-                        <input
-                          type="file"
-                          multiple
-                          className="hidden"
-                          onChange={(e) => {
-                            const files = Array.from(e.target.files);
-                            setEditingSubmission(prev => ({
-                              ...prev,
-                              attachments: [...(prev.attachments || []), ...files]
-                            }));
-                          }}
-                        />
-                      </label>
-                      <div className="text-sm text-gray-500">
-                        {editingSubmission.attachments?.length > 0 
-                          ? `${editingSubmission.attachments.length} ملفات مرفقة` 
-                          : 'لا توجد مرفقات'}
-                      </div>
-                    </div>
-                    {editingSubmission.attachments?.length > 0 && (
-                      <div className="mt-2 grid grid-cols-2 gap-2">
-                        {editingSubmission.attachments.map((file, index) => (
-                          <div key={index} className="flex items-center space-x-2 space-x-reverse bg-gray-50 rounded-lg p-3">
-                            <FileText className="h-5 w-5 text-gray-400" />
-                            <span className="text-sm text-trust hover:text-trust-dark cursor-pointer">
-                              {file.name}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      رد على طلب المعلومات الإضافية
-                    </label>
-                    <textarea
-                      value={editingSubmission.memberComment || ''}
-                      onChange={(e) => setEditingSubmission({ ...editingSubmission, memberComment: e.target.value })}
-                      rows={3}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
-                      placeholder="أضف ردك على طلب المعلومات الإضافية هنا..."
-                    />
-                    <p className="mt-1 text-sm text-gray-500">
-                      سيتم إرسال ردك مع التعديلات إلى إدارة الموارد البشرية للمراجعة
-                    </p>
-                  </div>
-
-                  <div className="flex justify-end space-x-3 space-x-reverse">
-                    <button
-                      type="button"
-                      onClick={() => setEditingSubmission(null)}
-                      className="btn-secondary"
-                    >
-                      إلغاء
-                    </button>
-                    <button
-                      type="submit"
-                      className="btn-primary"
-                    >
-                      حفظ التعديلات
-                    </button>
-                  </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
-          </div>
-        </div>,
-        document.getElementById('modal-root')
-      )}
+          </div>,
+          document.getElementById('modal-root')
+        )}
     </Layout>
   );
 };
 
-export default VolunteeringHoursLog; 
+export default VolunteeringHoursLog;

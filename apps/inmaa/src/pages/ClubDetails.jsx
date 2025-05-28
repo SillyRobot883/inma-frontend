@@ -1,45 +1,34 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import AdminLayout from '../components/AdminLayout';
-import { 
-  Building2, 
-  Users, 
-  Clock, 
-  Activity,
-  ChevronDown,
-  Search,
-  Filter,
-  FileText,
-  ArrowRight,
-  CheckCircle2,
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+
+import {
   AlertCircle,
-  Info,
-  TrendingUp,
-  BarChart3,
-  Calendar,
-  Tag,
-  MessageCircle,
-  Eye,
-  Trophy,
-  Plus,
-  Edit2,
-  X,
+  AlertTriangle,
   ArrowRightToLine,
-  UserCircle,
-  Timer,
+  Building2,
   CalendarDays,
+  CheckCircle2,
+  Clock,
   Clock4,
-  Target,
-  Award,
-  User,
+  Edit2,
+  FileText,
+  Info,
   Mail,
+  MessageCircle,
   Phone,
+  Search,
+  Trash2,
+  Trophy,
+  Upload,
+  User,
+  UserCircle,
   UserCog,
   UserX,
-  Trash2,
-  AlertTriangle,
-  Upload
+  Users,
+  X,
 } from 'lucide-react';
+
+import AdminLayout from '../components/AdminLayout';
 
 const ClubDetails = () => {
   const navigate = useNavigate();
@@ -64,12 +53,101 @@ const ClubDetails = () => {
     currentLeader: '',
     leaderPhone: '',
     leaderEmail: '',
-    logo: null
+    logo: null,
   });
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [deleteStep, setDeleteStep] = useState(1);
   const [deleteConfirmation, setDeleteConfirmation] = useState('');
   const [deleteReason, setDeleteReason] = useState('');
+
+  const dummyClub = {
+    id: clubId ? parseInt(clubId) : null,
+    name: 'نادي التطوير',
+    logo: clubId ? `/src/assets/club-${clubId}.png` : '/src/assets/1-06.png',
+    description:
+      'نادي التطوير هو نادي طلابي يهدف إلى تطوير مهارات الطلاب في مجال التطوير البرمجي وتنظيم الفعاليات التقنية.',
+    establishmentDate: '2023-01-15',
+    category: 'عام',
+    supervisor: 'د. أحمد محمد',
+    supervisorPhone: '0501234567',
+    currentLeader: 'محمد عبدالله السالم',
+    leaderPhone: '0507654321',
+    leaderEmail: 'mohammed.salem@sm.imamu.edu.sa',
+    members: 45,
+    activeMembers: 32,
+    totalHours: '156:30:00',
+    averageHoursPerMember: '03:28:00',
+    pendingTasks: 8,
+    needsInfo: 3,
+    approvedTasks: 24,
+    recentActivity: [
+      {
+        id: 1,
+        title: 'تنظيم ورشة عمل Git',
+        member: 'فهد السالم',
+        status: 'pending',
+        hours: '04:00:00',
+        date: '2024-03-16',
+        description: 'تنظيم ورشة عمل Git للمبتدئين في مجال التطوير',
+        category: 'مهمة تخدم برامج أو مشاريع النادي',
+        attachments: ['workshop_material.pdf', 'schedule.xlsx'],
+        comments: [
+          {
+            id: 1,
+            user: 'أحمد محمد',
+            text: 'يرجى إضافة جدول زمني للفعالية',
+            date: '2024-03-16 14:30',
+          },
+        ],
+      },
+      {
+        id: 2,
+        title: 'إعداد محتوى تدريبي',
+        member: 'نورة العتيبي',
+        status: 'approved',
+        hours: '02:30:00',
+        date: '2024-03-15',
+        description: 'إعداد محتوى تدريبي لورشة العمل القادمة',
+        category: 'مهمة تخدم الأنشطة الداخلية في النادي',
+        attachments: ['training_content.pdf'],
+        comments: [],
+      },
+    ],
+    topPerformers: [
+      { name: 'عبدالله محمد', hours: '65:30:00', tasks: 15 },
+      { name: 'سارة أحمد', hours: '58:45:00', tasks: 12 },
+      { name: 'خالد العمري', hours: '52:15:00', tasks: 10 },
+    ],
+    taskCategories: {
+      'مهمة تخدم برامج أو مشاريع النادي': 12,
+      'مهمة تخدم المشاركات داخل الجامعة': 8,
+      'مهمة تخدم المشاركات خارج الجامعة': 5,
+      'مهمة تخدم مبادرات النادي': 15,
+      'مهمة تخدم الأنشطة الداخلية في النادي': 10,
+      'مهمة تخدم المشاركات المجتمعية': 7,
+    },
+    upcomingEvents: [
+      {
+        id: 1,
+        title: 'ورشة تطوير تطبيقات الموبايل',
+        date: '2024-03-25',
+        time: '14:00',
+        location: 'قاعة 101',
+        attendees: 30,
+      },
+      {
+        id: 2,
+        title: 'معرض المشاريع التقنية',
+        date: '2024-04-05',
+        time: '10:00',
+        location: 'قاعة المعارض',
+        attendees: 50,
+      },
+    ],
+  };
+
+  // State for club data
+  const [club, setClub] = useState(dummyClub);
 
   useEffect(() => {
     if (!clubId) {
@@ -95,7 +173,7 @@ const ClubDetails = () => {
         supervisorPhone: club.supervisorPhone || '',
         leaderPhone: club.leaderPhone || '',
         leaderEmail: club.leaderEmail || '',
-        logo: club.logo
+        logo: club.logo,
       });
       setIsLoading(false);
     } catch (err) {
@@ -116,7 +194,7 @@ const ClubDetails = () => {
   const handleSaveEdit = () => {
     // Here you would typically make an API call to save the changes
     // For now, we'll just update the local state
-    setClub(prev => ({
+    setClub((prev) => ({
       ...prev,
       name: editedClub.name,
       description: editedClub.description,
@@ -127,11 +205,11 @@ const ClubDetails = () => {
       supervisorPhone: editedClub.supervisorPhone,
       leaderPhone: editedClub.leaderPhone,
       leaderEmail: editedClub.leaderEmail,
-      logo: editedClub.logo
+      logo: editedClub.logo,
     }));
-    
+
     // Show success message or notification here
-    
+
     // Exit edit mode
     setIsEditing(false);
   };
@@ -149,7 +227,7 @@ const ClubDetails = () => {
       supervisorPhone: club.supervisorPhone || '',
       leaderPhone: club.leaderPhone || '',
       leaderEmail: club.leaderEmail || '',
-      logo: club.logo
+      logo: club.logo,
     });
   };
 
@@ -178,19 +256,19 @@ const ClubDetails = () => {
     const minutes = Math.floor(minutesDecimal);
     const seconds = Math.floor((minutesDecimal - minutes) * 60);
 
-    return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
   const getEngagementColor = (engagement) => {
-    if (engagement >= 80) return "text-growth";
-    if (engagement >= 60) return "text-yellow-600";
-    return "text-red-500";
+    if (engagement >= 80) return 'text-growth';
+    if (engagement >= 60) return 'text-yellow-600';
+    return 'text-red-500';
   };
 
   const getEngagementBg = (engagement) => {
-    if (engagement >= 80) return "bg-growth/10";
-    if (engagement >= 60) return "bg-yellow-100";
-    return "bg-red-100";
+    if (engagement >= 80) return 'bg-growth/10';
+    if (engagement >= 60) return 'bg-yellow-100';
+    return 'bg-red-100';
   };
 
   // Format hours to Hrs:Mins:Secs
@@ -248,7 +326,7 @@ const ClubDetails = () => {
       'مهمة تخدم المشاركات خارج الجامعة': 'bg-green-100 text-green-600',
       'مهمة تخدم مبادرات النادي': 'bg-pink-100 text-pink-600',
       'مهمة تخدم الأنشطة الداخلية في النادي': 'bg-indigo-100 text-indigo-600',
-      'مهمة تخدم المشاركات المجتمعية': 'bg-orange-100 text-orange-600'
+      'مهمة تخدم المشاركات المجتمعية': 'bg-orange-100 text-orange-600',
     };
     return colors[category] || 'bg-gray-100 text-gray-600';
   };
@@ -258,101 +336,16 @@ const ClubDetails = () => {
     const hijriDate = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', {
       day: 'numeric',
       month: 'long',
-      year: 'numeric'
+      year: 'numeric',
     }).format(new Date(date));
     return hijriDate.replace('١٤٤٥', '١٤٤٦'); // Replace 1445 with 1446
   };
 
-  // Dummy data for club details
-  const club = {
-    id: clubId ? parseInt(clubId) : null,
-    name: 'نادي التطوير',
-    logo: clubId ? `/src/assets/club-${clubId}.png` : '/src/assets/1-06.png',
-    description: 'نادي التطوير هو نادي طلابي يهدف إلى تطوير مهارات الطلاب في مجال التطوير البرمجي وتنظيم الفعاليات التقنية.',
-    establishmentDate: '2023-01-15',
-    category: 'عام',
-    supervisor: 'د. أحمد محمد',
-    supervisorPhone: '0501234567',
-    currentLeader: 'محمد عبدالله السالم',
-    leaderPhone: '0507654321',
-    leaderEmail: 'mohammed.salem@sm.imamu.edu.sa',
-    members: 45,
-    activeMembers: 32,
-    totalHours: '156:30:00',
-    averageHoursPerMember: '03:28:00',
-    pendingTasks: 8,
-    needsInfo: 3,
-    approvedTasks: 24,
-    recentActivity: [
-      {
-        id: 1,
-        title: 'تنظيم ورشة عمل Git',
-        member: 'فهد السالم',
-        status: 'pending',
-        hours: '04:00:00',
-        date: '2024-03-16',
-        description: 'تنظيم ورشة عمل Git للمبتدئين في مجال التطوير',
-        category: 'مهمة تخدم برامج أو مشاريع النادي',
-        attachments: ['workshop_material.pdf', 'schedule.xlsx'],
-        comments: [
-          {
-            id: 1,
-            user: 'أحمد محمد',
-            text: 'يرجى إضافة جدول زمني للفعالية',
-            date: '2024-03-16 14:30'
-          }
-        ]
-      },
-      {
-        id: 2,
-        title: 'إعداد محتوى تدريبي',
-        member: 'نورة العتيبي',
-        status: 'approved',
-        hours: '02:30:00',
-        date: '2024-03-15',
-        description: 'إعداد محتوى تدريبي لورشة العمل القادمة',
-        category: 'مهمة تخدم الأنشطة الداخلية في النادي',
-        attachments: ['training_content.pdf'],
-        comments: []
-      }
-    ],
-    topPerformers: [
-      { name: 'عبدالله محمد', hours: '65:30:00', tasks: 15 },
-      { name: 'سارة أحمد', hours: '58:45:00', tasks: 12 },
-      { name: 'خالد العمري', hours: '52:15:00', tasks: 10 }
-    ],
-    taskCategories: {
-      'مهمة تخدم برامج أو مشاريع النادي': 12,
-      'مهمة تخدم المشاركات داخل الجامعة': 8,
-      'مهمة تخدم المشاركات خارج الجامعة': 5,
-      'مهمة تخدم مبادرات النادي': 15,
-      'مهمة تخدم الأنشطة الداخلية في النادي': 10,
-      'مهمة تخدم المشاركات المجتمعية': 7
-    },
-    upcomingEvents: [
-      {
-        id: 1,
-        title: 'ورشة تطوير تطبيقات الموبايل',
-        date: '2024-03-25',
-        time: '14:00',
-        location: 'قاعة 101',
-        attendees: 30
-      },
-      {
-        id: 2,
-        title: 'معرض المشاريع التقنية',
-        date: '2024-04-05',
-        time: '10:00',
-        location: 'قاعة المعارض',
-        attendees: 50
-      }
-    ]
-  };
-
-  const filteredActivity = club.recentActivity.filter(activity => {
+  const filteredActivity = club.recentActivity.filter((activity) => {
     const matchesStatus = taskFilterStatus === 'all' || activity.status === taskFilterStatus;
-    const matchesSearch = activity.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         activity.member.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch =
+      activity.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      activity.member.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesStatus && matchesSearch;
   });
 
@@ -360,13 +353,14 @@ const ClubDetails = () => {
     // Calculate struggling criteria
     const memberEngagement = club.activeMembers > 0 ? club.engagementScore / club.activeMembers : 0;
     const pendingTasksRatio = club.activeMembers > 0 ? club.pendingTasks / club.activeMembers : 0;
-    
+
     const lastActivityDate = new Date(club.recentActivity[0]?.date || '');
     const today = new Date();
     const daysSinceLastActivity = Math.floor((today - lastActivityDate) / (1000 * 60 * 60 * 24));
-    
-    const isStruggling = memberEngagement < 0.6 || pendingTasksRatio > 0.3 || daysSinceLastActivity > 7;
-    
+
+    const isStruggling =
+      memberEngagement < 0.6 || pendingTasksRatio > 0.3 || daysSinceLastActivity > 7;
+
     if (isStruggling) {
       return (
         <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
@@ -383,15 +377,13 @@ const ClubDetails = () => {
               </li>
             )}
             {daysSinceLastActivity > 7 && (
-              <li className="text-red-700">
-                • No activity for {daysSinceLastActivity} days
-              </li>
+              <li className="text-red-700">• No activity for {daysSinceLastActivity} days</li>
             )}
           </ul>
         </div>
       );
     }
-    
+
     return null;
   };
 
@@ -411,10 +403,7 @@ const ClubDetails = () => {
         <div className="flex flex-col items-center justify-center h-64 space-y-4">
           <AlertCircle className="h-12 w-12 text-red-500" />
           <p className="text-lg text-gray-700">{error}</p>
-          <button
-            onClick={() => navigate(-1)}
-            className="btn-primary"
-          >
+          <button onClick={() => navigate(-1)} className="btn-primary">
             العودة للخلف
           </button>
         </div>
@@ -426,7 +415,7 @@ const ClubDetails = () => {
     <AdminLayout isInmaAdmin={isInmaAdmin}>
       <div className="space-y-8">
         {/* Back Button */}
-        <button 
+        <button
           onClick={() => navigate(-1)}
           className="flex items-center text-gray-600 hover:text-trust transition-colors"
         >
@@ -435,7 +424,9 @@ const ClubDetails = () => {
         </button>
 
         {/* Club Header */}
-        <div className={`bg-gradient-to-r from-trust/5 to-trust/10 rounded-xl shadow-sm p-8 transition-all duration-300 hover:shadow-md ${isEditing ? 'ring-2 ring-trust ring-opacity-50' : ''}`}>
+        <div
+          className={`bg-gradient-to-r from-trust/5 to-trust/10 rounded-xl shadow-sm p-8 transition-all duration-300 hover:shadow-md ${isEditing ? 'ring-2 ring-trust ring-opacity-50' : ''}`}
+        >
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6 space-x-reverse">
               <div className="relative">
@@ -462,7 +453,7 @@ const ClubDetails = () => {
                             if (file) {
                               const reader = new FileReader();
                               reader.onloadend = () => {
-                                setEditedClub(prev => ({ ...prev, logo: reader.result }));
+                                setEditedClub((prev) => ({ ...prev, logo: reader.result }));
                               };
                               reader.readAsDataURL(file);
                             }
@@ -494,7 +485,7 @@ const ClubDetails = () => {
                     <input
                       type="text"
                       value={editedClub.name}
-                      onChange={(e) => setEditedClub(prev => ({ ...prev, name: e.target.value }))}
+                      onChange={(e) => setEditedClub((prev) => ({ ...prev, name: e.target.value }))}
                       className="text-3xl font-kaff font-bold text-trust mb-1 w-full bg-transparent border-b-2 border-trust focus:outline-none focus:border-trust pr-16"
                     />
                     <div className="absolute top-0 right-0 bg-trust text-white text-xs px-2 py-1 rounded-bl-lg">
@@ -524,8 +515,8 @@ const ClubDetails = () => {
                   <button
                     onClick={handleEditClub}
                     className={`flex items-center justify-center px-4 py-2 rounded-lg transition-colors duration-200 ${
-                      isEditing 
-                        ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' 
+                      isEditing
+                        ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                         : 'bg-trust/10 text-trust hover:bg-trust/20'
                     }`}
                   >
@@ -586,7 +577,9 @@ const ClubDetails = () => {
             {activeTab === 'overview' && (
               <div className="space-y-8">
                 {/* Combined Edit Box */}
-                <div className={`bg-white rounded-xl p-6 shadow-sm ${isEditing ? 'ring-2 ring-trust ring-opacity-50' : ''}`}>
+                <div
+                  className={`bg-white rounded-xl p-6 shadow-sm ${isEditing ? 'ring-2 ring-trust ring-opacity-50' : ''}`}
+                >
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center space-x-3 space-x-reverse">
                       <div className="bg-trust/10 rounded-full p-2">
@@ -611,7 +604,9 @@ const ClubDetails = () => {
                         {isEditing ? (
                           <textarea
                             value={editedClub.description}
-                            onChange={(e) => setEditedClub(prev => ({ ...prev, description: e.target.value }))}
+                            onChange={(e) =>
+                              setEditedClub((prev) => ({ ...prev, description: e.target.value }))
+                            }
                             className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
                             rows={3}
                           />
@@ -625,7 +620,12 @@ const ClubDetails = () => {
                           <input
                             type="date"
                             value={editedClub.establishmentDate}
-                            onChange={(e) => setEditedClub(prev => ({ ...prev, establishmentDate: e.target.value }))}
+                            onChange={(e) =>
+                              setEditedClub((prev) => ({
+                                ...prev,
+                                establishmentDate: e.target.value,
+                              }))
+                            }
                             className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
                           />
                         ) : (
@@ -637,7 +637,9 @@ const ClubDetails = () => {
                         {isEditing ? (
                           <select
                             value={editedClub.category}
-                            onChange={(e) => setEditedClub(prev => ({ ...prev, category: e.target.value }))}
+                            onChange={(e) =>
+                              setEditedClub((prev) => ({ ...prev, category: e.target.value }))
+                            }
                             className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
                           >
                             <option value="عام">عام</option>
@@ -662,7 +664,9 @@ const ClubDetails = () => {
                           <input
                             type="text"
                             value={editedClub.supervisor}
-                            onChange={(e) => setEditedClub(prev => ({ ...prev, supervisor: e.target.value }))}
+                            onChange={(e) =>
+                              setEditedClub((prev) => ({ ...prev, supervisor: e.target.value }))
+                            }
                             className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
                           />
                         ) : (
@@ -675,7 +679,12 @@ const ClubDetails = () => {
                           <input
                             type="tel"
                             value={editedClub.supervisorPhone}
-                            onChange={(e) => setEditedClub(prev => ({ ...prev, supervisorPhone: e.target.value }))}
+                            onChange={(e) =>
+                              setEditedClub((prev) => ({
+                                ...prev,
+                                supervisorPhone: e.target.value,
+                              }))
+                            }
                             className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
                             placeholder="05xxxxxxxx"
                             pattern="[0-9]{10}"
@@ -700,7 +709,9 @@ const ClubDetails = () => {
                           <input
                             type="text"
                             value={editedClub.currentLeader}
-                            onChange={(e) => setEditedClub(prev => ({ ...prev, currentLeader: e.target.value }))}
+                            onChange={(e) =>
+                              setEditedClub((prev) => ({ ...prev, currentLeader: e.target.value }))
+                            }
                             className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
                           />
                         ) : (
@@ -713,7 +724,9 @@ const ClubDetails = () => {
                           <input
                             type="tel"
                             value={editedClub.leaderPhone}
-                            onChange={(e) => setEditedClub(prev => ({ ...prev, leaderPhone: e.target.value }))}
+                            onChange={(e) =>
+                              setEditedClub((prev) => ({ ...prev, leaderPhone: e.target.value }))
+                            }
                             className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
                             placeholder="05xxxxxxxx"
                             pattern="[0-9]{10}"
@@ -731,7 +744,9 @@ const ClubDetails = () => {
                           <input
                             type="email"
                             value={editedClub.leaderEmail}
-                            onChange={(e) => setEditedClub(prev => ({ ...prev, leaderEmail: e.target.value }))}
+                            onChange={(e) =>
+                              setEditedClub((prev) => ({ ...prev, leaderEmail: e.target.value }))
+                            }
                             className="w-full px-3 py-2 border-2 border-trust rounded-lg focus:ring-2 focus:ring-trust focus:border-trust"
                             placeholder="example@sm.imamu.edu.sa"
                           />
@@ -770,9 +785,7 @@ const ClubDetails = () => {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-500">إجمالي الأعضاء</p>
-                        <p className="text-2xl font-bold text-trust mt-1">
-                          {club.members}
-                        </p>
+                        <p className="text-2xl font-bold text-trust mt-1">{club.members}</p>
                         <p className="text-sm font-medium text-gray-500 mt-1">
                           {club.activeMembers} نشط
                         </p>
@@ -786,9 +799,7 @@ const ClubDetails = () => {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-500">الساعات التطوعية</p>
-                        <p className="text-2xl font-bold text-trust mt-1">
-                          {club.totalHours}
-                        </p>
+                        <p className="text-2xl font-bold text-trust mt-1">{club.totalHours}</p>
                         <p className="text-sm font-medium text-gray-500 mt-1">
                           {club.averageHoursPerMember} لكل عضو
                         </p>
@@ -805,9 +816,7 @@ const ClubDetails = () => {
                         <p className="text-2xl font-bold text-yellow-600 mt-1">
                           {club.pendingTasks}
                         </p>
-                        <p className="text-sm font-medium text-gray-500 mt-1">
-                          تحتاج مراجعة
-                        </p>
+                        <p className="text-sm font-medium text-gray-500 mt-1">تحتاج مراجعة</p>
                       </div>
                       <div className="bg-yellow-100 rounded-full p-3 transition-all duration-300 group-hover:bg-yellow-200">
                         <AlertCircle className="h-6 w-6 text-yellow-600" />
@@ -818,12 +827,8 @@ const ClubDetails = () => {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-500">المهام المكتملة</p>
-                        <p className="text-2xl font-bold text-growth mt-1">
-                          {club.approvedTasks}
-                        </p>
-                        <p className="text-sm font-medium text-gray-500 mt-1">
-                          مهمة منجزة
-                        </p>
+                        <p className="text-2xl font-bold text-growth mt-1">{club.approvedTasks}</p>
+                        <p className="text-sm font-medium text-gray-500 mt-1">مهمة منجزة</p>
                       </div>
                       <div className="bg-growth/10 rounded-full p-3 transition-all duration-300 group-hover:bg-growth/20">
                         <CheckCircle2 className="h-6 w-6 text-growth" />
@@ -842,7 +847,10 @@ const ClubDetails = () => {
                   </div>
                   <div className="space-y-4">
                     {club.topPerformers.map((performer, index) => (
-                      <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                      <div
+                        key={index}
+                        className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                      >
                         <div className="flex items-center space-x-3 space-x-reverse">
                           <div className="h-10 w-10 rounded-full bg-trust/10 flex items-center justify-center">
                             <span className="text-lg font-medium text-trust">
@@ -878,23 +886,19 @@ const ClubDetails = () => {
                         <p className="text-2xl font-bold text-yellow-600 mt-1">
                           {club.pendingTasks}
                         </p>
-                        <p className="text-sm font-medium text-gray-500 mt-1">
-                          تحتاج مراجعة
-                        </p>
-                        </div>
+                        <p className="text-sm font-medium text-gray-500 mt-1">تحتاج مراجعة</p>
+                      </div>
                       <div className="bg-yellow-100 rounded-full p-3 transition-all duration-300 group-hover:bg-yellow-200">
                         <AlertCircle className="h-6 w-6 text-yellow-600" />
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-500">تحتاج معلومات</p>
-                        <p className="text-2xl font-bold text-blue-600 mt-1">
-                          {club.needsInfo}
-                        </p>
+                        <p className="text-2xl font-bold text-blue-600 mt-1">{club.needsInfo}</p>
                         <p className="text-sm font-medium text-gray-500 mt-1">
                           معلومات إضافية مطلوبة
                         </p>
@@ -909,12 +913,8 @@ const ClubDetails = () => {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-500">تمت الموافقة</p>
-                        <p className="text-2xl font-bold text-growth mt-1">
-                          {club.approvedTasks}
-                        </p>
-                        <p className="text-sm font-medium text-gray-500 mt-1">
-                          مهمة منجزة
-                        </p>
+                        <p className="text-2xl font-bold text-growth mt-1">{club.approvedTasks}</p>
+                        <p className="text-sm font-medium text-gray-500 mt-1">مهمة منجزة</p>
                       </div>
                       <div className="bg-growth/10 rounded-full p-3 transition-all duration-300 group-hover:bg-growth/20">
                         <CheckCircle2 className="h-6 w-6 text-growth" />
@@ -932,17 +932,15 @@ const ClubDetails = () => {
                               const [hours, minutes, seconds] = curr.hours.split(':').map(Number);
                               return acc + hours * 3600 + minutes * 60 + seconds;
                             }, 0);
-                            
+
                             const hours = Math.floor(totalSeconds / 3600);
                             const minutes = Math.floor((totalSeconds % 3600) / 60);
                             const seconds = totalSeconds % 60;
-                            
+
                             return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                           })()}
                         </p>
-                        <p className="text-sm font-medium text-gray-500 mt-1">
-                          ساعة عمل
-                        </p>
+                        <p className="text-sm font-medium text-gray-500 mt-1">ساعة عمل</p>
                       </div>
                       <div className="bg-trust/10 rounded-full p-3 transition-all duration-300 group-hover:bg-trust/20">
                         <Clock className="h-6 w-6 text-trust" />
@@ -956,7 +954,7 @@ const ClubDetails = () => {
                   <div className="p-6 border-b border-gray-100">
                     <div className="flex items-center justify-between">
                       <h3 className="text-lg font-kaff text-trust">طلبات اعتماد الساعات</h3>
-                    <div className="flex items-center space-x-4 space-x-reverse">
+                      <div className="flex items-center space-x-4 space-x-reverse">
                         <div className="relative">
                           <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                           <input
@@ -982,27 +980,27 @@ const ClubDetails = () => {
                   </div>
                   <div className="divide-y divide-gray-100">
                     {filteredActivity.map((activity) => (
-                      <div 
-                        key={activity.id} 
+                      <div
+                        key={activity.id}
                         className={`p-6 hover:bg-gray-50 transition-colors duration-200 ${
-                          activity.status === 'approved' 
-                            ? 'bg-growth/5 border-r-4 border-r-growth' 
+                          activity.status === 'approved'
+                            ? 'bg-growth/5 border-r-4 border-r-growth'
                             : ''
                         }`}
                       >
                         <div className="flex items-start justify-between">
                           <div className="flex items-start space-x-4 space-x-reverse">
                             <div className="flex-shrink-0">
-                              <div className={`h-10 w-10 rounded-full ${
-                                activity.status === 'approved' 
-                                  ? 'bg-growth/10' 
-                                  : 'bg-trust/10'
-                              } flex items-center justify-center`}>
-                                <UserCircle className={`h-6 w-6 ${
-                                  activity.status === 'approved' 
-                                    ? 'text-growth' 
-                                    : 'text-trust'
-                                }`} />
+                              <div
+                                className={`h-10 w-10 rounded-full ${
+                                  activity.status === 'approved' ? 'bg-growth/10' : 'bg-trust/10'
+                                } flex items-center justify-center`}
+                              >
+                                <UserCircle
+                                  className={`h-6 w-6 ${
+                                    activity.status === 'approved' ? 'text-growth' : 'text-trust'
+                                  }`}
+                                />
                               </div>
                             </div>
                             <div>
@@ -1010,7 +1008,9 @@ const ClubDetails = () => {
                                 <h3 className="text-lg font-medium text-gray-900">
                                   {activity.title}
                                 </h3>
-                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getCategoryColor(activity.category)}`}>
+                                <span
+                                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getCategoryColor(activity.category)}`}
+                                >
                                   {activity.category}
                                 </span>
                               </div>
@@ -1030,53 +1030,60 @@ const ClubDetails = () => {
                                   {activity.date}
                                 </span>
                               </div>
-                              <p className="mt-2 text-sm text-gray-600">
-                                {activity.description}
-                              </p>
+                              <p className="mt-2 text-sm text-gray-600">{activity.description}</p>
                               {activity.attachments.length > 0 && (
                                 <div className="mt-2 flex items-center space-x-2 space-x-reverse">
                                   <FileText className="h-4 w-4 text-gray-400" />
-                          <div className="flex items-center space-x-2 space-x-reverse">
+                                  <div className="flex items-center space-x-2 space-x-reverse">
                                     {activity.attachments.map((attachment, index) => (
                                       <span
                                         key={index}
                                         className="text-xs text-trust hover:text-trust-dark cursor-pointer"
                                       >
                                         {attachment}
-                                  </span>
+                                      </span>
                                     ))}
                                   </div>
                                 </div>
                               )}
                               {activity.comments.length > 0 && (
                                 <div className="mt-3 space-y-2">
-                                    {activity.comments.map((comment) => (
-                                    <div key={comment.id} className="flex items-start space-x-2 space-x-reverse bg-gray-50 rounded-lg p-3">
+                                  {activity.comments.map((comment) => (
+                                    <div
+                                      key={comment.id}
+                                      className="flex items-start space-x-2 space-x-reverse bg-gray-50 rounded-lg p-3"
+                                    >
                                       <MessageCircle className="h-4 w-4 text-gray-400 mt-0.5" />
                                       <div className="flex-1">
                                         <div className="flex items-center justify-between">
-                                            <span className="text-sm font-medium text-gray-900">{comment.user}</span>
-                                            <span className="text-xs text-gray-500">{comment.date}</span>
-                                          </div>
-                                        <p className="text-sm text-gray-600 mt-1">{comment.text}</p>
+                                          <span className="text-sm font-medium text-gray-900">
+                                            {comment.user}
+                                          </span>
+                                          <span className="text-xs text-gray-500">
+                                            {comment.date}
+                                          </span>
                                         </div>
+                                        <p className="text-sm text-gray-600 mt-1">{comment.text}</p>
                                       </div>
-                                    ))}
+                                    </div>
+                                  ))}
                                 </div>
-                                    )}
-                                  </div>
-                                </div>
+                              )}
+                            </div>
+                          </div>
                           <div className="flex items-start space-x-3 space-x-reverse">
-                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm ${
-                              activity.status === 'approved' 
-                                ? 'bg-growth text-white' 
-                                : getStatusColor(activity.status)
-                            }`}>
+                            <span
+                              className={`inline-flex items-center px-3 py-1 rounded-full text-sm ${
+                                activity.status === 'approved'
+                                  ? 'bg-growth text-white'
+                                  : getStatusColor(activity.status)
+                              }`}
+                            >
                               {getStatusIcon(activity.status)}
                               <span className="mr-1">{getStatusText(activity.status)}</span>
                             </span>
-                              </div>
-                            </div>
+                          </div>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -1116,130 +1123,202 @@ const ClubDetails = () => {
                   {[
                     {
                       id: 1,
-                      name: "محمد عبدالله السالم",
-                      studentId: "444001234",
-                      email: "mohammed@example.com",
-                      phone: "0501234567",
-                      role: "قائد النادي",
-                      joinDate: "2023-09-15",
+                      name: 'محمد عبدالله السالم',
+                      studentId: '444001234',
+                      email: 'mohammed@example.com',
+                      phone: '0501234567',
+                      role: 'قائد النادي',
+                      joinDate: '2023-09-15',
                       totalHours: 85.5,
                       completedTasks: 18,
                       pendingTasks: 3,
                       engagement: 95,
-                      lastActive: "2024-03-20",
-                      committee: "لجنة البرامج والفعاليات",
-                      major: "علوم الحاسب",
-                      level: "المستوى السادس",
+                      lastActive: '2024-03-20',
+                      committee: 'لجنة البرامج والفعاليات',
+                      major: 'علوم الحاسب',
+                      level: 'المستوى السادس',
                       recentActivity: [
-                        { id: 1, title: "تنظيم ورشة عمل Git", date: "2024-03-15", hours: 3, status: "approved" },
-                        { id: 2, title: "إعداد محتوى تدريبي", date: "2024-03-10", hours: 4, status: "approved" },
+                        {
+                          id: 1,
+                          title: 'تنظيم ورشة عمل Git',
+                          date: '2024-03-15',
+                          hours: 3,
+                          status: 'approved',
+                        },
+                        {
+                          id: 2,
+                          title: 'إعداد محتوى تدريبي',
+                          date: '2024-03-10',
+                          hours: 4,
+                          status: 'approved',
+                        },
                       ],
                     },
                     {
                       id: 2,
-                      name: "سارة أحمد العتيبي",
-                      studentId: "444002345",
-                      email: "sarah@example.com",
-                      phone: "0502345678",
-                      role: "موارد بشرية",
-                      joinDate: "2023-09-20",
+                      name: 'سارة أحمد العتيبي',
+                      studentId: '444002345',
+                      email: 'sarah@example.com',
+                      phone: '0502345678',
+                      role: 'موارد بشرية',
+                      joinDate: '2023-09-20',
                       totalHours: 72.25,
                       completedTasks: 15,
                       pendingTasks: 2,
                       engagement: 88,
-                      lastActive: "2024-03-19",
-                      committee: "لجنة الموارد البشرية",
-                      major: "نظم المعلومات",
-                      level: "المستوى الخامس",
+                      lastActive: '2024-03-19',
+                      committee: 'لجنة الموارد البشرية',
+                      major: 'نظم المعلومات',
+                      level: 'المستوى الخامس',
                       recentActivity: [
-                        { id: 3, title: "تنظيم مقابلات الأعضاء الجدد", date: "2024-03-18", hours: 2, status: "approved" },
-                        { id: 4, title: "إعداد تقرير أداء الأعضاء", date: "2024-03-12", hours: 3, status: "approved" },
+                        {
+                          id: 3,
+                          title: 'تنظيم مقابلات الأعضاء الجدد',
+                          date: '2024-03-18',
+                          hours: 2,
+                          status: 'approved',
+                        },
+                        {
+                          id: 4,
+                          title: 'إعداد تقرير أداء الأعضاء',
+                          date: '2024-03-12',
+                          hours: 3,
+                          status: 'approved',
+                        },
                       ],
                     },
                     {
                       id: 3,
-                      name: "خالد عبدالرحمن العمري",
-                      studentId: "444003456",
-                      email: "khalid@example.com",
-                      phone: "0503456789",
-                      role: "عضو",
-                      joinDate: "2023-10-05",
+                      name: 'خالد عبدالرحمن العمري',
+                      studentId: '444003456',
+                      email: 'khalid@example.com',
+                      phone: '0503456789',
+                      role: 'عضو',
+                      joinDate: '2023-10-05',
                       totalHours: 65.75,
                       completedTasks: 12,
                       pendingTasks: 1,
                       engagement: 82,
-                      lastActive: "2024-03-18",
-                      committee: "لجنة التسويق والإعلام",
-                      major: "هندسة البرمجيات",
-                      level: "المستوى السابع",
+                      lastActive: '2024-03-18',
+                      committee: 'لجنة التسويق والإعلام',
+                      major: 'هندسة البرمجيات',
+                      level: 'المستوى السابع',
                       recentActivity: [
-                        { id: 5, title: "تصميم منشورات للنادي", date: "2024-03-17", hours: 2.5, status: "approved" },
-                        { id: 6, title: "إدارة حسابات التواصل الاجتماعي", date: "2024-03-14", hours: 1.5, status: "pending" },
+                        {
+                          id: 5,
+                          title: 'تصميم منشورات للنادي',
+                          date: '2024-03-17',
+                          hours: 2.5,
+                          status: 'approved',
+                        },
+                        {
+                          id: 6,
+                          title: 'إدارة حسابات التواصل الاجتماعي',
+                          date: '2024-03-14',
+                          hours: 1.5,
+                          status: 'pending',
+                        },
                       ],
                     },
                     {
                       id: 4,
-                      name: "نورة محمد السالم",
-                      studentId: "444004567",
-                      email: "noura@example.com",
-                      phone: "0504567890",
-                      role: "عضو",
-                      joinDate: "2023-10-10",
+                      name: 'نورة محمد السالم',
+                      studentId: '444004567',
+                      email: 'noura@example.com',
+                      phone: '0504567890',
+                      role: 'عضو',
+                      joinDate: '2023-10-10',
                       totalHours: 58.5,
                       completedTasks: 10,
                       pendingTasks: 0,
                       engagement: 78,
-                      lastActive: "2024-03-17",
-                      committee: "لجنة البرامج والفعاليات",
-                      major: "علوم الحاسب",
-                      level: "المستوى الرابع",
+                      lastActive: '2024-03-17',
+                      committee: 'لجنة البرامج والفعاليات',
+                      major: 'علوم الحاسب',
+                      level: 'المستوى الرابع',
                       recentActivity: [
-                        { id: 7, title: "تنسيق فعالية النادي", date: "2024-03-16", hours: 4, status: "approved" },
-                        { id: 8, title: "إعداد التقرير الشهري", date: "2024-03-10", hours: 2.5, status: "approved" },
+                        {
+                          id: 7,
+                          title: 'تنسيق فعالية النادي',
+                          date: '2024-03-16',
+                          hours: 4,
+                          status: 'approved',
+                        },
+                        {
+                          id: 8,
+                          title: 'إعداد التقرير الشهري',
+                          date: '2024-03-10',
+                          hours: 2.5,
+                          status: 'approved',
+                        },
                       ],
                     },
                     {
                       id: 5,
-                      name: "فهد سعد الدوسري",
-                      studentId: "444005678",
-                      email: "fahad@example.com",
-                      phone: "0505678901",
-                      role: "عضو",
-                      joinDate: "2023-10-15",
+                      name: 'فهد سعد الدوسري',
+                      studentId: '444005678',
+                      email: 'fahad@example.com',
+                      phone: '0505678901',
+                      role: 'عضو',
+                      joinDate: '2023-10-15',
                       totalHours: 52.25,
                       completedTasks: 9,
                       pendingTasks: 2,
                       engagement: 75,
-                      lastActive: "2024-03-15",
-                      committee: "لجنة التطوير التقني",
-                      major: "هندسة البرمجيات",
-                      level: "المستوى الثامن",
+                      lastActive: '2024-03-15',
+                      committee: 'لجنة التطوير التقني',
+                      major: 'هندسة البرمجيات',
+                      level: 'المستوى الثامن',
                       recentActivity: [
-                        { id: 9, title: "تطوير موقع النادي", date: "2024-03-14", hours: 5, status: "approved" },
-                        { id: 10, title: "إصلاح مشاكل تقنية", date: "2024-03-08", hours: 2, status: "approved" },
+                        {
+                          id: 9,
+                          title: 'تطوير موقع النادي',
+                          date: '2024-03-14',
+                          hours: 5,
+                          status: 'approved',
+                        },
+                        {
+                          id: 10,
+                          title: 'إصلاح مشاكل تقنية',
+                          date: '2024-03-08',
+                          hours: 2,
+                          status: 'approved',
+                        },
                       ],
                     },
                     {
                       id: 6,
-                      name: "ريم خالد الشمري",
-                      studentId: "444006789",
-                      email: "reem@example.com",
-                      phone: "0506789012",
-                      role: "عضو",
-                      joinDate: "2023-11-01",
+                      name: 'ريم خالد الشمري',
+                      studentId: '444006789',
+                      email: 'reem@example.com',
+                      phone: '0506789012',
+                      role: 'عضو',
+                      joinDate: '2023-11-01',
                       totalHours: 48.75,
                       completedTasks: 8,
                       pendingTasks: 1,
                       engagement: 70,
-                      lastActive: "2024-03-14",
-                      committee: "لجنة التسويق والإعلام",
-                      major: "نظم المعلومات",
-                      level: "المستوى السادس",
+                      lastActive: '2024-03-14',
+                      committee: 'لجنة التسويق والإعلام',
+                      major: 'نظم المعلومات',
+                      level: 'المستوى السادس',
                       recentActivity: [
-                        { id: 11, title: "تصميم شعار النادي", date: "2024-03-13", hours: 5, status: "approved" },
-                        { id: 12, title: "إعداد استراتيجية تسويقية", date: "2024-03-07", hours: 3, status: "pending" },
+                        {
+                          id: 11,
+                          title: 'تصميم شعار النادي',
+                          date: '2024-03-13',
+                          hours: 5,
+                          status: 'approved',
+                        },
+                        {
+                          id: 12,
+                          title: 'إعداد استراتيجية تسويقية',
+                          date: '2024-03-07',
+                          hours: 3,
+                          status: 'pending',
+                        },
                       ],
-                    }
+                    },
                   ].map((member) => (
                     <div
                       key={member.id}
@@ -1249,17 +1328,23 @@ const ClubDetails = () => {
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center space-x-3 space-x-reverse">
                           <div className="h-12 w-12 rounded-full bg-trust/10 flex items-center justify-center">
-                            <span className="text-lg font-medium text-trust">{member.name.charAt(0)}</span>
+                            <span className="text-lg font-medium text-trust">
+                              {member.name.charAt(0)}
+                            </span>
                           </div>
                           <div>
                             <h4 className="font-medium text-gray-900">{member.name}</h4>
-                            <p className="text-sm text-gray-500">{member.major} - {member.level}</p>
+                            <p className="text-sm text-gray-500">
+                              {member.major} - {member.level}
+                            </p>
                           </div>
                         </div>
-                          <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${getEngagementColor(member.engagement)} ${getEngagementBg(member.engagement)}`}>
+                        <span
+                          className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${getEngagementColor(member.engagement)} ${getEngagementBg(member.engagement)}`}
+                        >
                           {member.engagement}%
-                          </span>
-                        </div>
+                        </span>
+                      </div>
 
                       {/* Member Details */}
                       <div className="space-y-3 mb-4">
@@ -1286,14 +1371,18 @@ const ClubDetails = () => {
                         <div className="bg-trust/5 rounded-lg p-3">
                           <div className="flex items-center space-x-2 space-x-reverse">
                             <Clock className="h-4 w-4 text-trust" />
-                            <span className="text-sm font-medium text-trust">{formatTimeFromDecimal(member.totalHours)}</span>
+                            <span className="text-sm font-medium text-trust">
+                              {formatTimeFromDecimal(member.totalHours)}
+                            </span>
                           </div>
                           <p className="text-xs text-gray-500 mt-1">إجمالي الساعات</p>
                         </div>
                         <div className="bg-growth/5 rounded-lg p-3">
                           <div className="flex items-center space-x-2 space-x-reverse">
                             <CheckCircle2 className="h-4 w-4 text-growth" />
-                            <span className="text-sm font-medium text-growth">{member.completedTasks}</span>
+                            <span className="text-sm font-medium text-growth">
+                              {member.completedTasks}
+                            </span>
                           </div>
                           <p className="text-xs text-gray-500 mt-1">المهام المكتملة</p>
                         </div>
@@ -1304,7 +1393,10 @@ const ClubDetails = () => {
                         <h5 className="text-sm font-medium text-gray-700 mb-2">آخر النشاطات</h5>
                         <div className="space-y-2">
                           {member.recentActivity.slice(0, 2).map((activity) => (
-                            <div key={activity.id} className="flex items-center justify-between text-sm">
+                            <div
+                              key={activity.id}
+                              className="flex items-center justify-between text-sm"
+                            >
                               <span className="text-gray-600">{activity.title}</span>
                               <span className="text-gray-500">{activity.date}</span>
                             </div>
@@ -1354,7 +1446,7 @@ const ClubDetails = () => {
                     </div>
                     <div className="space-y-4">
                       <p className="text-center text-gray-700">
-                        هل أنت متأكد من رغبتك في حذف النادي{" "}
+                        هل أنت متأكد من رغبتك في حذف النادي{' '}
                         <span className="font-bold text-trust">{club.name}</span>؟
                       </p>
                       <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
@@ -1396,7 +1488,8 @@ const ClubDetails = () => {
                     </div>
                     <div className="space-y-4">
                       <p className="text-center text-gray-700">
-                        يرجى كتابة اسم النادي <span className="font-bold text-trust">{club.name}</span> للتأكيد
+                        يرجى كتابة اسم النادي{' '}
+                        <span className="font-bold text-trust">{club.name}</span> للتأكيد
                       </p>
                       <div>
                         <input
@@ -1435,9 +1528,7 @@ const ClubDetails = () => {
                       </div>
                     </div>
                     <div className="space-y-4">
-                      <p className="text-center text-gray-700">
-                        يرجى توضيح سبب حذف النادي
-                      </p>
+                      <p className="text-center text-gray-700">يرجى توضيح سبب حذف النادي</p>
                       <div>
                         <textarea
                           value={deleteReason}
@@ -1475,4 +1566,4 @@ const ClubDetails = () => {
   );
 };
 
-export default ClubDetails; 
+export default ClubDetails;

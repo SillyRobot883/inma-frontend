@@ -16,8 +16,8 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
 
     /* Path mapping for monorepo */
@@ -28,13 +28,6 @@
       "@wasl/*": ["apps/wasl/src/*"]
     }
   },
-  "include": [
-    "apps/**/*",
-    "packages/**/*"
-  ],
-  "exclude": [
-    "**/node_modules",
-    "**/dist",
-    "**/build"
-  ]
+  "include": ["apps/**/*", "packages/**/*"],
+  "exclude": ["**/node_modules", "**/dist", "**/build"]
 }

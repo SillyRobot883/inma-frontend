@@ -15,10 +15,12 @@ packages/
 ## Quick Start
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - pnpm 9+
 
 ### Installation
+
 ```bash
 # Install all dependencies
 pnpm install
@@ -32,6 +34,7 @@ pnpm dev:wasl   # Starts Wasl on http://localhost:3001
 ```
 
 ### Building
+
 ```bash
 # Build all applications
 pnpm build
@@ -44,20 +47,24 @@ pnpm build:wasl
 ## Applications
 
 ### 1. **إنماء الإندية (Inmaa)** - Clubs Management
+
 A comprehensive web application designed to streamline the management of student clubs and their activities. The platform provides tools for club administrators, members, and INMA administrators to efficiently manage club operations, track volunteer hours, and monitor member engagement.
 
-### 2. **وصل (Wasl)** - Events Management  
+### 2. **وصل (Wasl)** - Events Management
+
 A companion application focused on event management, allowing clubs to create, promote, and track participation in events.
 
 ## Features
 
 ### User Management
+
 - Role-based access control (INMA Admin, College Admin, Club Admin, Member)
 - User registration and profile management
 - Member tracking with ID numbers and student IDs
 - Club membership management
 
 ### Club Management
+
 - Club creation and configuration
 - Member management within clubs
 - Activity tracking and reporting
@@ -65,6 +72,7 @@ A companion application focused on event management, allowing clubs to create, p
 - Committee management
 
 ### Activity Tracking
+
 - Volunteer hour logging
 - Activity categorization
 - Progress tracking
@@ -72,6 +80,7 @@ A companion application focused on event management, allowing clubs to create, p
 - Performance analytics
 
 ### Administrative Features
+
 - Comprehensive dashboard for administrators
 - User management interface
 - Club oversight and management
@@ -81,6 +90,7 @@ A companion application focused on event management, allowing clubs to create, p
 ## Tech Stack
 
 ### Frontend
+
 - **React.js**: Modern UI framework for building interactive user interfaces
 - **Tailwind CSS**: Utility-first CSS framework for rapid UI development
 - **React Router**: Client-side routing for single-page application navigation
@@ -123,12 +133,14 @@ src/
 ### Installation
 
 1. Clone the repository
+
 ```bash
 git clone https://github.com/SillyRobot883/inma-frontend.git
 cd inmaa-wasl-monorepo
 ```
 
 2. Install dependencies
+
 ```bash
 pnpm setup
 ```
@@ -136,12 +148,14 @@ pnpm setup
 3. Create `.env` files in each app's directory with the appropriate variables:
 
 For Inmaa (apps/inmaa/.env):
+
 ```env
 VITE_API_URL=your_api_url_here
 VITE_APP_NAME=Inmaa
 ```
 
 For Wasl (apps/wasl/.env):
+
 ```env
 VITE_API_URL=your_api_url_here
 VITE_APP_NAME=Wasl
@@ -150,16 +164,19 @@ VITE_APP_NAME=Wasl
 4. Start the development servers
 
 For Inmaa (clubs management):
+
 ```bash
 pnpm dev:inmaa
 ```
 
 For Wasl (events management):
+
 ```bash
 pnpm dev:wasl
 ```
 
 Or to start both apps simultaneously:
+
 ```bash
 pnpm dev
 ```
@@ -167,16 +184,19 @@ pnpm dev
 ## Building for Production
 
 To build the Inmaa app:
+
 ```bash
 pnpm build:inmaa
 ```
 
 To build the Wasl app:
+
 ```bash
 pnpm build:wasl
 ```
 
 To build all apps:
+
 ```bash
 pnpm build
 ```

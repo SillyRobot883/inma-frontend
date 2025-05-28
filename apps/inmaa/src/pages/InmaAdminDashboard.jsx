@@ -1,29 +1,22 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AdminLayout from '../components/AdminLayout';
-import ClubCard from '../components/ClubCard';
-import { 
-  Building2, 
-  Users, 
-  Clock, 
-  Activity,
-  ChevronDown,
-  Search,
-  Filter,
-  FileText,
-  ArrowRight,
-  CheckCircle2,
+
+import {
   AlertCircle,
+  AlertTriangle,
+  Building2,
+  CheckCircle2,
+  Clock,
   Info,
   Plus,
-  Edit2,
-  Trash2,
-  TrendingUp,
-  BarChart3,
-  AlertTriangle,
+  Search,
+  Upload,
+  Users,
   X,
-  Upload
 } from 'lucide-react';
+
+import AdminLayout from '../components/AdminLayout';
+import ClubCard from '../components/ClubCard';
 import { clubs as dummyClubs } from '../data/dummyClubs';
 
 const InmaAdminDashboard = () => {
@@ -37,15 +30,15 @@ const InmaAdminDashboard = () => {
     logo: null,
     supervisor: {
       name: '',
-      phone: ''
+      phone: '',
     },
     leader: {
       name: '',
       email: '',
-      phone: ''
+      phone: '',
     },
     category: 'عام',
-    foundationDate: ''
+    foundationDate: '',
   });
 
   // Format hours to Hrs:Mins:Secs
@@ -62,9 +55,9 @@ const InmaAdminDashboard = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setNewClub(prev => ({
+        setNewClub((prev) => ({
           ...prev,
-          logo: reader.result
+          logo: reader.result,
         }));
       };
       reader.readAsDataURL(file);
@@ -82,15 +75,15 @@ const InmaAdminDashboard = () => {
       logo: null,
       supervisor: {
         name: '',
-        phone: ''
+        phone: '',
       },
       leader: {
         name: '',
         email: '',
-        phone: ''
+        phone: '',
       },
       category: 'عام',
-      foundationDate: ''
+      foundationDate: '',
     });
   };
 
@@ -137,19 +130,20 @@ const InmaAdminDashboard = () => {
   };
 
   // Filter clubs based on search and struggling status
-  const filteredClubs = clubs.filter(club => {
+  const filteredClubs = clubs.filter((club) => {
     const matchesSearch = club.name.toLowerCase().includes(searchQuery.toLowerCase());
-    
+
     // Calculate struggling criteria
     const memberEngagement = club.activeMembers > 0 ? club.engagementScore / club.activeMembers : 0;
     const pendingTasksRatio = club.activeMembers > 0 ? club.pendingTasks / club.activeMembers : 0;
-    
+
     const lastActivityDate = new Date(club.recentActivity[0]?.date || '');
     const today = new Date();
     const daysSinceLastActivity = Math.floor((today - lastActivityDate) / (1000 * 60 * 60 * 24));
-    
-    const isStruggling = memberEngagement < 0.6 || pendingTasksRatio > 0.3 || daysSinceLastActivity > 7;
-    
+
+    const isStruggling =
+      memberEngagement < 0.6 || pendingTasksRatio > 0.3 || daysSinceLastActivity > 7;
+
     return matchesSearch && (showStrugglingOnly ? isStruggling : true);
   });
 
@@ -163,10 +157,7 @@ const InmaAdminDashboard = () => {
               <h2 className="text-2xl font-kaff text-trust">لوحة تحكم إنماء</h2>
             </div>
             <div className="flex items-center space-x-4 space-x-reverse">
-              <button 
-                onClick={() => setShowAddClubModal(true)}
-                className="btn-primary"
-              >
+              <button onClick={() => setShowAddClubModal(true)} className="btn-primary">
                 <Plus className="h-5 w-5 ml-2" />
                 إضافة نادي جديد
               </button>
@@ -180,9 +171,7 @@ const InmaAdminDashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500">إجمالي الأندية</p>
-                <p className="text-2xl font-medium text-trust mt-1">
-                  {clubs.length}
-                </p>
+                <p className="text-2xl font-medium text-trust mt-1">{clubs.length}</p>
               </div>
               <div className="bg-trust/10 rounded-full p-3">
                 <Building2 className="h-6 w-6 text-trust" />
@@ -220,16 +209,26 @@ const InmaAdminDashboard = () => {
               <div>
                 <p className="text-sm text-gray-500">الأندية المتعثرة</p>
                 <p className="text-2xl font-medium text-yellow-600 mt-1">
-                  {clubs.filter(club => {
-                    const memberEngagement = club.activeMembers > 0 ? club.engagementScore / club.activeMembers : 0;
-                    const pendingTasksRatio = club.activeMembers > 0 ? club.pendingTasks / club.activeMembers : 0;
-                    
-                    const lastActivityDate = new Date(club.recentActivity[0]?.date || '');
-                    const today = new Date();
-                    const daysSinceLastActivity = Math.floor((today - lastActivityDate) / (1000 * 60 * 60 * 24));
-                    
-                    return memberEngagement < 0.6 || pendingTasksRatio > 0.3 || daysSinceLastActivity > 7;
-                  }).length}
+                  {
+                    clubs.filter((club) => {
+                      const memberEngagement =
+                        club.activeMembers > 0 ? club.engagementScore / club.activeMembers : 0;
+                      const pendingTasksRatio =
+                        club.activeMembers > 0 ? club.pendingTasks / club.activeMembers : 0;
+
+                      const lastActivityDate = new Date(club.recentActivity[0]?.date || '');
+                      const today = new Date();
+                      const daysSinceLastActivity = Math.floor(
+                        (today - lastActivityDate) / (1000 * 60 * 60 * 24)
+                      );
+
+                      return (
+                        memberEngagement < 0.6 ||
+                        pendingTasksRatio > 0.3 ||
+                        daysSinceLastActivity > 7
+                      );
+                    }).length
+                  }
                 </p>
               </div>
               <div className="bg-yellow-100 rounded-full p-3">
@@ -254,7 +253,7 @@ const InmaAdminDashboard = () => {
                   className="pl-10 pr-12 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust w-64"
                 />
               </div>
-              <button 
+              <button
                 onClick={() => setShowStrugglingOnly(!showStrugglingOnly)}
                 className={`btn-secondary flex items-center ${
                   showStrugglingOnly ? 'bg-yellow-100 text-yellow-800' : ''
@@ -284,7 +283,7 @@ const InmaAdminDashboard = () => {
               <div className="p-6 border-b border-gray-100 sticky top-0 bg-white z-10">
                 <div className="flex items-center justify-between">
                   <h2 className="text-2xl font-kaff text-trust">إضافة نادي جديد</h2>
-                  <button 
+                  <button
                     onClick={() => setShowAddClubModal(false)}
                     className="text-gray-400 hover:text-gray-500 transition-colors"
                   >
@@ -327,9 +326,7 @@ const InmaAdminDashboard = () => {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <label className="block text-sm font-medium text-gray-700">
-                        وصف النادي
-                      </label>
+                      <label className="block text-sm font-medium text-gray-700">وصف النادي</label>
                       <textarea
                         value={newClub.description}
                         onChange={(e) => setNewClub({ ...newClub, description: e.target.value })}
@@ -400,31 +397,41 @@ const InmaAdminDashboard = () => {
 
                   {/* Supervisor Information Section */}
                   <div className="space-y-6">
-                    <h3 className="text-lg font-medium text-gray-900">معلومات المشرف <span className="text-red-500">*</span></h3>
+                    <h3 className="text-lg font-medium text-gray-900">
+                      معلومات المشرف <span className="text-red-500">*</span>
+                    </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <label className="block text-sm font-medium text-gray-700">اسم المشرف</label>
+                        <label className="block text-sm font-medium text-gray-700">
+                          اسم المشرف
+                        </label>
                         <input
                           type="text"
                           value={newClub.supervisor.name}
-                          onChange={(e) => setNewClub({
-                            ...newClub,
-                            supervisor: { ...newClub.supervisor, name: e.target.value }
-                          })}
+                          onChange={(e) =>
+                            setNewClub({
+                              ...newClub,
+                              supervisor: { ...newClub.supervisor, name: e.target.value },
+                            })
+                          }
                           className="input-field"
                           required
                           placeholder="أدخل اسم المشرف"
                         />
                       </div>
                       <div className="space-y-2">
-                        <label className="block text-sm font-medium text-gray-700">رقم هاتف المشرف</label>
+                        <label className="block text-sm font-medium text-gray-700">
+                          رقم هاتف المشرف
+                        </label>
                         <input
                           type="tel"
                           value={newClub.supervisor.phone}
-                          onChange={(e) => setNewClub({
-                            ...newClub,
-                            supervisor: { ...newClub.supervisor, phone: e.target.value }
-                          })}
+                          onChange={(e) =>
+                            setNewClub({
+                              ...newClub,
+                              supervisor: { ...newClub.supervisor, phone: e.target.value },
+                            })
+                          }
                           className="input-field"
                           required
                           placeholder="05xxxxxxxx"
@@ -435,45 +442,59 @@ const InmaAdminDashboard = () => {
 
                   {/* Club Leader Information Section */}
                   <div className="space-y-6">
-                    <h3 className="text-lg font-medium text-gray-900">معلومات قائد النادي <span className="text-red-500">*</span></h3>
+                    <h3 className="text-lg font-medium text-gray-900">
+                      معلومات قائد النادي <span className="text-red-500">*</span>
+                    </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <label className="block text-sm font-medium text-gray-700">اسم قائد النادي</label>
+                        <label className="block text-sm font-medium text-gray-700">
+                          اسم قائد النادي
+                        </label>
                         <input
                           type="text"
                           value={newClub.leader.name}
-                          onChange={(e) => setNewClub({
-                            ...newClub,
-                            leader: { ...newClub.leader, name: e.target.value }
-                          })}
+                          onChange={(e) =>
+                            setNewClub({
+                              ...newClub,
+                              leader: { ...newClub.leader, name: e.target.value },
+                            })
+                          }
                           className="input-field"
                           required
                           placeholder="أدخل اسم قائد النادي"
                         />
                       </div>
                       <div className="space-y-2">
-                        <label className="block text-sm font-medium text-gray-700">البريد الإلكتروني لقائد النادي</label>
+                        <label className="block text-sm font-medium text-gray-700">
+                          البريد الإلكتروني لقائد النادي
+                        </label>
                         <input
                           type="email"
                           value={newClub.leader.email}
-                          onChange={(e) => setNewClub({
-                            ...newClub,
-                            leader: { ...newClub.leader, email: e.target.value }
-                          })}
+                          onChange={(e) =>
+                            setNewClub({
+                              ...newClub,
+                              leader: { ...newClub.leader, email: e.target.value },
+                            })
+                          }
                           className="input-field"
                           required
                           placeholder="example@domain.com"
                         />
                       </div>
                       <div className="space-y-2">
-                        <label className="block text-sm font-medium text-gray-700">رقم هاتف قائد النادي</label>
+                        <label className="block text-sm font-medium text-gray-700">
+                          رقم هاتف قائد النادي
+                        </label>
                         <input
                           type="tel"
                           value={newClub.leader.phone}
-                          onChange={(e) => setNewClub({
-                            ...newClub,
-                            leader: { ...newClub.leader, phone: e.target.value }
-                          })}
+                          onChange={(e) =>
+                            setNewClub({
+                              ...newClub,
+                              leader: { ...newClub.leader, phone: e.target.value },
+                            })
+                          }
                           className="input-field"
                           required
                           placeholder="05xxxxxxxx"
@@ -491,10 +512,7 @@ const InmaAdminDashboard = () => {
                     >
                       إلغاء
                     </button>
-                    <button
-                      type="submit"
-                      className="btn-primary"
-                    >
+                    <button type="submit" className="btn-primary">
                       <Plus className="h-5 w-5 ml-2" />
                       إضافة النادي
                     </button>
@@ -509,4 +527,4 @@ const InmaAdminDashboard = () => {
   );
 };
 
-export default InmaAdminDashboard; 
+export default InmaAdminDashboard;

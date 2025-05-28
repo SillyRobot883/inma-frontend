@@ -1,7 +1,8 @@
-import axios from "axios";
-import { GlobalRole } from "../constants";
+import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || "api";
+import { GlobalRole } from '../constants';
+
+const API_URL = import.meta.env.VITE_API_URL || 'api';
 
 export interface UserData {
   displayName: string;
@@ -43,9 +44,7 @@ export const register = async (userData: UserData): Promise<AuthResponse> => {
   return response.data;
 };
 
-export const login = async (
-  credentials: LoginCredentials
-): Promise<AuthResponse> => {
+export const login = async (credentials: LoginCredentials): Promise<AuthResponse> => {
   const response = await axios.post(`${API_URL}/login/tmp`, credentials);
   return response.data;
 };
