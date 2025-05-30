@@ -17,25 +17,27 @@ export interface LoginCredentials {
   nationalId: string;
 }
 
+export interface User {
+  id: number;
+  uuid: string;
+  displayName: string;
+  firstName: string;
+  lastName?: string;
+  email: string;
+  uniId?: string;
+  nationalId: string;
+  phoneNumber: string;
+  profileImage: string;
+  globalRole: keyof typeof GlobalRole;
+  providers: Array<{ name: string; providerId: string }>;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface AuthResponse {
   data: {
     token: string;
-    user: {
-      id: number;
-      uuid: string;
-      displayName: string;
-      firstName: string;
-      lastName?: string;
-      email: string;
-      uniId?: string;
-      nationalId: string;
-      phoneNumber: string;
-      profileImage: string;
-      globalRole: keyof typeof GlobalRole;
-      providers: Array<{ name: string; providerId: string }>;
-      createdAt: string;
-      updatedAt: string;
-    };
+    user: User;
   };
 }
 

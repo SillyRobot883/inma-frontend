@@ -8,6 +8,6 @@ export { auth, clubs, events, members };
 export * from './constants';
 
 export type { Club, ClubData } from './api/clubs';
-export type { UserData, LoginCredentials, AuthResponse } from './api/auth';
+export type { UserData, LoginCredentials, AuthResponse, User } from './api/auth';
 export type { Event, EventData } from './api/events';
 export type { Member, MemberData } from './api/members';
