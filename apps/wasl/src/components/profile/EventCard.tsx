@@ -26,14 +26,14 @@ export function EventCard({ event, showDuration = false }: EventCardProps) {
   const getStatusBadge = () => {
     if (event.registrationStatus === 'accepted' || event.status === 'upcoming') {
       return (
-        <div className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-800">
+        <div className="bg-secondary-blue/10 text-secondary-blue rounded-full px-3 py-1 text-xs font-medium">
           مسجل
         </div>
       );
     }
     if (event.status === 'completed') {
       return (
-        <div className="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-800">
+        <div className="bg-growth-green/10 text-growth-green rounded-full px-3 py-1 text-xs font-medium">
           مكتملة
         </div>
       );
@@ -48,7 +48,7 @@ export function EventCard({ event, showDuration = false }: EventCardProps) {
   };
 
   return (
-    <div className="flex items-center justify-between rounded-lg border p-4">
+    <div className="border-trust-blue/20 hover:border-trust-blue/40 flex items-center justify-between rounded-lg border border-l-4 p-4 transition-colors">
       {getStatusBadge()}
       <div className="space-y-1 text-right">
         <h4 className="font-medium">{event.name}</h4>

@@ -17,8 +17,21 @@ export function DesktopNavigationMenu() {
     <NavigationMenu className="hidden lg:block">
       <NavigationMenuList>
         <NavigationMenuItem>
+          <Link
+            to="/clubs"
+            className={cn(
+              'px-4 py-2 text-[15px] font-bold transition-colors',
+              location.pathname.startsWith('/clubs')
+                ? 'text-trust-blue border-trust-blue border-b-2'
+                : 'text-muted-foreground hover:text-trust-blue'
+            )}
+          >
+            الأندية الطلابية
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
           <NavigationMenuTrigger
-            className="text-[15px] font-bold focus:bg-transparent data-[state=open]:bg-transparent"
+            className="rtl text-right text-[15px] font-bold focus:bg-transparent data-[state=open]:bg-transparent"
             onPointerDown={(e) => e.preventDefault()}
             onPointerUp={(e) => e.preventDefault()}
             onClick={(e) => e.preventDefault()}
@@ -26,7 +39,7 @@ export function DesktopNavigationMenu() {
             الفعاليات
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-6">
+            <ul className="grid w-80 gap-3 p-6" dir="rtl">
               <li className="row-span-3">
                 <NavigationMenuLink asChild>
                   <Link
@@ -44,7 +57,7 @@ export function DesktopNavigationMenu() {
                 <NavigationMenuLink asChild>
                   <Link
                     to="/events?filter=upcoming"
-                    className="hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors"
+                    className="hover:bg-secondary-blue/10 hover:text-secondary-blue focus:bg-secondary-blue/10 focus:text-secondary-blue border-secondary-blue/20 hover:border-secondary-blue block select-none space-y-1 rounded-md border-l-4 p-3 leading-none no-underline outline-none transition-colors"
                   >
                     <div className="text-sm font-medium">الفعاليات القادمة</div>
                     <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
@@ -57,7 +70,7 @@ export function DesktopNavigationMenu() {
                 <NavigationMenuLink asChild>
                   <Link
                     to="/events?filter=registered"
-                    className="hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors"
+                    className="hover:bg-growth-green/10 hover:text-growth-green focus:bg-growth-green/10 focus:text-growth-green border-growth-green/20 hover:border-growth-green block select-none space-y-1 rounded-md border-l-4 p-3 leading-none no-underline outline-none transition-colors"
                   >
                     <div className="text-sm font-medium">فعالياتي</div>
                     <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
@@ -68,19 +81,6 @@ export function DesktopNavigationMenu() {
               </li>
             </ul>
           </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link
-            to="/clubs"
-            className={cn(
-              'px-4 py-2 text-[15px] font-bold',
-              location.pathname.startsWith('/clubs')
-                ? 'text-primary'
-                : 'text-muted-foreground hover:text-primary'
-            )}
-          >
-            الأندية الطلابية
-          </Link>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>

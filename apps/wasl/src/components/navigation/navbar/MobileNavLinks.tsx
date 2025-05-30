@@ -10,10 +10,10 @@ export function MobileNavLinks() {
       <Link
         to="/events"
         className={cn(
-          'whitespace-nowrap rounded-md px-2 py-1.5 text-xs font-bold',
+          'whitespace-nowrap rounded-md px-2 py-1.5 text-xs font-bold transition-colors',
           location.pathname.startsWith('/events')
-            ? 'text-primary bg-primary/10'
-            : 'text-muted-foreground hover:text-primary hover:bg-accent'
+            ? 'text-trust-blue bg-trust-blue/10 border-trust-blue/20 border'
+            : 'text-muted-foreground hover:text-trust-blue hover:bg-trust-blue/5'
         )}
       >
         الفعاليات
@@ -21,10 +21,10 @@ export function MobileNavLinks() {
       <Link
         to="/clubs"
         className={cn(
-          'whitespace-nowrap rounded-md px-2 py-1.5 text-xs font-bold',
+          'whitespace-nowrap rounded-md px-2 py-1.5 text-xs font-bold transition-colors',
           location.pathname.startsWith('/clubs')
-            ? 'text-primary bg-primary/10'
-            : 'text-muted-foreground hover:text-primary hover:bg-accent'
+            ? 'text-trust-blue bg-trust-blue/10 border-trust-blue/20 border'
+            : 'text-muted-foreground hover:text-trust-blue hover:bg-trust-blue/5'
         )}
       >
         الأندية

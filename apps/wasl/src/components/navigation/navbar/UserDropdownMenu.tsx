@@ -21,7 +21,11 @@ export function UserDropdownMenu() {
   return (
     <>
       {(user?.globalRole === 'INMA_ADMIN' || user?.globalRole === 'UNI_ADMIN') && (
-        <Button variant="outline" className="hidden md:flex" onClick={() => navigate('/dashboard')}>
+        <Button
+          variant="outline"
+          className="border-trust-blue text-trust-blue hover:bg-trust-blue hidden hover:text-white md:flex"
+          onClick={() => navigate('/dashboard')}
+        >
           <LayoutDashboard className="mr-2 h-4 w-4" />
           لوحة التحكم
         </Button>
@@ -37,7 +41,7 @@ export function UserDropdownMenu() {
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56" align="start">
+        <DropdownMenuContent className="rtl w-56 text-right" align="start">
           <DropdownMenuLabel>حسابي</DropdownMenuLabel>
           <DropdownMenuLabel className="truncate text-xs font-normal">
             {user?.email}
@@ -59,7 +63,7 @@ export function UserDropdownMenu() {
             <span>فعالياتي</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={logout}>
+          <DropdownMenuItem onClick={logout} variant="destructive">
             <LogOut className="mr-2 h-4 w-4" />
             <span>تسجيل الخروج</span>
           </DropdownMenuItem>

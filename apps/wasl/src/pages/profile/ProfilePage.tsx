@@ -2,7 +2,6 @@ import { Calendar, Users } from 'lucide-react';
 
 import { ClubsList } from '@/components/profile/ClubsList';
 import { EventsList } from '@/components/profile/EventsList';
-import { ProfileHeader } from '@/components/profile/ProfileHeader';
 import { ProfileSidebar } from '@/components/profile/ProfileSidebar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -89,20 +88,28 @@ function ProfilePage() {
 
   return (
     <div className="container mx-auto max-w-6xl space-y-6 px-4 py-8 md:px-6 lg:px-8">
-      <ProfileHeader user={user} />
-
       <div className="grid gap-6 lg:grid-cols-4">
         <div className="space-y-6 lg:order-2 lg:col-span-3">
           <Tabs defaultValue="registered" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="history">سجل الفعاليات</TabsTrigger>
-              <TabsTrigger value="registered">فعالياتي المسجلة</TabsTrigger>
+            <TabsList className="bg-trust-blue/10 grid w-full grid-cols-2">
+              <TabsTrigger
+                value="history"
+                className="data-[state=active]:bg-trust-blue/15 data-[state=active]:text-trust-blue data-[state=active]:border-trust-blue data-[state=active]:border-b-2"
+              >
+                سجل الفعاليات
+              </TabsTrigger>
+              <TabsTrigger
+                value="registered"
+                className="data-[state=active]:bg-trust-blue/15 data-[state=active]:text-trust-blue data-[state=active]:border-trust-blue data-[state=active]:border-b-2"
+              >
+                فعالياتي المسجلة
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="registered" className="space-y-4">
-              <Card>
+              <Card className="border-secondary-blue/30 border-l-secondary-blue border-l-4">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+                  <CardTitle className="text-trust-blue flex items-center gap-2">
                     <Calendar className="h-5 w-5" />
                     فعالياتي المسجلة
                   </CardTitle>
@@ -114,9 +121,9 @@ function ProfilePage() {
             </TabsContent>
 
             <TabsContent value="history" className="space-y-4">
-              <Card>
+              <Card className="border-growth-green/30 border-l-growth-green border-l-4">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+                  <CardTitle className="text-trust-blue flex items-center gap-2">
                     <Calendar className="h-5 w-5" />
                     سجل الفعاليات المكتملة
                   </CardTitle>
@@ -128,9 +135,9 @@ function ProfilePage() {
             </TabsContent>
           </Tabs>
 
-          <Card>
+          <Card className="border-excellence-navy/30 border-l-excellence-navy border-l-4">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+              <CardTitle className="text-trust-blue flex items-center gap-2">
                 <Users className="h-5 w-5" />
                 أنديتي
               </CardTitle>

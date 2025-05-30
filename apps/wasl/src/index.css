@@ -273,4 +273,8 @@ html[dir='ltr'] {
   .font-body {
     font-family: var(--font-family-body);
   }
+
+  .rtl {
+    direction: rtl;
+  }
 }

@@ -66,26 +66,27 @@ export function ProfileSidebar({
 
   return (
     <div className="space-y-6 lg:order-1">
-      <Card>
+      {/* Profile Card */}
+      <Card className="border-trust-blue/30 from-trust-blue/5 to-excellence-navy/5 bg-gradient-to-br">
         <CardContent className="pt-6">
-          <div className="mb-4 flex justify-center">
-            <Avatar className="h-20 w-20">
+          <div className="mb-6 flex justify-center">
+            <Avatar className="ring-3 ring-trust-blue/30 h-24 w-24">
               <AvatarImage src={user?.profileImage} alt={user?.displayName} />
-              <AvatarFallback className="bg-trust-blue text-xl text-white">
+              <AvatarFallback className="bg-trust-blue/15 text-trust-blue text-2xl font-bold">
                 {user?.displayName?.charAt(0)}
               </AvatarFallback>
             </Avatar>
           </div>
 
-          <div className="mb-4 text-center">
-            <h3 className="text-lg font-semibold">{user?.displayName}</h3>
-            <p className="text-muted-foreground mt-1 flex items-center justify-center gap-1 text-sm">
-              <Mail className="h-3 w-3" />
+          <div className="mb-6 text-center">
+            <h2 className="text-trust-blue text-xl font-bold">{user?.displayName}</h2>
+            <p className="text-muted-foreground mt-2 flex items-center justify-center gap-2">
+              <Mail className="text-trust-blue/70 h-4 w-4" />
               {user?.email}
             </p>
           </div>
 
-          <div className="mb-4 space-y-3">
+          <div className="mb-6 space-y-4">
             {user?.uniId && (
               <div className="text-center">
                 <p className="text-muted-foreground text-xs">الرقم الجامعي</p>
@@ -97,22 +98,26 @@ export function ProfileSidebar({
               <p className="text-sm font-medium">{user?.phoneNumber}</p>
             </div>
             <div className="text-center">
-              <p className="text-muted-foreground mb-1 text-xs">نوع الحساب</p>
-              <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
+              <p className="text-muted-foreground mb-2 text-xs">نوع الحساب</p>
+              <span className="bg-trust-blue/15 text-trust-blue inline-flex items-center rounded-full px-3 py-1 text-xs font-medium">
                 {getUserRoleLabel(user?.globalRole)}
               </span>
             </div>
           </div>
 
-          <Button variant="outline" className="w-full" onClick={() => navigate('/settings')}>
+          <Button
+            className="bg-trust-blue hover:bg-trust-blue/90 w-full text-white"
+            onClick={() => navigate('/settings')}
+          >
             تعديل الملف الشخصي
           </Button>
         </CardContent>
       </Card>
 
-      <Card>
+      {/* Statistics Card */}
+      <Card className="border-trust-blue/30 border-l-trust-blue border-l-4">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="text-trust-blue flex items-center gap-2">
             <Trophy className="h-5 w-5" />
             إحصائياتي
           </CardTitle>
@@ -121,19 +126,19 @@ export function ProfileSidebar({
           <div className="space-y-4">
             <div className="flex justify-between">
               <span className="text-muted-foreground">الفعاليات المكتملة</span>
-              <span className="font-medium">{completedEvents.length}</span>
+              <span className="text-growth-green font-medium">{completedEvents.length}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">الفعاليات القادمة</span>
-              <span className="font-medium">{registeredEvents.length}</span>
+              <span className="text-secondary-blue font-medium">{registeredEvents.length}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">الأندية المنضمة</span>
-              <span className="font-medium">{myClubs.length}</span>
+              <span className="text-trust-blue font-medium">{myClubs.length}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">ساعات المشاركة</span>
-              <span className="font-medium">{calculateTotalHours()}</span>
+              <span className="text-excellence-navy font-medium">{calculateTotalHours()}</span>
             </div>
           </div>
         </CardContent>
