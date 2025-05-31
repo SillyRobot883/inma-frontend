@@ -1,168 +1,225 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { Calendar, Filter } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 
+import { EventFilters } from '@/components/events/EventFilters';
+import { EventGrid } from '@/components/events/EventGrid';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
+import { mockEvents, mockRegisteredEvents } from '@/data/mockEvents';
 
 function EventsPage() {
   const [searchParams] = useSearchParams();
+  const tab = searchParams.get('tab') ?? 'all';
+  const categoryParam = searchParams.get('category') ?? 'all';
+  const statusParam = searchParams.get('status') ?? 'all';
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
-  const filter = searchParams.get('filter');
+  const hasAppliedInitialParams = useRef(false);
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string>(categoryParam);
+  const [selectedStatus, setSelectedStatus] = useState<string>(statusParam);
+  const [viewMode, setViewMode] = useState<'grid' | 'compact'>('grid');
+
+  const [myEventsSearchTerm, setMyEventsSearchTerm] = useState('');
+  const [selectedRegistrationStatus, setSelectedRegistrationStatus] = useState<string>(statusParam);
 
   useEffect(() => {
-    if (filter === 'registered' && !isAuthenticated) {
+    if (tab === 'registered' && !isAuthenticated) {
       navigate('/login', {
-        state: { from: { pathname: '/events', search: '?filter=registered' } },
+        state: { from: { pathname: '/events', search: '?tab=registered' } },
         replace: true,
       });
     }
-  }, [filter, isAuthenticated, navigate]);
+  }, [tab, isAuthenticated, navigate]);
 
-  const isShowingRegisteredEvents = filter === 'registered' && isAuthenticated;
+  useEffect(() => {
+    hasAppliedInitialParams.current = false;
+  }, [tab, categoryParam, statusParam]);
+
+  useEffect(() => {
+    if (!hasAppliedInitialParams.current) {
+      if (tab === 'upcoming') {
+        setSelectedStatus('upcoming');
+        setSelectedCategory('all');
+        setSearchTerm('');
+      } else if (categoryParam && categoryParam !== 'all') {
+        setSelectedCategory(categoryParam);
+        setSelectedStatus(statusParam);
+        setSearchTerm('');
+      } else if (!tab && !categoryParam) {
+        setSelectedCategory('all');
+        setSelectedStatus('all');
+        setSearchTerm('');
+      }
+
+      hasAppliedInitialParams.current = true;
+    }
+  }, [tab, categoryParam, statusParam, selectedCategory, selectedStatus]);
+
+  useEffect(() => {
+    if (tab === 'registered') {
+      const validRegistrationStatuses = ['all', 'accepted', 'pending', 'rejected'];
+      if (!validRegistrationStatuses.includes(statusParam)) {
+        setSelectedRegistrationStatus('all');
+      } else {
+        setSelectedRegistrationStatus(statusParam);
+      }
+    }
+  }, [tab, statusParam]);
+
+  const isShowingRegisteredEvents = tab === 'registered' && isAuthenticated;
+
+  const eventsToShow = isShowingRegisteredEvents ? mockEvents : mockEvents;
+  const registeredEventsToShow = mockRegisteredEvents;
+
+  const filteredEvents = eventsToShow.filter((event) => {
+    const matchesSearch =
+      event.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      event.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory === 'all' || event.category === selectedCategory;
+    const matchesStatus = selectedStatus === 'all' || event.status === selectedStatus;
+    return matchesSearch && matchesCategory && matchesStatus;
+  });
+
+  const filteredMyEvents = registeredEventsToShow.filter((event) => {
+    const matchesSearch =
+      event.name.toLowerCase().includes(myEventsSearchTerm.toLowerCase()) ||
+      event.description.toLowerCase().includes(myEventsSearchTerm.toLowerCase());
+    const matchesRegistrationStatus =
+      selectedRegistrationStatus === 'all' ||
+      event.registrationStatus === selectedRegistrationStatus;
+    return matchesSearch && matchesRegistrationStatus;
+  });
+
+  const registrationStats = {
+    pending: registeredEventsToShow.filter((e) => e.registrationStatus === 'pending').length,
+    accepted: registeredEventsToShow.filter((e) => e.registrationStatus === 'accepted').length,
+    rejected: registeredEventsToShow.filter((e) => e.registrationStatus === 'rejected').length,
+  };
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    navigate(`/events?tab=${tab}&status=${selectedStatus}&category=${category}`, { replace: true });
+  };
+
+  const handleStatusChange = (status: string) => {
+    setSelectedStatus(status);
+    navigate(`/events?tab=${tab}&status=${status}&category=${selectedCategory}`, { replace: true });
+  };
+
+  const handleSearchChange = (term: string) => {
+    setSearchTerm(term);
+  };
+
+  const handleViewModeChange = (mode: 'grid' | 'compact') => {
+    setViewMode(mode);
+  };
 
   return (
     <div className="container mx-auto max-w-6xl space-y-6 px-4 py-8 md:px-6 lg:px-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-trust-blue text-3xl font-bold">
-            {isShowingRegisteredEvents ? 'فعالياتي المسجلة' : 'الفعاليات'}
-          </h1>
-          <p className="text-muted-foreground mt-2">
-            {isShowingRegisteredEvents
-              ? 'الفعاليات التي سجلت بها مسبقاً'
-              : 'اكتشف وشارك في الفعاليات الطلابية المتنوعة'}
-          </p>
+          <h1 className="text-trust-blue text-3xl font-bold">الفعاليات</h1>
+          <p className="text-muted-foreground mt-2">اكتشف وشارك في الفعاليات الطلابية المتنوعة</p>
         </div>
-        <Button variant="outline" className="gap-2">
-          <Filter className="h-4 w-4" />
-          تصفية
-        </Button>
       </div>
 
-      {isShowingRegisteredEvents ? (
-        // Registered Events View
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-trust-blue flex items-center gap-2">
-                <Calendar className="h-5 w-5" />
-                فعالياتي المسجلة
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                لم تقم بالتسجيل في أي فعاليات بعد. تصفح الفعاليات المتاحة وسجل الآن!
-              </p>
-              <Button
-                className="bg-trust-blue hover:bg-trust-blue/90 mt-4"
-                onClick={() => navigate('/events')}
-              >
-                تصفح الفعاليات
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      ) : (
-        // All Events View
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-trust-blue flex items-center gap-2">
-                <Calendar className="h-5 w-5" />
-                ورشة تطوير الويب
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground mb-4 text-sm">
-                تعلم أساسيات تطوير المواقع الإلكترونية باستخدام أحدث التقنيات
-              </p>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">التاريخ:</span>
-                  <span>15 يونيو 2025</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">الوقت:</span>
-                  <span>2:00 - 5:00 مساءً</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">المكان:</span>
-                  <span>قاعة 101</span>
-                </div>
-              </div>
-              <Button className="bg-growth-green hover:bg-growth-green/90 mt-4 w-full">
-                سجل الآن
-              </Button>
-            </CardContent>
-          </Card>
+      <Tabs
+        value={isShowingRegisteredEvents ? 'registered' : 'all'}
+        onValueChange={(value) => {
+          if (value === 'registered') {
+            navigate(
+              `/events?tab=registered&status=${selectedStatus}&category=${selectedCategory}`
+            );
+          } else {
+            navigate(`/events?tab=all&status=${selectedStatus}&category=${selectedCategory}`);
+          }
+        }}
+        className="w-full"
+      >
+        <TabsList className="mx-auto grid w-full max-w-md grid-cols-2">
+          <TabsTrigger value="registered" className="flex-1" disabled={!isAuthenticated}>
+            فعالياتي المسجلة
+          </TabsTrigger>
+          <TabsTrigger value="all" className="flex-1">
+            جميع الفعاليات
+          </TabsTrigger>
+        </TabsList>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-trust-blue flex items-center gap-2">
-                <Calendar className="h-5 w-5" />
-                ملتقى ريادة الأعمال
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground mb-4 text-sm">
-                لقاء مع رواد الأعمال الناجحين لمشاركة خبراتهم وتجاربهم
-              </p>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">التاريخ:</span>
-                  <span>20 يونيو 2025</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">الوقت:</span>
-                  <span>6:00 - 8:00 مساءً</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">المكان:</span>
-                  <span>المسرح الرئيسي</span>
-                </div>
-              </div>
-              <Button className="bg-growth-green hover:bg-growth-green/90 mt-4 w-full">
-                سجل الآن
-              </Button>
-            </CardContent>
-          </Card>
+        <TabsContent value="all">
+          <EventFilters
+            searchTerm={searchTerm}
+            setSearchTerm={handleSearchChange}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={handleCategoryChange}
+            selectedStatus={selectedStatus}
+            setSelectedStatus={handleStatusChange}
+            viewMode={viewMode}
+            setViewMode={handleViewModeChange}
+            resultsCount={filteredEvents.length}
+          />
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-trust-blue flex items-center gap-2">
-                <Calendar className="h-5 w-5" />
-                دورة الذكاء الاصطناعي
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground mb-4 text-sm">
-                مقدمة شاملة في الذكاء الاصطناعي وتطبيقاته العملية
-              </p>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">التاريخ:</span>
-                  <span>25 يونيو 2025</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">الوقت:</span>
-                  <span>10:00 ص - 12:00 ظ</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">المكان:</span>
-                  <span>مختبر الحاسوب</span>
-                </div>
-              </div>
-              <Button className="bg-growth-green hover:bg-growth-green/90 mt-4 w-full">
-                سجل الآن
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      )}
+          <EventGrid
+            events={filteredEvents}
+            variant={viewMode === 'grid' ? 'default' : 'compact'}
+            showRegistrationButton={true}
+            onRegister={(_eventId) => {}}
+          />
+        </TabsContent>
+
+        <TabsContent value="registered">
+          <EventFilters
+            searchTerm={myEventsSearchTerm}
+            setSearchTerm={setMyEventsSearchTerm}
+            selectedCategory="all"
+            setSelectedCategory={() => {}}
+            selectedStatus={selectedRegistrationStatus}
+            setSelectedStatus={setSelectedRegistrationStatus}
+            viewMode={viewMode}
+            setViewMode={setViewMode}
+            resultsCount={filteredMyEvents.length}
+            registrationStats={registrationStats}
+            isMyEvents={true}
+          />
+
+          {filteredMyEvents.length === 0 ? (
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-trust-blue flex items-center gap-2">
+                    <Calendar className="h-5 w-5" />
+                    فعالياتي المسجلة
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">
+                    لم تقم بالتسجيل في أي فعاليات بعد. تصفح الفعاليات المتاحة وسجل الآن!
+                  </p>
+                  <Button
+                    className="bg-trust-blue hover:bg-trust-blue/90 mt-4"
+                    onClick={() => navigate('/events')}
+                  >
+                    تصفح الفعاليات
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          ) : (
+            <EventGrid
+              events={filteredMyEvents}
+              variant={viewMode === 'grid' ? 'registered' : 'compact'}
+              showRegistrationButton={false}
+              showRegistrationStatus={true}
+              onUnregister={(eventId) => alert(`إلغاء التسجيل: ${eventId}`)}
+            />
+          )}
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

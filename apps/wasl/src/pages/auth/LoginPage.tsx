@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -20,8 +20,14 @@ import { type LoginFormData, loginSchema } from '@/lib/validations';
 
 function LoginPage() {
   const [submitError, setSubmitError] = useState('');
-  const { login } = useAuth();
+  const { login, isAuthenticated, isLoading } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      navigate('/', { replace: true });
+    }
+  }, [isAuthenticated, isLoading, navigate]);
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -36,12 +42,27 @@ function LoginPage() {
 
     try {
       await login(data);
-      navigate('/dashboard');
+      navigate('/');
     } catch (err) {
       setSubmitError('فشل في تسجيل الدخول. تحقق من المعلومات المدخلة.');
       console.error('Login error:', err);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="flex items-center space-x-3 space-x-reverse">
+          <div className="border-trust-blue h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"></div>
+          <span className="text-muted-foreground">جاري التحميل...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (isAuthenticated) {
+    return null;
+  }
 
   return (
     <div className="from-trust-blue/5 to-excellence-navy/5 flex min-h-screen items-center justify-center bg-gradient-to-br p-4">

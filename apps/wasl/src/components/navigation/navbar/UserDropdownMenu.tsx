@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import { Calendar, LayoutDashboard, LogOut, UserCircle } from 'lucide-react';
+import { Calendar, LogOut, UserCircle } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -20,16 +20,6 @@ export function UserDropdownMenu() {
 
   return (
     <>
-      {(user?.globalRole === 'INMA_ADMIN' || user?.globalRole === 'UNI_ADMIN') && (
-        <Button
-          variant="outline"
-          className="border-trust-blue text-trust-blue hover:bg-trust-blue hidden hover:text-white md:flex"
-          onClick={() => navigate('/dashboard')}
-        >
-          <LayoutDashboard className="mr-2 h-4 w-4" />
-          لوحة التحكم
-        </Button>
-      )}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-8 w-8 rounded-full">
@@ -47,25 +37,18 @@ export function UserDropdownMenu() {
             {user?.email}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {user?.globalRole === 'INMA_ADMIN' || user?.globalRole === 'UNI_ADMIN' ? (
-            <DropdownMenuItem onClick={() => navigate('/dashboard')}>
-              <LayoutDashboard className="mr-2 h-4 w-4" />
-              <span>لوحة التحكم</span>
-            </DropdownMenuItem>
-          ) : (
-            <DropdownMenuItem onClick={() => navigate('/profile')}>
-              <UserCircle className="mr-2 h-4 w-4" />
-              <span>الملف الشخصي</span>
-            </DropdownMenuItem>
-          )}
-          <DropdownMenuItem onClick={() => navigate('/events?filter=registered')}>
-            <Calendar className="mr-2 h-4 w-4" />
+          <DropdownMenuItem onClick={() => navigate('/profile')}>
+            <span>الملف الشخصي</span>
+            <UserCircle className="ml-2 h-4 w-4" />
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => navigate('/events?tab=my')}>
             <span>فعالياتي</span>
+            <Calendar className="ml-2 h-4 w-4" />
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={logout} variant="destructive">
-            <LogOut className="mr-2 h-4 w-4" />
             <span>تسجيل الخروج</span>
+            <LogOut className="ml-2 h-4 w-4" />
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

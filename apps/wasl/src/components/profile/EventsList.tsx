@@ -2,9 +2,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { Calendar, Trophy } from 'lucide-react';
 
+import { EventCard } from '@/components/common/EventCard';
 import { Button } from '@/components/ui/button';
-
-import { EventCard } from './EventCard';
 
 type EventStatusType = 'upcoming' | 'ongoing' | 'registration_open' | 'completed' | 'cancelled';
 type EventRegistrationStatusType = 'pending' | 'accepted' | 'rejected';
@@ -53,7 +52,13 @@ export function EventsList({ events, type }: EventsListProps) {
   return (
     <div className="space-y-4">
       {events.map((event) => (
-        <EventCard key={event.id} event={event} showDuration={!isRegistered} />
+        <EventCard
+          key={event.id}
+          event={event}
+          variant="profile"
+          showDuration={!isRegistered}
+          showClub={true}
+        />
       ))}
     </div>
   );

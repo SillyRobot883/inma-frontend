@@ -7,7 +7,6 @@ import RootLayout from '@/layouts/RootLayout';
 import HomePage from '@/pages/HomePage';
 import NotFoundPage from '@/pages/NotFoundPage';
 import ClubsPage from '@/pages/clubs/ClubsPage';
-import DashboardPage from '@/pages/dashboard/DashboardPage';
 import EventsPage from '@/pages/events/EventsPage';
 
 const LoginPage = lazy(() => import('@/pages/auth/LoginPage'));
@@ -33,14 +32,6 @@ function AppRouter() {
               <Route path="login" element={<LoginPage />} />
               <Route path="events" element={<EventsPage />} />
               <Route path="clubs" element={<ClubsPage />} />
-              <Route
-                path="dashboard"
-                element={
-                  <ProtectedRoute>
-                    <DashboardPage />
-                  </ProtectedRoute>
-                }
-              />
               <Route
                 path="profile"
                 element={

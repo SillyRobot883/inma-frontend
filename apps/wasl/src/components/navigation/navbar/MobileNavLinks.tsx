@@ -8,7 +8,7 @@ export function MobileNavLinks() {
   return (
     <div className="scrollbar-hide flex gap-1 overflow-x-auto lg:hidden">
       <Link
-        to="/events"
+        to="/events?tab=all&status=all&category=all"
         className={cn(
           'whitespace-nowrap rounded-md px-2 py-1.5 text-xs font-bold transition-colors',
           location.pathname.startsWith('/events')

@@ -56,7 +56,7 @@ export function DesktopNavigationMenu() {
               <li>
                 <NavigationMenuLink asChild>
                   <Link
-                    to="/events?filter=upcoming"
+                    to="/events?tab=all&status=upcoming&category=all"
                     className="hover:bg-secondary-blue/10 hover:text-secondary-blue focus:bg-secondary-blue/10 focus:text-secondary-blue border-secondary-blue/20 hover:border-secondary-blue block select-none space-y-1 rounded-md border-l-4 p-3 leading-none no-underline outline-none transition-colors"
                   >
                     <div className="text-sm font-medium">الفعاليات القادمة</div>
@@ -69,7 +69,7 @@ export function DesktopNavigationMenu() {
               <li>
                 <NavigationMenuLink asChild>
                   <Link
-                    to="/events?filter=registered"
+                    to="/events?tab=registered&status=all&category=all"
                     className="hover:bg-growth-green/10 hover:text-growth-green focus:bg-growth-green/10 focus:text-growth-green border-growth-green/20 hover:border-growth-green block select-none space-y-1 rounded-md border-l-4 p-3 leading-none no-underline outline-none transition-colors"
                   >
                     <div className="text-sm font-medium">فعالياتي</div>

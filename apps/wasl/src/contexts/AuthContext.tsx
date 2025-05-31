@@ -58,7 +58,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       localStorage.setItem('auth_token', authToken);
       localStorage.setItem('auth_user', JSON.stringify(userData));
 
-      navigate('/dashboard');
+      navigate('/');
     } catch (error) {
       console.error('Login failed:', error);
       throw error;
