@@ -20,14 +20,13 @@ import {
   Users,
 } from 'lucide-react';
 
+import { mockEvents } from '@/data/mockEvents';
 import {
   getCategoryColor,
   getCategoryLabel,
   getStatusColor,
   getStatusLabel,
 } from '@/lib/translations';
-
-import { mockEvents } from '../../data/mockEvents';
 
 export function EventDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -339,12 +338,12 @@ export function EventDetailPage() {
               <h2 className="mb-4 text-xl font-bold text-gray-900">فترة التسجيل</h2>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">بداية التسجيل:</span>
-                  <span className="font-medium">{formatDate(event.registrationStart)}</span>
+                  <span className="text-gray-600">بداية الفعالية:</span>
+                  <span className="font-medium">{formatDate(event.eventStart)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">نهاية التسجيل:</span>
-                  <span className="font-medium">{formatDate(event.registrationEnd)}</span>
+                  <span className="text-gray-600">نهاية الفعالية:</span>
+                  <span className="font-medium">{formatDate(event.eventEnd)}</span>
                 </div>
               </div>
             </div>
@@ -411,9 +410,9 @@ export function EventDetailPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-gray-400" />
-                    <span className="text-gray-600">تاريخ الإنشاء</span>
+                    <span className="text-gray-600">حالة الفعالية</span>
                   </div>
-                  <span className="font-medium">{formatDate(event.createdAt)}</span>
+                  <span className="font-medium">{event.status}</span>
                 </div>
               </div>
             </div>

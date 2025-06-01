@@ -5,11 +5,12 @@ import { Calendar } from 'lucide-react';
 
 import { EventFilters } from '@/components/events/EventFilters';
 import { EventGrid } from '@/components/events/EventGrid';
+import { EventGridSkeleton } from '@/components/events/EventGridSkeleton';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
-import { mockEvents, mockRegisteredEvents } from '@/data/mockEvents';
+import { useEvents, useUserRegisteredEvents } from '@/hooks/useEvents';
 
 function EventsPage() {
   const [searchParams] = useSearchParams();
@@ -27,6 +28,17 @@ function EventsPage() {
 
   const [myEventsSearchTerm, setMyEventsSearchTerm] = useState('');
   const [selectedRegistrationStatus, setSelectedRegistrationStatus] = useState<string>(statusParam);
+
+  // Fetch all events
+  const { data: allEvents = [], isLoading: isLoadingEvents, isError: isEventsError } = useEvents();
+
+  // Conditionally fetch user registered events only when authenticated and on registered tab
+  const shouldFetchUserEvents = isAuthenticated && tab === 'registered';
+  const {
+    data: userRegisteredEvents = [],
+    isLoading: isLoadingUserEvents,
+    isError: isUserEventsError,
+  } = useUserRegisteredEvents(shouldFetchUserEvents);
 
   useEffect(() => {
     if (tab === 'registered' && !isAuthenticated) {
@@ -74,10 +86,8 @@ function EventsPage() {
 
   const isShowingRegisteredEvents = tab === 'registered' && isAuthenticated;
 
-  const eventsToShow = isShowingRegisteredEvents ? mockEvents : mockEvents;
-  const registeredEventsToShow = mockRegisteredEvents;
-
-  const filteredEvents = eventsToShow.filter((event) => {
+  // Filter all events based on search and filter criteria
+  const filteredEvents = allEvents.filter((event) => {
     const matchesSearch =
       event.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       event.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -86,7 +96,8 @@ function EventsPage() {
     return matchesSearch && matchesCategory && matchesStatus;
   });
 
-  const filteredMyEvents = registeredEventsToShow.filter((event) => {
+  // Filter user registered events
+  const filteredMyEvents = userRegisteredEvents.filter((event) => {
     const matchesSearch =
       event.name.toLowerCase().includes(myEventsSearchTerm.toLowerCase()) ||
       event.description.toLowerCase().includes(myEventsSearchTerm.toLowerCase());
@@ -96,10 +107,11 @@ function EventsPage() {
     return matchesSearch && matchesRegistrationStatus;
   });
 
+  // Calculate registration statistics
   const registrationStats = {
-    pending: registeredEventsToShow.filter((e) => e.registrationStatus === 'pending').length,
-    accepted: registeredEventsToShow.filter((e) => e.registrationStatus === 'accepted').length,
-    rejected: registeredEventsToShow.filter((e) => e.registrationStatus === 'rejected').length,
+    pending: userRegisteredEvents.filter((e) => e.registrationStatus === 'pending').length,
+    accepted: userRegisteredEvents.filter((e) => e.registrationStatus === 'accepted').length,
+    rejected: userRegisteredEvents.filter((e) => e.registrationStatus === 'rejected').length,
   };
 
   const handleCategoryChange = (category: string) => {
@@ -161,15 +173,30 @@ function EventsPage() {
             setSelectedStatus={handleStatusChange}
             viewMode={viewMode}
             setViewMode={handleViewModeChange}
-            resultsCount={filteredEvents.length}
+            resultsCount={isLoadingEvents ? 0 : filteredEvents.length}
           />
 
-          <EventGrid
-            events={filteredEvents}
-            variant={viewMode === 'grid' ? 'default' : 'compact'}
-            showRegistrationButton={true}
-            onRegister={(_eventId) => {}}
-          />
+          {isEventsError ? (
+            <Card>
+              <CardContent className="pt-6">
+                <p className="text-destructive text-center">
+                  حدث خطأ في تحميل الفعاليات. يرجى المحاولة مرة أخرى.
+                </p>
+                <div className="mt-4 flex justify-center">
+                  <Button onClick={() => window.location.reload()}>إعادة المحاولة</Button>
+                </div>
+              </CardContent>
+            </Card>
+          ) : isLoadingEvents ? (
+            <EventGridSkeleton variant={viewMode === 'grid' ? 'default' : 'compact'} count={6} />
+          ) : (
+            <EventGrid
+              events={filteredEvents}
+              variant={viewMode === 'grid' ? 'default' : 'compact'}
+              showRegistrationButton={true}
+              onRegister={(_eventId) => {}}
+            />
+          )}
         </TabsContent>
 
         <TabsContent value="registered">
@@ -182,33 +209,75 @@ function EventsPage() {
             setSelectedStatus={setSelectedRegistrationStatus}
             viewMode={viewMode}
             setViewMode={setViewMode}
-            resultsCount={filteredMyEvents.length}
-            registrationStats={registrationStats}
+            resultsCount={isLoadingUserEvents ? 0 : filteredMyEvents.length}
+            registrationStats={
+              isLoadingUserEvents ? { pending: 0, accepted: 0, rejected: 0 } : registrationStats
+            }
             isMyEvents={true}
           />
 
-          {filteredMyEvents.length === 0 ? (
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-trust-blue flex items-center gap-2">
-                    <Calendar className="h-5 w-5" />
-                    فعالياتي المسجلة
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    لم تقم بالتسجيل في أي فعاليات بعد. تصفح الفعاليات المتاحة وسجل الآن!
-                  </p>
-                  <Button
-                    className="bg-trust-blue hover:bg-trust-blue/90 mt-4"
-                    onClick={() => navigate('/events')}
-                  >
-                    تصفح الفعاليات
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
+          {isUserEventsError ? (
+            <Card>
+              <CardContent className="pt-6">
+                <p className="text-destructive text-center">
+                  حدث خطأ في تحميل فعالياتك المسجلة. يرجى المحاولة مرة أخرى.
+                </p>
+                <div className="mt-4 flex justify-center">
+                  <Button onClick={() => window.location.reload()}>إعادة المحاولة</Button>
+                </div>
+              </CardContent>
+            </Card>
+          ) : isLoadingUserEvents ? (
+            <EventGridSkeleton variant={viewMode === 'grid' ? 'registered' : 'compact'} count={3} />
+          ) : filteredMyEvents.length === 0 ? (
+            userRegisteredEvents.length > 0 ? (
+              // User has registered events but none match the current filter
+              <div className="flex flex-col items-center justify-center py-16 text-center">
+                <h3 className="mb-2 text-xl font-semibold text-gray-900">
+                  لا توجد فعاليات بحالة "
+                  {selectedRegistrationStatus === 'accepted'
+                    ? 'مؤكدة'
+                    : selectedRegistrationStatus === 'pending'
+                      ? 'في الانتظار'
+                      : selectedRegistrationStatus === 'rejected'
+                        ? 'مرفوضة'
+                        : 'جميع التسجيلات'}
+                  "
+                </h3>
+                <p className="text-muted-foreground mb-6">جرب تغيير الحالة لعرض فعاليات أخرى</p>
+                <Button
+                  variant="outline"
+                  onClick={() => setSelectedRegistrationStatus('all')}
+                  className="gap-2"
+                >
+                  <Calendar className="h-4 w-4" />
+                  عرض جميع الفعاليات
+                </Button>
+              </div>
+            ) : (
+              // User has no registered events at all
+              <div className="space-y-6">
+                <Card className="rtl text-right">
+                  <CardHeader>
+                    <CardTitle className="text-trust-blue flex items-center gap-2">
+                      <Calendar className="h-5 w-5" />
+                      فعالياتي المسجلة
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">
+                      لم تقم بالتسجيل في أي فعاليات بعد. تصفح الفعاليات المتاحة وسجل الآن!
+                    </p>
+                    <Button
+                      className="bg-trust-blue hover:bg-trust-blue/90 mt-4"
+                      onClick={() => navigate('/events?tab=all')}
+                    >
+                      تصفح الفعاليات
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            )
           ) : (
             <EventGrid
               events={filteredMyEvents}

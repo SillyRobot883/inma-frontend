@@ -1,11 +1,5 @@
-import axios from 'axios';
-
-import { ClubRole, MembershipStatus } from '../constants';
-
-const API_URL = import.meta.env.VITE_API_URL || 'api';
-
-type ClubRoleType = keyof typeof ClubRole;
-type MembershipStatusType = keyof typeof MembershipStatus;
+import type { ClubRoleType, MembershipStatusType } from '../constants';
+import apiClient from '../lib/axios';
 
 export interface Member {
   id: number;
@@ -42,7 +36,7 @@ export interface MembershipResponse {
 }
 
 export const fetchClubMembers = async (clubUuid: string): Promise<Member[]> => {
-  const response = await axios.get(`${API_URL}/clubs/${clubUuid}/memberships`);
+  const response = await apiClient.get(`/clubs/${clubUuid}/memberships`);
   return response.data;
 };
 
@@ -50,7 +44,7 @@ export const addClubMember = async (
   clubUuid: string,
   memberData: MemberData
 ): Promise<MembershipResponse> => {
-  const response = await axios.post(`${API_URL}/clubs/${clubUuid}/memberships`, memberData);
+  const response = await apiClient.post(`/clubs/${clubUuid}/memberships`, memberData);
   return response.data;
 };
 
@@ -59,31 +53,31 @@ export const updateClubMember = async (
   membershipUuid: string,
   memberData: UpdateMemberData
 ): Promise<MembershipResponse> => {
-  const response = await axios.put(
-    `${API_URL}/clubs/${clubUuid}/memberships/${membershipUuid}`,
+  const response = await apiClient.put(
+    `/clubs/${clubUuid}/memberships/${membershipUuid}`,
     memberData
   );
   return response.data;
 };
 
 export const removeClubMember = async (clubUuid: string, membershipUuid: string): Promise<void> => {
-  await axios.delete(`${API_URL}/clubs/${clubUuid}/memberships/${membershipUuid}`);
+  await apiClient.delete(`/clubs/${clubUuid}/memberships/${membershipUuid}`);
 };
 
 // User-initiated actions
 export const joinClub = async (clubUuid: string): Promise<MembershipResponse> => {
-  const response = await axios.post(`${API_URL}/clubs/${clubUuid}/memberships/me`);
+  const response = await apiClient.post(`/clubs/${clubUuid}/memberships/me`);
   return response.data;
 };
 
 export const leaveClub = async (clubUuid: string): Promise<void> => {
-  await axios.delete(`${API_URL}/clubs/${clubUuid}/memberships/me`);
+  await apiClient.delete(`/clubs/${clubUuid}/memberships/me`);
 };
 
 export const getMembershipDetails = async (
   clubUuid: string,
   membershipUuid: string
 ): Promise<Member> => {
-  const response = await axios.get(`${API_URL}/clubs/${clubUuid}/memberships/${membershipUuid}`);
+  const response = await apiClient.get(`/clubs/${clubUuid}/memberships/${membershipUuid}`);
   return response.data;
 };

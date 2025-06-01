@@ -1,6 +1,6 @@
 import type { Event } from '@inmaa-wasl/api-client';
 
-import { EventCard } from '../common/EventCard';
+import { EventCard } from '@/components/common/EventCard';
 
 interface EventGridProps {
   events: Event[];

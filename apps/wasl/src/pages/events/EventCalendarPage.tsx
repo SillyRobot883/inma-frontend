@@ -1,5 +1,5 @@
-import { EventCalendar } from '../../components/events/EventCalendar';
-import { mockEvents } from '../../data/mockEvents';
+import { EventCalendar } from '@/components/events/EventCalendar';
+import { mockEvents } from '@/data/mockEvents';
 
 export function EventCalendarPage() {
   return (

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import type { Event } from '@inmaa-wasl/api-client';
 import { Calendar, ChevronLeft, ChevronRight, Clock, MapPin } from 'lucide-react';
 
-import { getStatusColor, getStatusLabel } from '../../lib/translations';
+import { getStatusColor, getStatusLabel } from '@/lib/translations';
 
 interface EventCalendarProps {
   events: Event[];

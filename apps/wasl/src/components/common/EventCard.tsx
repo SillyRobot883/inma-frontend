@@ -13,14 +13,13 @@ import {
   XCircle,
 } from 'lucide-react';
 
+import { getClubById } from '@/data/mockClubs';
 import {
   getCategoryColor,
   getCategoryLabel,
   getStatusColor,
   getStatusLabel,
 } from '@/lib/translations';
-
-import { getClubById } from '../../data/mockClubs';
 
 interface BaseEvent {
   id?: number;
@@ -76,7 +75,7 @@ export function EventCard({
   className = '',
 }: EventCardProps) {
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('ar-SA', {
+    return new Date(dateString).toLocaleDateString('ar-GA', {
       weekday: 'short',
       year: 'numeric',
       month: 'short',
@@ -85,7 +84,7 @@ export function EventCard({
   };
 
   const formatTime = (dateString: string) => {
-    return new Date(dateString).toLocaleTimeString('ar-SA', {
+    return new Date(dateString).toLocaleTimeString('en-SA', {
       hour: '2-digit',
       minute: '2-digit',
       hour12: false,
@@ -105,7 +104,7 @@ export function EventCard({
     );
   };
 
-  const club = 'clubId' in event ? getClubById(event.clubId) : null;
+  const club = 'clubId' in event ? getClubById(event.clubId as number) : null;
   const clubData = club || ('club' in event ? event.club : null);
 
   const isRegistrationOpen = event.status === 'registration_open';

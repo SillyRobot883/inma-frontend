@@ -43,9 +43,8 @@ function LoginPage() {
     try {
       await login(data);
       navigate('/');
-    } catch (err) {
+    } catch {
       setSubmitError('فشل في تسجيل الدخول. تحقق من المعلومات المدخلة.');
-      console.error('Login error:', err);
     }
   };
 

@@ -36,8 +36,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       try {
         setToken(savedToken);
         setUser(JSON.parse(savedUser));
-      } catch (error) {
-        console.error('Failed to parse saved user data:', error);
+      } catch {
         localStorage.removeItem('auth_token');
         localStorage.removeItem('auth_user');
       }
@@ -46,8 +45,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   const handleLogin = async (credentials: LoginCredentials): Promise<void> => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       const response: AuthResponse = await auth.login(credentials);
 
       const { token: authToken, user: userData } = response.data;
@@ -59,20 +58,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
       localStorage.setItem('auth_user', JSON.stringify(userData));
 
       navigate('/');
-    } catch (error) {
-      console.error('Login failed:', error);
-      throw error;
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleLogout = async (): Promise<void> => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       await auth.logout();
-    } catch (error) {
-      console.error('Logout API call failed:', error);
+    } catch {
+      // API call failed, but we still want to clear local state
     } finally {
       setUser(null);
       setToken(null);

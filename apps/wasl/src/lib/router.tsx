@@ -1,9 +1,13 @@
 import { Suspense, lazy } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
 import { ProtectedRoute } from '@/components/common/ProtectedRoute';
 import { AuthProvider } from '@/contexts/AuthContext';
 import RootLayout from '@/layouts/RootLayout';
+import { queryClient } from '@/lib/query-client';
 import HomePage from '@/pages/HomePage';
 import NotFoundPage from '@/pages/NotFoundPage';
 import ClubsPage from '@/pages/clubs/ClubsPage';
@@ -23,29 +27,32 @@ const LoadingFallback = () => (
 
 function AppRouter() {
   return (
-    <Router>
-      <AuthProvider>
-        <Suspense fallback={<LoadingFallback />}>
-          <Routes>
-            <Route path="/" element={<RootLayout />}>
-              <Route index element={<HomePage />} />
-              <Route path="login" element={<LoginPage />} />
-              <Route path="events" element={<EventsPage />} />
-              <Route path="clubs" element={<ClubsPage />} />
-              <Route
-                path="profile"
-                element={
-                  <ProtectedRoute>
-                    <ProfilePage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="*" element={<NotFoundPage />} />
-            </Route>
-          </Routes>
-        </Suspense>
-      </AuthProvider>
-    </Router>
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <AuthProvider>
+          <Suspense fallback={<LoadingFallback />}>
+            <Routes>
+              <Route path="/" element={<RootLayout />}>
+                <Route index element={<HomePage />} />
+                <Route path="login" element={<LoginPage />} />
+                <Route path="events" element={<EventsPage />} />
+                <Route path="clubs" element={<ClubsPage />} />
+                <Route
+                  path="profile"
+                  element={
+                    <ProtectedRoute>
+                      <ProfilePage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="*" element={<NotFoundPage />} />
+              </Route>
+            </Routes>
+          </Suspense>
+        </AuthProvider>
+      </Router>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 

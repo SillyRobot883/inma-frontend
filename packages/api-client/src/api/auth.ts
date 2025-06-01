@@ -1,8 +1,5 @@
-import axios from 'axios';
-
-import { GlobalRole } from '../constants';
-
-const API_URL = import.meta.env.VITE_API_URL || 'api';
+import type { GlobalRoleType } from '../constants';
+import apiClient from '../lib/axios';
 
 export interface UserData {
   displayName: string;
@@ -28,7 +25,7 @@ export interface User {
   nationalId: string;
   phoneNumber: string;
   profileImage: string;
-  globalRole: keyof typeof GlobalRole;
+  globalRole: GlobalRoleType;
   providers: Array<{ name: string; providerId: string }>;
   createdAt: string;
   updatedAt: string;
@@ -42,15 +39,15 @@ export interface AuthResponse {
 }
 
 export const register = async (userData: UserData): Promise<AuthResponse> => {
-  const response = await axios.post(`${API_URL}/register/tmp`, userData);
+  const response = await apiClient.post('/register/tmp', userData);
   return response.data;
 };
 
 export const login = async (credentials: LoginCredentials): Promise<AuthResponse> => {
-  const response = await axios.post(`${API_URL}/login/tmp`, credentials);
+  const response = await apiClient.post('/login/tmp', credentials);
   return response.data;
 };
 
 export const logout = async (): Promise<void> => {
-  await axios.post(`${API_URL}/logout`);
+  await apiClient.post('/logout');
 };

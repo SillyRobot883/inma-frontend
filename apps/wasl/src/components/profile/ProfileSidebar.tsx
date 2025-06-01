@@ -41,11 +41,11 @@ export function ProfileSidebar({
 
   const getUserRoleLabel = (role?: string) => {
     switch (role) {
-      case 'INMA_ADMIN':
+      case 'inmaAdmin':
         return 'مشرف إنماء';
-      case 'UNI_ADMIN':
+      case 'uniAdmin':
         return 'مشرف جامعة';
-      case 'SUPERVISOR':
+      case 'supervisor':
         return 'مشرف';
       default:
         return 'مستخدم';

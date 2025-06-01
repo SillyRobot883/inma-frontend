@@ -1,7 +1,7 @@
 import type { Event, EventCategoryType } from '@inmaa-wasl/api-client';
 import { Award, Calendar, Clock, MapPin, TrendingUp, Users } from 'lucide-react';
 
-import { getCategoryLabel } from '../../lib/translations';
+import { getCategoryLabel } from '@/lib/translations';
 
 interface EventStatsProps {
   events: Event[];
