@@ -30,13 +30,23 @@ export interface ClubData {
 }
 
 export const fetchAllClubs = async (): Promise<Club[]> => {
-  const response = await apiClient.get('/clubs');
-  return response.data;
+  const response = await apiClient.get<{
+    data: Club[];
+    pagination: {
+      page: number;
+      limit: number;
+      total: number;
+      totalPages: number;
+      hasNext: boolean;
+      hasPrev: boolean;
+    };
+  }>('/clubs');
+  return response.data.data;
 };
 
 export const fetchClubDetails = async (clubUuid: string): Promise<Club> => {
-  const response = await apiClient.get(`/clubs/${clubUuid}`);
-  return response.data;
+  const response = await apiClient.get<{ data: Club }>(`/clubs/${clubUuid}`);
+  return response.data.data;
 };
 
 export const createClub = async (clubData: ClubData): Promise<Club> => {

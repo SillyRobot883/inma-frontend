@@ -1,8 +1,7 @@
-import { events } from '@inmaa-wasl/api-client';
+import { clubs, events } from '@inmaa-wasl/api-client';
 
 import { queryClient } from '@/lib/query-client';
 
-// Prefetch events for better UX
 export const prefetchEvents = () => {
   return queryClient.prefetchQuery({
     queryKey: ['events'],
@@ -26,5 +25,22 @@ export const prefetchClubEvents = (clubId: string) => {
     queryKey: ['events', 'club', clubId],
     queryFn: () => events.fetchClubEvents(clubId),
     staleTime: 5 * 60 * 1000,
+  });
+};
+
+export const prefetchClubs = () => {
+  return queryClient.prefetchQuery({
+    queryKey: ['clubs'],
+    queryFn: () => clubs.fetchAllClubs(),
+    staleTime: 5 * 60 * 1000,
+  });
+};
+
+// Prefetch club details when hovering over club cards
+export const prefetchClubDetails = (clubUuid: string) => {
+  return queryClient.prefetchQuery({
+    queryKey: ['clubs', 'detail', clubUuid],
+    queryFn: () => clubs.fetchClubDetails(clubUuid),
+    staleTime: 2 * 60 * 1000,
   });
 };

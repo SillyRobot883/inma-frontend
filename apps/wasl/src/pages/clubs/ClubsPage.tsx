@@ -1,107 +1,151 @@
-import { Search, Users } from 'lucide-react';
+import { useState } from 'react';
 
+import { AlertTriangle, Search, Users } from 'lucide-react';
+
+import { ClubCard } from '@/components/clubs/ClubCard';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useClubs } from '@/hooks/useClubs';
 
 function ClubsPage() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const { data: clubs = [], isLoading, error } = useClubs();
+
+  // Filter clubs based on search query
+  const filteredClubs = clubs.filter(
+    (club) =>
+      club.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      club.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  if (isLoading) {
+    return <ClubsPageSkeleton />;
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto max-w-6xl space-y-6 px-4 py-8 md:px-6 lg:px-8">
+        <div className="py-12 text-center">
+          <AlertTriangle className="mx-auto mb-4 h-12 w-12 text-red-500" />
+          <h2 className="mb-2 text-2xl font-bold text-gray-900">خطأ في تحميل الأندية</h2>
+          <p className="mb-6 text-gray-600">
+            {error.message || 'حدث خطأ غير متوقع أثناء تحميل قائمة الأندية'}
+          </p>
+          <Button onClick={() => window.location.reload()}>إعادة المحاولة</Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto max-w-6xl space-y-6 px-4 py-8 md:px-6 lg:px-8">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-trust-blue text-3xl font-bold">الأندية الطلابية</h1>
           <p className="text-muted-foreground mt-2">
             اكتشف الأندية الطلابية وانضم للأنشطة التي تهمك
           </p>
         </div>
-        <Button variant="outline" className="gap-2">
-          <Search className="h-4 w-4" />
-          بحث
-        </Button>
+
+        <div className="flex items-center gap-2">
+          <div className="relative">
+            <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <Input
+              placeholder="البحث في الأندية..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-64 pr-10"
+            />
+          </div>
+        </div>
       </div>
+
+      {/* Search Results Count */}
+      <div className="flex items-center justify-between">
+        <p className="text-muted-foreground text-sm">
+          {filteredClubs.length === clubs.length
+            ? `${clubs.length} نادي متاح`
+            : `${filteredClubs.length} من أصل ${clubs.length} نادي`}
+        </p>
+      </div>
+
+      {/* Clubs Grid */}
+      {filteredClubs.length === 0 ? (
+        <div className="py-12 text-center">
+          <Users className="mx-auto mb-4 h-12 w-12 text-gray-300" />
+          <h3 className="mb-2 text-lg font-medium text-gray-900">
+            {searchQuery ? 'لم يتم العثور على أندية' : 'لا توجد أندية متاحة'}
+          </h3>
+          <p className="text-gray-500">
+            {searchQuery
+              ? 'جرب البحث بكلمات مختلفة أو تحقق من الإملاء'
+              : 'لم يتم إنشاء أي أندية بعد'}
+          </p>
+          {searchQuery && (
+            <Button variant="outline" onClick={() => setSearchQuery('')} className="mt-4">
+              إظهار جميع الأندية
+            </Button>
+          )}
+        </div>
+      ) : (
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {filteredClubs.map((club) => (
+            <ClubCard key={club.uuid} club={club} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ClubsPageSkeleton() {
+  return (
+    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-8 md:px-6 lg:px-8">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+          <Skeleton className="mb-2 h-9 w-48" />
+          <Skeleton className="h-5 w-80" />
+        </div>
+        <Skeleton className="h-10 w-64" />
+      </div>
+
+      <Skeleton className="h-5 w-32" />
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {/* Placeholder clubs */}
-        <Card className="border-trust-blue/20 hover:border-trust-blue/40 transition-colors">
-          <CardHeader>
-            <CardTitle className="text-trust-blue flex items-center gap-2">
-              <Users className="h-5 w-5" />
-              نادي البرمجة
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground mb-4 text-sm">
-              نادي متخصص في تطوير البرمجيات وتعلم لغات البرمجة المختلفة
-            </p>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">الأعضاء:</span>
-                <span>156</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">الفئة:</span>
-                <span>تقنية</span>
-              </div>
-            </div>
-            <Button className="bg-trust-blue hover:bg-trust-blue/90 mt-4 w-full">
-              انضم للنادي
-            </Button>
-          </CardContent>
-        </Card>
-
-        <Card className="border-secondary-blue/20 hover:border-secondary-blue/40 transition-colors">
-          <CardHeader>
-            <CardTitle className="text-trust-blue flex items-center gap-2">
-              <Users className="h-5 w-5" />
-              نادي ريادة الأعمال
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground mb-4 text-sm">
-              نادي يهتم بتطوير مهارات ريادة الأعمال والابتكار
-            </p>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">الأعضاء:</span>
-                <span>89</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">الفئة:</span>
-                <span>أعمال</span>
-              </div>
-            </div>
-            <Button className="bg-trust-blue hover:bg-trust-blue/90 mt-4 w-full">
-              انضم للنادي
-            </Button>
-          </CardContent>
-        </Card>
-
-        <Card className="border-growth-green/20 hover:border-growth-green/40 transition-colors">
-          <CardHeader>
-            <CardTitle className="text-trust-blue flex items-center gap-2">
-              <Users className="h-5 w-5" />
-              نادي التطوع
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground mb-4 text-sm">
-              نادي مخصص للأنشطة التطوعية وخدمة المجتمع
-            </p>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">الأعضاء:</span>
-                <span>203</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">الفئة:</span>
-                <span>تطوع</span>
-              </div>
-            </div>
-            <Button className="bg-trust-blue hover:bg-trust-blue/90 mt-4 w-full">
-              انضم للنادي
-            </Button>
-          </CardContent>
-        </Card>
+        {[...Array(6)].map((_, i) => (
+          <ClubCardSkeleton key={i} />
+        ))}
       </div>
+    </div>
+  );
+}
+
+function ClubCardSkeleton() {
+  return (
+    <div className="space-y-4 rounded-lg border p-6">
+      <div className="flex items-start gap-3">
+        <Skeleton className="h-12 w-12 rounded-lg" />
+        <div className="flex-1">
+          <Skeleton className="mb-2 h-6 w-full" />
+          <div className="flex gap-2">
+            <Skeleton className="h-5 w-16" />
+            <Skeleton className="h-5 w-12" />
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-3/4" />
+      </div>
+
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-full" />
+      </div>
+
+      <Skeleton className="h-10 w-full" />
     </div>
   );
 }

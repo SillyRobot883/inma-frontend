@@ -91,8 +91,14 @@ export const unregisterFromEvent = async (eventId: string): Promise<Registration
 };
 
 export const fetchClubEvents = async (clubId: string): Promise<Event[]> => {
-  const response = await apiClient.get(`/events?clubId=${clubId}`);
-  return response.data;
+  // Note: Backend clubId filtering is not working properly, so we fetch all events and filter client-side
+  // TODO: Remove client-side filtering once backend is fixed
+  const response = await apiClient.get<{ success: boolean; data: Event[] }>('/events');
+  const allEvents = response.data.data || response.data;
+
+  // Filter events by club UUID on the client side
+  const filteredEvents = allEvents.filter((event) => event.club.uuid === clubId);
+  return filteredEvents;
 };
 
 export const fetchEventDetails = async (eventId: string): Promise<Event> => {

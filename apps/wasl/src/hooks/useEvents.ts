@@ -23,7 +23,7 @@ export const useEvents = (filters?: EventFilters) => {
 export const useClubEvents = (clubId: string) => {
   return useQuery<Event[], Error>({
     queryKey: ['events', 'club', clubId],
-    queryFn: () => events.fetchClubEvents(clubId),
+    queryFn: () => events.fetchClubEvents(clubId), // Now includes client-side filtering
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
     enabled: !!clubId,

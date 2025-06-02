@@ -54,17 +54,3 @@ export const getCategoryColor = (category: EventCategoryType): string => {
   };
   return colors[category] || 'bg-gray-100 text-gray-800 border-gray-200';
 };
-
-// Icon mappings for categories (using Lucide icons)
-export const getCategoryIcon = (category: EventCategoryType): string => {
-  const icons: Record<EventCategoryType, string> = {
-    bootcamp: 'GraduationCap',
-    workshop: 'Wrench',
-    meeting: 'Users',
-    hackathon: 'Code',
-    seminar: 'Presentation',
-    conference: 'Megaphone',
-    networking: 'Network',
-  };
-  return icons[category] || 'Calendar';
-};

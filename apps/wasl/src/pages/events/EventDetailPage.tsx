@@ -110,10 +110,6 @@ export function EventDetailPage() {
     );
   }
 
-  // Use utility functions for date formatting
-  // const formatDate = formatArabicDate;
-  // const formatTime = formatArabicTime;
-
   const getSeatsPercentage = () => {
     return ((event.seatsAvailable - event.seatsRemaining) / event.seatsAvailable) * 100;
   };

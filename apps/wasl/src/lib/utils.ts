@@ -49,30 +49,3 @@ export function formatArabicTime(dateString: string, options?: Intl.DateTimeForm
     ...options,
   });
 }
-
-/**
- * Format date in short format for compact displays
- */
-export function formatArabicDateShort(dateString: string) {
-  if (!dateString) return 'غير محدد';
-
-  return formatArabicDate(dateString, {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
-}
-
-/**
- * Format date without weekday for simple date display
- */
-export function formatArabicDateSimple(dateString: string) {
-  if (!dateString) return 'غير محدد';
-
-  return formatArabicDate(dateString, {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-}

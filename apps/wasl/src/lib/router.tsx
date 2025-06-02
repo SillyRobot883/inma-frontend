@@ -11,6 +11,7 @@ import RootLayout from '@/layouts/RootLayout';
 import { queryClient } from '@/lib/query-client';
 import HomePage from '@/pages/HomePage';
 import NotFoundPage from '@/pages/NotFoundPage';
+import { ClubDetailPage } from '@/pages/clubs/ClubDetailPage';
 import ClubsPage from '@/pages/clubs/ClubsPage';
 import { EventDetailPage } from '@/pages/events/EventDetailPage';
 import EventsPage from '@/pages/events/EventsPage';
@@ -40,6 +41,7 @@ function AppRouter() {
                 <Route path="events" element={<EventsPage />} />
                 <Route path="events/:id" element={<EventDetailPage />} />
                 <Route path="clubs" element={<ClubsPage />} />
+                <Route path="clubs/:id" element={<ClubDetailPage />} />
                 <Route
                   path="profile"
                   element={

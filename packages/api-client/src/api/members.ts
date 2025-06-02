@@ -36,8 +36,8 @@ export interface MembershipResponse {
 }
 
 export const fetchClubMembers = async (clubUuid: string): Promise<Member[]> => {
-  const response = await apiClient.get(`/clubs/${clubUuid}/memberships`);
-  return response.data;
+  const response = await apiClient.get<{ data: Member[] }>(`/clubs/${clubUuid}/memberships`);
+  return response.data.data;
 };
 
 export const addClubMember = async (

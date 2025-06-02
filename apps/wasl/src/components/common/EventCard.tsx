@@ -13,7 +13,6 @@ import {
   XCircle,
 } from 'lucide-react';
 
-import { getClubById } from '@/data/mockClubs';
 import {
   getCategoryColor,
   getCategoryLabel,
@@ -104,8 +103,16 @@ export function EventCard({
     );
   };
 
-  const club = 'clubId' in event ? getClubById(event.clubId as number) : null;
-  const clubData = club || ('club' in event ? event.club : null);
+  const clubData = 'club' in event ? event.club : null;
+
+  const hasLogo = (club: unknown): club is { name: string; logo: string; uuid?: string } => {
+    return !!(
+      club &&
+      typeof club === 'object' &&
+      'logo' in club &&
+      typeof (club as { logo: unknown }).logo === 'string'
+    );
+  };
 
   const isRegistrationOpen = event.status === 'registration_open';
   const canRegister = isRegistrationOpen && 'seatsRemaining' in event && event.seatsRemaining > 0;
@@ -249,9 +256,9 @@ export function EventCard({
             {showClub && clubData && (
               <div className="mb-2 mt-1 flex items-center gap-2" dir="rtl">
                 <span className="text-xs text-gray-500">{clubData.name}</span>
-                {club && club.logo && (
+                {hasLogo(clubData) && (
                   <img
-                    src={club.logo}
+                    src={clubData.logo}
                     alt={clubData.name}
                     className="h-5 w-5 rounded-full object-cover"
                   />
@@ -341,9 +348,9 @@ export function EventCard({
       <div className="flex flex-1 flex-col p-5">
         {showClub && clubData && (
           <div className="mb-2 flex items-center justify-start gap-2" dir="rtl">
-            {club && club.logo && (
+            {hasLogo(clubData) && (
               <img
-                src={club.logo}
+                src={clubData.logo}
                 alt={clubData.name}
                 className="h-6 w-6 rounded-full object-cover"
               />
