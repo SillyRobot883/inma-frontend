@@ -16,6 +16,8 @@ export interface Event {
   location: string;
   eventStart: string;
   eventEnd: string;
+  registrationStart?: string;
+  registrationEnd?: string;
   seatsAvailable: number;
   seatsRemaining: number;
   status: (typeof EVENT_STATUSES)[number];
@@ -95,7 +97,7 @@ export const fetchClubEvents = async (clubId: string): Promise<Event[]> => {
 
 export const fetchEventDetails = async (eventId: string): Promise<Event> => {
   const response = await apiClient.get(`/events/${eventId}`);
-  return response.data;
+  return response.data.data?.event || response.data;
 };
 
 export const createEvent = async (eventData: EventData): Promise<Event> => {

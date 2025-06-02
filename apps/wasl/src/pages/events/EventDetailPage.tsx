@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import {
+  AlertCircle,
   ArrowLeft,
   Bell,
   BellOff,
@@ -19,69 +20,119 @@ import {
   Twitter,
   Users,
 } from 'lucide-react';
+import { toast } from 'sonner';
 
-import { mockEvents } from '@/data/mockEvents';
+import { EventDetailSkeleton } from '@/components/events/EventDetailSkeleton';
+import { useRegisterForEvent, useUnregisterFromEvent } from '@/hooks/useEventMutations';
+import { useEventDetails, useEvents } from '@/hooks/useEvents';
 import {
   getCategoryColor,
   getCategoryLabel,
   getStatusColor,
   getStatusLabel,
 } from '@/lib/translations';
+import { formatArabicDate, formatArabicTime } from '@/lib/utils';
 
 export function EventDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const [isRegistered, setIsRegistered] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
   const [isNotificationEnabled, setIsNotificationEnabled] = useState(false);
 
-  const event = mockEvents.find((e) => e.uuid === id);
+  // API hooks
+  const { data: event, isLoading: isLoadingEvent, error: eventError } = useEventDetails(id || '');
 
-  if (!event) {
+  const { data: allEvents = [] } = useEvents();
+
+  const relatedEvents =
+    Array.isArray(allEvents) && event
+      ? allEvents.filter((e) => e.category === event.category && e.uuid !== event.uuid).slice(0, 3)
+      : [];
+
+  const registerMutation = useRegisterForEvent({
+    onSuccess: () => {
+      toast.success('تم التسجيل بنجاح!', {
+        description: 'ستتلقى رسالة تأكيد عبر البريد الإلكتروني',
+      });
+    },
+    onError: (error) => {
+      toast.error('خطأ في التسجيل', {
+        description: error.message || 'حدث خطأ أثناء التسجيل. يرجى المحاولة مرة أخرى.',
+      });
+    },
+  });
+
+  const unregisterMutation = useUnregisterFromEvent({
+    onSuccess: () => {
+      toast.success('تم إلغاء التسجيل بنجاح');
+    },
+    onError: (error) => {
+      toast.error('خطأ في إلغاء التسجيل', {
+        description: error.message || 'حدث خطأ أثناء إلغاء التسجيل.',
+      });
+    },
+  });
+
+  // Loading state
+  if (isLoadingEvent) {
+    return <EventDetailSkeleton />;
+  }
+
+  // Error state
+  if (eventError || !event) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-50">
         <div className="text-center">
-          <h2 className="mb-2 text-2xl font-bold text-gray-900">الفعالية غير موجودة</h2>
-          <p className="mb-4 text-gray-600">عذراً، لم يتم العثور على الفعالية المطلوبة</p>
-          <Link
-            to="/events"
-            className="bg-trust-blue hover:bg-trust-blue/90 inline-flex items-center gap-2 rounded-lg px-4 py-2 text-white"
-          >
-            العودة للفعاليات
-            <ArrowLeft className="h-4 w-4" />
-          </Link>
+          <AlertCircle className="mx-auto mb-4 h-12 w-12 text-red-500" />
+          <h2 className="mb-2 text-2xl font-bold text-gray-900">خطأ في تحميل الفعالية</h2>
+          <p className="mb-4 text-gray-600">
+            {eventError?.message || 'عذراً، لم يتم العثور على الفعالية المطلوبة'}
+          </p>
+          <div className="flex flex-col gap-2 sm:flex-row sm:justify-center">
+            <button
+              onClick={() => window.location.reload()}
+              className="bg-trust-blue hover:bg-trust-blue/90 inline-flex items-center gap-2 rounded-lg px-4 py-2 text-white"
+            >
+              إعادة المحاولة
+            </button>
+            <Link
+              to="/events"
+              className="border-trust-blue text-trust-blue hover:bg-trust-blue inline-flex items-center gap-2 rounded-lg border px-4 py-2 transition-colors hover:text-white"
+            >
+              العودة للفعاليات
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
       </div>
     );
   }
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('ar-SA', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
-
-  const formatTime = (dateString: string) => {
-    return new Date(dateString).toLocaleTimeString('ar-SA', {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  };
+  // Use utility functions for date formatting
+  // const formatDate = formatArabicDate;
+  // const formatTime = formatArabicTime;
 
   const getSeatsPercentage = () => {
     return ((event.seatsAvailable - event.seatsRemaining) / event.seatsAvailable) * 100;
   };
 
   const isRegistrationOpen = event.status === 'registration_open';
-  const canRegister = isRegistrationOpen && event.seatsRemaining > 0 && !isRegistered;
+  const canRegister = isRegistrationOpen && event.seatsRemaining > 0;
+  const isRegistering = registerMutation.isPending;
+  const _isUnregistering = unregisterMutation.isPending;
 
   const handleRegister = () => {
-    setIsRegistered(true);
+    if (event?.uuid) {
+      registerMutation.mutate(event.uuid);
+    }
+  };
+
+  const _handleUnregister = () => {
+    if (event?.uuid) {
+      unregisterMutation.mutate(event.uuid);
+    }
   };
 
   const handleShare = () => {
@@ -100,6 +151,7 @@ export function EventDetailPage() {
     try {
       await navigator.clipboard.writeText(window.location.href);
       setCopySuccess(true);
+      toast.success('تم نسخ الرابط بنجاح');
       setTimeout(() => setCopySuccess(false), 2000);
     } catch {
       const textArea = document.createElement('textarea');
@@ -109,6 +161,7 @@ export function EventDetailPage() {
       document.execCommand('copy');
       document.body.removeChild(textArea);
       setCopySuccess(true);
+      toast.success('تم نسخ الرابط بنجاح');
       setTimeout(() => setCopySuccess(false), 2000);
     }
   };
@@ -142,9 +195,7 @@ export function EventDetailPage() {
       ? 'تم تفعيل التنبيهات لهذه الفعالية'
       : 'تم إيقاف التنبيهات لهذه الفعالية';
 
-    setTimeout(() => {
-      alert(message);
-    }, 100);
+    toast.success(message);
   };
 
   const handleMapView = () => {
@@ -290,7 +341,7 @@ export function EventDetailPage() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
-          <div className="space-y-6 lg:col-span-2 lg:space-y-8">
+          <div className="space-y-6 lg:order-2 lg:col-span-2 lg:space-y-8">
             <div className="rounded-xl border bg-white p-4 shadow-sm lg:p-6">
               <h2 className="mb-4 text-lg font-bold text-gray-900 lg:text-xl">عن الفعالية</h2>
               <p className="leading-relaxed text-gray-700">{event.description}</p>
@@ -304,7 +355,8 @@ export function EventDetailPage() {
                   <div className="min-w-0">
                     <h3 className="font-semibold text-gray-900">تاريخ الفعالية</h3>
                     <p className="text-sm text-gray-600 sm:text-base">
-                      من {formatDate(event.eventStart)} إلى {formatDate(event.eventEnd)}
+                      من {event.eventStart ? formatArabicDate(event.eventStart) : 'غير محدد'} إلى{' '}
+                      {event.eventEnd ? formatArabicDate(event.eventEnd) : 'غير محدد'}
                     </p>
                   </div>
                 </div>
@@ -313,7 +365,8 @@ export function EventDetailPage() {
                   <div className="min-w-0">
                     <h3 className="font-semibold text-gray-900">الوقت</h3>
                     <p className="text-sm text-gray-600 sm:text-base">
-                      من {formatTime(event.eventStart)} إلى {formatTime(event.eventEnd)}
+                      من {event.eventStart ? formatArabicTime(event.eventStart) : 'غير محدد'} إلى{' '}
+                      {event.eventEnd ? formatArabicTime(event.eventEnd) : 'غير محدد'}
                     </p>
                   </div>
                 </div>
@@ -335,21 +388,41 @@ export function EventDetailPage() {
             </div>
 
             <div className="rounded-xl border bg-white p-6 shadow-sm">
-              <h2 className="mb-4 text-xl font-bold text-gray-900">فترة التسجيل</h2>
+              <h2 className="mb-4 text-xl font-bold text-gray-900">
+                {event.registrationStart && event.registrationEnd
+                  ? 'فترة التسجيل'
+                  : 'تفاصيل الفعالية'}
+              </h2>
               <div className="space-y-3">
-                <div className="flex justify-between">
+                {event.registrationStart && (
+                  <div className="flex items-center gap-2" dir="rtl">
+                    <span className="text-gray-600">بداية التسجيل:</span>
+                    <span className="font-medium">{formatArabicDate(event.registrationStart)}</span>
+                  </div>
+                )}
+                {event.registrationEnd && (
+                  <div className="flex items-center gap-2" dir="rtl">
+                    <span className="text-gray-600">نهاية التسجيل:</span>
+                    <span className="font-medium">{formatArabicDate(event.registrationEnd)}</span>
+                  </div>
+                )}
+                <div className="flex items-center gap-2" dir="rtl">
                   <span className="text-gray-600">بداية الفعالية:</span>
-                  <span className="font-medium">{formatDate(event.eventStart)}</span>
+                  <span className="font-medium">
+                    {event.eventStart ? formatArabicDate(event.eventStart) : 'غير محدد'}
+                  </span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex items-center gap-2" dir="rtl">
                   <span className="text-gray-600">نهاية الفعالية:</span>
-                  <span className="font-medium">{formatDate(event.eventEnd)}</span>
+                  <span className="font-medium">
+                    {event.eventEnd ? formatArabicDate(event.eventEnd) : 'غير محدد'}
+                  </span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-6 lg:order-1">
             <div className="rounded-xl border bg-white p-6 shadow-sm">
               <h3 className="mb-4 text-lg font-bold text-gray-900">التسجيل</h3>
 
@@ -373,19 +446,16 @@ export function EventDetailPage() {
                 </p>
               </div>
 
-              {isRegistered ? (
-                <div className="rounded-lg border border-green-200 bg-green-50 p-4 text-center">
-                  <div className="font-medium text-green-600">تم التسجيل بنجاح!</div>
-                  <p className="mt-1 text-sm text-green-600">
-                    ستتلقى رسالة تأكيد عبر البريد الإلكتروني
-                  </p>
-                </div>
-              ) : canRegister ? (
+              {canRegister ? (
                 <button
                   onClick={handleRegister}
-                  className="bg-trust-blue hover:bg-trust-blue/90 w-full rounded-lg px-4 py-3 font-medium text-white transition-colors"
+                  disabled={isRegistering}
+                  className="bg-trust-blue hover:bg-trust-blue/90 disabled:bg-trust-blue/50 flex w-full items-center justify-center gap-2 rounded-lg px-4 py-3 font-medium text-white transition-colors disabled:cursor-not-allowed"
                 >
-                  سجل الآن
+                  {isRegistering && (
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                  )}
+                  {isRegistering ? 'جاري التسجيل...' : 'سجل الآن'}
                 </button>
               ) : (
                 <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 text-center">
@@ -412,18 +482,38 @@ export function EventDetailPage() {
                     <Calendar className="h-4 w-4 text-gray-400" />
                     <span className="text-gray-600">حالة الفعالية</span>
                   </div>
-                  <span className="font-medium">{event.status}</span>
+                  <span className="font-medium">{getStatusLabel(event.status)}</span>
                 </div>
               </div>
             </div>
 
+            {event?.club && (
+              <div className="rounded-xl border bg-white p-6 shadow-sm">
+                <h3 className="mb-4 text-lg font-bold text-gray-900">النادي المنظم</h3>
+                <div className="flex items-center gap-3">
+                  {event.club.logo && (
+                    <img
+                      src={event.club.logo}
+                      alt={event.club.name}
+                      className="h-12 w-12 rounded-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
+                  )}
+                  <div>
+                    <h4 className="font-medium text-gray-900">{event.club.name || 'غير محدد'}</h4>
+                    <p className="text-sm text-gray-500">النادي المنظم للفعالية</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="rounded-xl border bg-white p-6 shadow-sm">
               <h3 className="mb-4 text-lg font-bold text-gray-900">فعاليات مشابهة</h3>
               <div className="space-y-3">
-                {mockEvents
-                  .filter((e) => e.category === event.category && e.uuid !== event.uuid)
-                  .slice(0, 3)
-                  .map((relatedEvent) => (
+                {relatedEvents.length > 0 ? (
+                  relatedEvents.map((relatedEvent) => (
                     <Link
                       key={relatedEvent.uuid}
                       to={`/events/${relatedEvent.uuid}`}
@@ -433,10 +523,15 @@ export function EventDetailPage() {
                         {relatedEvent.name}
                       </h4>
                       <p className="mt-1 text-xs text-gray-500">
-                        {formatDate(relatedEvent.eventStart)}
+                        {relatedEvent.eventStart
+                          ? formatArabicDate(relatedEvent.eventStart)
+                          : 'غير محدد'}
                       </p>
                     </Link>
-                  ))}
+                  ))
+                ) : (
+                  <p className="text-sm text-gray-500">لا توجد فعاليات مشابهة</p>
+                )}
               </div>
             </div>
           </div>

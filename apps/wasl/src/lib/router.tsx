@@ -5,12 +5,14 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { ProtectedRoute } from '@/components/common/ProtectedRoute';
+import { Toaster } from '@/components/ui/sonner';
 import { AuthProvider } from '@/contexts/AuthContext';
 import RootLayout from '@/layouts/RootLayout';
 import { queryClient } from '@/lib/query-client';
 import HomePage from '@/pages/HomePage';
 import NotFoundPage from '@/pages/NotFoundPage';
 import ClubsPage from '@/pages/clubs/ClubsPage';
+import { EventDetailPage } from '@/pages/events/EventDetailPage';
 import EventsPage from '@/pages/events/EventsPage';
 
 const LoginPage = lazy(() => import('@/pages/auth/LoginPage'));
@@ -36,6 +38,7 @@ function AppRouter() {
                 <Route index element={<HomePage />} />
                 <Route path="login" element={<LoginPage />} />
                 <Route path="events" element={<EventsPage />} />
+                <Route path="events/:id" element={<EventDetailPage />} />
                 <Route path="clubs" element={<ClubsPage />} />
                 <Route
                   path="profile"
@@ -50,6 +53,7 @@ function AppRouter() {
             </Routes>
           </Suspense>
         </AuthProvider>
+        <Toaster />
       </Router>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
